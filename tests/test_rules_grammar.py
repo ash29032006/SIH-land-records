@@ -70,3 +70,30 @@ def test_identifier_present_abstains_over_undated_records():
         f.records(undated=True, khesras=(f.khesra("K1", "", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C1.identifier_charset -------------------------------------------------
+
+
+def test_identifier_charset_fires_on_a_letter_misread_for_a_digit():
+    found = f.run(grammar.identifier_charset, f.records(khesras=(f.khesra("K1", "2l7"),)))
+    assert len(found) == 1
+    assert found[0].evidence["stray_characters"] == "l"
+    assert found[0].finding_class is FindingClass.CERTAIN_ERROR
+
+
+def test_identifier_charset_passes_digits_and_separators():
+    found = f.run(
+        grammar.identifier_charset,
+        f.records(khesras=(f.khesra("K1", "217"), f.khesra("K2", "217/1")),
+                  khatas=(f.khata("T1", "2001"),)),
+    )
+    assert found == []
+
+
+def test_identifier_charset_abstains_over_undated_records():
+    found = f.run(
+        grammar.identifier_charset,
+        f.records(undated=True, khesras=(f.khesra("K1", "2l7", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

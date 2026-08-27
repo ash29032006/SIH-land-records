@@ -69,3 +69,37 @@ def identifier_present(view, report):
                 "khata number is blank",
                 {"number": repr(khata.number)},
             )
+
+
+_KHESRA_ALLOWED = set("0123456789/-")
+_KHATA_ALLOWED = set("0123456789/-")
+
+
+@grammar_rule("C1.identifier_charset")
+def identifier_charset(view, report):
+    """Parcel and khata numbers carry digits and separators only.
+
+    Catches the classic transcription slip: '2l7' read for '217', where a lowercase
+    L stands in for a one. A letter in a numeric identifier is certain, not likely.
+    """
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for khesra in view.index.khesras:
+        value = khesra.local_number.strip()
+        stray = sorted(set(value) - _KHESRA_ALLOWED)
+        if value and stray:
+            yield report.error(
+                khesra_subject(khesra, view.index, "local_number"),
+                "parcel number contains characters that are not digits or separators",
+                {"local_number": value, "stray_characters": "".join(stray)},
+            )
+    for khata in view.index.khatas:
+        value = khata.number.strip()
+        stray = sorted(set(value) - _KHATA_ALLOWED)
+        if value and stray:
+            yield report.error(
+                khata_subject(khata, "number"),
+                "khata number contains characters that are not digits or separators",
+                {"number": value, "stray_characters": "".join(stray)},
+            )
