@@ -382,3 +382,37 @@ def test_but_a_genuine_orphan_still_fires_when_the_table_is_present():
     assert len(found) == 1
     assert found[0].finding_class is FindingClass.CERTAIN_ERROR
     assert found[0].primary_subject.entity_id == "K2"
+
+
+# ---- C3.no_dangling_parent -------------------------------------------------
+
+
+def test_no_dangling_parent_fires_on_a_missing_parent():
+    found = f.run(
+        completeness.no_dangling_parent,
+        f.records(khesras=(f.khesra("K1", "1", parent_khesra_id="GONE"),)),
+    )
+    assert len(found) == 1
+    assert found[0].evidence["parent_khesra_id"] == "GONE"
+    assert found[0].finding_class is FindingClass.CERTAIN_ERROR
+
+
+def test_no_dangling_parent_passes_a_complete_family():
+    found = f.run(
+        completeness.no_dangling_parent,
+        f.records(khesras=(f.khesra("P", "217"), f.khesra("C1", "1", parent_khesra_id="P"))),
+    )
+    assert found == []
+
+
+def test_no_dangling_parent_abstains_when_the_parent_cannot_be_dated():
+    """The parent is present but undateable, so whether it is in scope is unknown."""
+    records = f.records(
+        undated=True,
+        khesras=(
+            f.khesra("P", "217", valid_from=None),
+            f.khesra("C1", "1", parent_khesra_id="P", valid_from=None),
+        ),
+    )
+    found = f.run(completeness.no_dangling_parent, records)
+    assert found and all(x.finding_class is FindingClass.UNVERIFIABLE for x in found)

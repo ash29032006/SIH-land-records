@@ -345,3 +345,36 @@ def classification_is_known(view, report):
                 "tenure class is not defined in the scheme this parcel names",
                 {"tenure": khesra.tenure, "scheme": scheme_id, "reason": str(failure)},
             )
+
+
+@completeness_rule("C3.no_dangling_parent")
+def no_dangling_parent(view, report):
+    """A parcel's parent, if it names one, exists in this mouza.
+
+    A dangling parent pointer silently removes the parcel from its family: it is
+    treated as a root, its siblings' sequence looks complete, and the parent it
+    should have reconciled against is never checked. The parcel disappears from
+    three rules at once without any of them saying so.
+    """
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    known = set(view.index.khesra_by_id)
+    unknown = {k.id for k in view.index.unknown_khesras}
+    for khesra in view.index.khesras:
+        parent = khesra.parent_khesra_id
+        if parent is None or parent in known:
+            continue
+        if parent in unknown:
+            yield report.abstain(
+                khesra_subject(khesra, view.index, "parent_khesra_id"),
+                "the parent parcel exists but could not be dated",
+                missing_witness="validity dates",
+                evidence={"parent_khesra_id": parent},
+            )
+            continue
+        yield report.error(
+            khesra_subject(khesra, view.index, "parent_khesra_id"),
+            "parcel names a parent that does not exist in this mouza",
+            {"parent_khesra_id": parent},
+        )
