@@ -135,3 +135,24 @@ def no_empty_khata(view, report):
                 "khata holds no parcel",
                 {"khata_number": khata.number},
             )
+
+
+@completeness_rule("C3.no_unheld_parcel")
+def no_unheld_parcel(view, report):
+    """Every current parcel is held by at least one khata.
+
+    Applies to leaves only. A sub-divided parent is no longer a parcel anyone holds;
+    its children are. Flagging internal nodes would fire on every correctly
+    partitioned plot in the mouza.
+    """
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+        return
+    for parcel in view.index.leaves():
+        if not view.index.holdings_by_khesra.get(parcel.id):
+            yield report.error(
+                khesra_subject(parcel, view.index),
+                "parcel belongs to no khata",
+                {"parcel": view.index.display_path(parcel.id) or parcel.local_number},
+            )

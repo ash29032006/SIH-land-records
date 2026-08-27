@@ -122,3 +122,34 @@ def test_no_empty_khata_abstains_over_undated_holdings():
     )
     found = f.run(completeness.no_empty_khata, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.no_unheld_parcel ---------------------------------------------------
+
+
+def test_no_unheld_parcel_fires_on_a_parcel_no_khata_holds():
+    found = f.run(
+        completeness.no_unheld_parcel,
+        f.records(khesras=(f.khesra("K1", "217"),), khatas=(f.khata("T1", "2001"),)),
+    )
+    assert len(found) == 1 and found[0].primary_subject.entity_id == "K1"
+
+
+def test_no_unheld_parcel_does_not_fire_on_a_sub_divided_parent():
+    """The parent is not a parcel anyone holds. Its children are."""
+    records = f.records(
+        khesras=(f.khesra("P", "217"), f.khesra("C1", "1", parent_khesra_id="P")),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(f.holding("H1", "T1", "C1"),),
+    )
+    assert f.run(completeness.no_unheld_parcel, records) == []
+
+
+def test_no_unheld_parcel_abstains_over_undated_holdings():
+    records = f.records(
+        undated=True,
+        khesras=(f.khesra("K1", "217", valid_from=None),),
+        holdings=(f.holding("H1", "T1", "K1", valid_from=None),),
+    )
+    found = f.run(completeness.no_unheld_parcel, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
