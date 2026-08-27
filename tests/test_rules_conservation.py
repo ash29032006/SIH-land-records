@@ -218,3 +218,36 @@ def test_co_owner_shares_abstains_because_bihar_records_no_shares():
     found = f.run(conservation.co_owner_shares_sum_to_one, _co_owned([None, None]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "membership.share"
+
+
+# ---- C2.holding_shares_sum_to_one -----------------------------------------
+
+
+def _undivided(shares):
+    return f.records(
+        khesras=(f.khesra("K1", "217", area_stated=f.stated(100)),),
+        khatas=tuple(f.khata(f"T{n}", str(2000 + n)) for n in range(1, len(shares) + 1)),
+        holdings=tuple(
+            f.holding(f"H{n}", f"T{n}", "K1", share=s)
+            for n, s in enumerate(shares, start=1)
+        ),
+    )
+
+
+def test_holding_shares_fires_when_the_parcel_is_over_allocated():
+    found = f.run(
+        conservation.holding_shares_sum_to_one, _undivided([Fraction(3, 4), Fraction(1, 2)])
+    )
+    assert len(found) == 1 and found[0].evidence["shares_sum_to"] == "5/4"
+
+
+def test_holding_shares_passes_an_exact_undivided_split():
+    found = f.run(
+        conservation.holding_shares_sum_to_one, _undivided([Fraction(3, 4), Fraction(1, 4)])
+    )
+    assert found == []
+
+
+def test_holding_shares_abstains_when_no_share_is_recorded():
+    found = f.run(conservation.holding_shares_sum_to_one, _undivided([None, None]))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

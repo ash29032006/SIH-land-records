@@ -311,3 +311,31 @@ def co_owner_shares_sum_to_one(view, report):
                     "shares": ", ".join(str(m.share) for m in members),
                 },
             )
+
+
+@conservation_rule("C2.holding_shares_sum_to_one")
+def holding_shares_sum_to_one(view, report):
+    """Undivided shares in one parcel sum to exactly one."""
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+    for parcel in view.index.leaves():
+        holdings = view.index.holdings_by_khesra.get(parcel.id, ())
+        if not holdings:
+            continue
+        without = [h for h in holdings if h.share is None]
+        if without:
+            yield report.abstain(
+                khesra_subject(parcel, view.index),
+                f"{len(without)} of {len(holdings)} holdings record no share",
+                missing_witness="holding.share",
+            )
+            continue
+        total = sum((h.share for h in holdings), Fraction(0))
+        if total != 1:
+            yield report.error(
+                khesra_subject(parcel, view.index, "holdings"),
+                "undivided shares in this parcel do not sum to exactly one",
+                {"shares_sum_to": str(total),
+                 "shares": ", ".join(str(h.share) for h in holdings)},
+            )
