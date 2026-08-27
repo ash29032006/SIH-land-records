@@ -47,3 +47,25 @@ def subdivision_number_positive(view, report):
                 "parcel number is not positive; numbering starts at 1",
                 {"local_number": khesra.local_number},
             )
+
+
+@grammar_rule("C1.identifier_present")
+def identifier_present(view, report):
+    """Khesra and khata numbers must not be blank."""
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for khesra in view.index.khesras:
+        if not khesra.local_number.strip():
+            yield report.error(
+                khesra_subject(khesra, view.index, "local_number"),
+                "parcel number is blank",
+                {"local_number": repr(khesra.local_number)},
+            )
+    for khata in view.index.khatas:
+        if not khata.number.strip():
+            yield report.error(
+                khata_subject(khata, "number"),
+                "khata number is blank",
+                {"number": repr(khata.number)},
+            )

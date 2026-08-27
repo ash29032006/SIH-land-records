@@ -42,3 +42,31 @@ def test_subdivision_number_positive_abstains_over_undated_records():
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "validity dates"
+
+
+# ---- C1.identifier_present -------------------------------------------------
+
+
+def test_identifier_present_fires_on_blank_numbers():
+    found = f.run(
+        grammar.identifier_present,
+        f.records(khesras=(f.khesra("K1", ""),), khatas=(f.khata("T1", ""),)),
+    )
+    assert {x.primary_subject.entity_id for x in found} == {"K1", "T1"}
+    assert all(x.finding_class is FindingClass.CERTAIN_ERROR for x in found)
+
+
+def test_identifier_present_passes_when_numbers_are_there():
+    found = f.run(
+        grammar.identifier_present,
+        f.records(khesras=(f.khesra("K1", "217"),), khatas=(f.khata("T1", "2001"),)),
+    )
+    assert found == []
+
+
+def test_identifier_present_abstains_over_undated_records():
+    found = f.run(
+        grammar.identifier_present,
+        f.records(undated=True, khesras=(f.khesra("K1", "", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
