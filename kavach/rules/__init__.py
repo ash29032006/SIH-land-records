@@ -7,10 +7,11 @@ rule that is written but not registered is visibly absent rather than silently s
 
 from __future__ import annotations
 
+from kavach.rules.conservation import RULES as _CONSERVATION
 from kavach.rules.grammar import RULES as _GRAMMAR
 
 GRAMMAR_RULES: tuple = tuple(_GRAMMAR)
-CONSERVATION_RULES: tuple = ()
+CONSERVATION_RULES: tuple = tuple(_CONSERVATION)
 COMPLETENESS_RULES: tuple = ()
 CENSUS_RULES: tuple = ()
 BLOCKED_RULES: tuple = ()
