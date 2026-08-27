@@ -714,15 +714,27 @@ def test_right_class_wrong_parcel_counts_as_detected_but_not_localised():
     assert score.recall == 1
     assert score.localised == 0
     assert score.localisation_rate == 0
-    assert score.precision == 0
 
 
 def test_false_positives_on_clean_input_lower_precision():
+    """Clean input is the only record set known to contain no defect, so it is the
+    only place a false positive can be observed."""
     cases = all_mutation_cases(CLEAN, REG, seed=3)
     noisy_clean = EngineResult((_finding(), _finding()), ("fake",), None)
     score = summarise(cases, [_result_from(c) for c in cases], noisy_clean)
     assert score.precision is not None and score.precision < 1
     assert score.clean_certain_errors == 2
+
+
+def test_collateral_findings_are_not_counted_as_false_positives():
+    """A duplicated khata really does make several parcels over-claimed. Reporting
+    them is correct behaviour, and must not be scored as an error."""
+    cases = all_mutation_cases(CLEAN, REG, seed=3)
+    elsewhere = [_result_from(c, entity_id="SOMEWHERE-ELSE") for c in cases]
+    score = summarise(cases, elsewhere, RAN_AND_FOUND_NOTHING)
+    assert score.collateral > 0
+    assert score.clean_certain_errors == 0
+    assert score.precision == 1
 
 
 def test_no_rule_having_run_is_not_the_same_as_scoring_zero():

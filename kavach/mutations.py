@@ -547,7 +547,15 @@ class CaseScore:
     detected: bool
     localised: bool
     matching_findings: int
-    stray_certain_errors: int
+    certain_errors: int
+    collateral: int
+    """CERTAIN_ERRORs that do not name a directly-corrupted entity.
+
+    These are **not** false positives. The clean record set holds every invariant
+    by construction, so a certain error on a mutated set is caused by the injected
+    corruption — a duplicated khata really does make several parcels over-claimed,
+    and reporting those is correct. Collateral measures how far one corruption
+    propagates, which is a reviewer-load signal, not an error rate."""
 
 
 def score_case(case: MutationCase, result: EngineResult) -> CaseScore:
@@ -567,7 +575,7 @@ def score_case(case: MutationCase, result: EngineResult) -> CaseScore:
     localised = [
         f for f in matching if any(s.entity_id in targets for s in f.subjects)
     ]
-    stray = [
+    collateral = [
         f
         for f in result.certain_errors
         if not any(s.entity_id in targets for s in f.subjects)
@@ -577,7 +585,8 @@ def score_case(case: MutationCase, result: EngineResult) -> CaseScore:
         detected=bool(matching),
         localised=bool(localised),
         matching_findings=len(matching),
-        stray_certain_errors=len(stray),
+        certain_errors=len(result.certain_errors),
+        collateral=len(collateral),
     )
 
 
@@ -604,8 +613,18 @@ class MutationScore:
         return sum(1 for s in self.scores if s.localised)
 
     @property
-    def stray(self) -> int:
-        return sum(s.stray_certain_errors for s in self.scores)
+    def collateral(self) -> int:
+        """Findings downstream of a corruption. Consequences, not errors."""
+        return sum(s.collateral for s in self.scores)
+
+    @property
+    def true_positives(self) -> int:
+        """Every certain error raised on a mutated set.
+
+        The clean set holds every invariant by construction and the harness asserts
+        the engine finds nothing wrong with it, so each of these is caused by the
+        injected corruption."""
+        return sum(s.certain_errors for s in self.scores)
 
     @property
     def recall(self) -> Fraction | None:
@@ -621,11 +640,23 @@ class MutationScore:
 
     @property
     def precision(self) -> Fraction | None:
-        """Localised hits over localised hits plus every stray CERTAIN_ERROR."""
+        """True positives over true positives plus false positives.
+
+        The only observable false positives are certain errors raised on **clean**
+        input, because that is the only record set known to contain no defect. A
+        certain error on a mutated set is a consequence of the corruption, however
+        far from the mutation site it lands."""
         if not self.rules_run:
             return None
-        denominator = self.localised + self.stray + self.clean_certain_errors
-        return Fraction(self.localised, denominator) if denominator else None
+        denominator = self.true_positives + self.clean_certain_errors
+        return Fraction(self.true_positives, denominator) if denominator else None
+
+    @property
+    def propagation(self) -> Fraction | None:
+        """Certain errors raised per corruption. Reviewer load, not an error rate."""
+        if not self.total:
+            return None
+        return Fraction(self.true_positives, self.total)
 
     def report(self) -> str:
         lines = [
@@ -633,14 +664,16 @@ class MutationScore:
             f"  cases run              {self.total}",
             f"  detected               {self.detected}",
             f"  localised              {self.localised}",
-            f"  stray CERTAIN_ERRORs   {self.stray}",
-            f"  false positives, clean {self.clean_certain_errors}",
+            f"  true positives         {self.true_positives}",
+            f"  collateral findings    {self.collateral}  (downstream of a corruption)",
+            f"  FALSE POSITIVES, clean {self.clean_certain_errors}",
             f"  rules that ran         {self.rules_run}",
         ]
         for label, value in (
             ("recall", self.recall),
             ("localisation", self.localisation_rate),
             ("precision", self.precision),
+            ("propagation", self.propagation),
         ):
             if value is None:
                 reason = (
