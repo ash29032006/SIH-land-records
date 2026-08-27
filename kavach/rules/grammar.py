@@ -10,6 +10,7 @@ or excluding them (Ruling 2).
 from __future__ import annotations
 
 from kavach.findings import RuleScope, rule
+from kavach.units import UnitError, format_area, parse_area
 from kavach.rules._support import (
     khata_subject,
     khesra_subject,
@@ -135,4 +136,45 @@ def area_positive(view, report):
                 khata_subject(khata, "area_stated"),
                 "khata area is not greater than zero",
                 {"count": str(count)},
+            )
+
+
+@grammar_rule("C1.unit_carry")
+def unit_carry(view, report):
+    """No written component may reach the base of the unit above it.
+
+    "27 katha" in a base-20 ladder is a transcription artefact: it should have
+    carried to "1 bigha 7 katha". The value is not wrong, the writing is — which is
+    why `as_written` is stored rather than normalised away on load.
+    """
+    unwritten = [
+        k for k in view.index.khesras if k.area_stated and not k.area_stated.as_written
+    ]
+    if unwritten:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            f"{len(unwritten)} parcels state an area with no written form, so the "
+            "carry cannot be checked for them",
+            missing_witness="area_stated.as_written",
+            evidence={"parcels": ", ".join(sorted(k.id for k in unwritten)[:10])},
+        )
+    for khesra in view.index.khesras:
+        statement = khesra.area_stated
+        if statement is None or not statement.as_written:
+            continue
+        try:
+            parsed = parse_area(
+                statement.as_written, statement.area.ladder_id, view.registry
+            )
+        except UnitError:
+            continue  # unreadable is C1.area_written_matches_value's finding
+        if not parsed.is_normalised:
+            yield report.error(
+                khesra_subject(khesra, view.index, "area_stated.as_written"),
+                "written area was not carried into the unit above",
+                {
+                    "as_written": statement.as_written,
+                    "should_read": format_area(parsed.area, view.registry),
+                    "over_base": ", ".join(parsed.over_base) or "-",
+                },
             )

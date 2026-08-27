@@ -126,3 +126,33 @@ def test_area_positive_abstains_over_undated_records():
                   khesras=(f.khesra("K1", "217", area_stated=f.stated(0), valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C1.unit_carry ---------------------------------------------------------
+
+
+def test_unit_carry_fires_on_an_uncarried_written_area():
+    found = f.run(
+        grammar.unit_carry,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, "143 decimal")),)),
+    )
+    assert len(found) == 1
+    assert found[0].evidence["should_read"] == "1 acre 43 decimal"
+    assert found[0].evidence["over_base"] == "decimal"
+
+
+def test_unit_carry_passes_a_properly_carried_area():
+    found = f.run(
+        grammar.unit_carry,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143)),)),
+    )
+    assert found == []
+
+
+def test_unit_carry_abstains_when_nothing_records_how_the_area_was_written():
+    found = f.run(
+        grammar.unit_carry,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, None)),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "area_stated.as_written"
