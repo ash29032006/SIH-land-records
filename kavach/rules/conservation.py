@@ -457,3 +457,48 @@ def cross_unit_restatement(view, report):
             "second witness inside the record to check against",
             missing_witness="khesra.area_restatements",
         )
+
+
+@conservation_rule("C2.share_matches_claimed_area")
+def share_matches_claimed_area(view, report):
+    """Where a holding records both a share and an area, they must agree.
+
+    SCHEMA.md Correction 1: these are two separately stored values, never one derived
+    from the other, precisely so their disagreement is visible. A record that states
+    a half share of a hundred-decimal parcel and claims sixty decimal is telling you
+    something, and collapsing the two fields on load would delete it.
+
+    Both fields present at once is the rare case on real Bihar input, so this rule
+    abstains often.
+    """
+    reconciled = 0
+    for parcel in view.index.leaves():
+        stated = units_of(parcel.area_stated)
+        if stated is None:
+            continue
+        ladder_id = parcel.area_stated.area.ladder_id
+        for holding in view.index.holdings_by_khesra.get(parcel.id, ()):
+            if holding.share is None or holding.area_claimed is None:
+                continue
+            reconciled += 1
+            implied = stated * holding.share
+            claimed = units_of(holding.area_claimed)
+            if implied != claimed:
+                yield report.error(
+                    holding_subject(holding, "area_claimed"),
+                    "the share and the claimed area do not describe the same ground",
+                    {
+                        "share": str(holding.share),
+                        "parcel_area": _text(stated, ladder_id, view.registry),
+                        "share_implies": _text(implied, ladder_id, view.registry),
+                        "claimed": _text(claimed, ladder_id, view.registry),
+                        "difference": _text(implied - claimed, ladder_id, view.registry),
+                    },
+                )
+    if reconciled == 0:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "no holding records both a share and a claimed area, so the two cannot "
+            "be cross-examined",
+            missing_witness="holding.share with holding.area_claimed",
+        )

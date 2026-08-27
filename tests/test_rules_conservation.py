@@ -381,3 +381,33 @@ def test_cross_unit_restatement_abstains_when_a_ladder_has_no_anchor():
     found = f.run(conservation.cross_unit_restatement, records)
     assert all(x.finding_class is FindingClass.UNVERIFIABLE for x in found)
     assert any("exact rational" in x.missing_witness for x in found)
+
+
+# ---- C2.share_matches_claimed_area ----------------------------------------
+
+
+def _both(share, claimed):
+    return f.records(
+        khesras=(f.khesra("K1", "217", area_stated=f.stated(100)),),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(
+            f.holding("H1", "T1", "K1", share=share,
+                      area_claimed=None if claimed is None else f.stated(claimed)),
+        ),
+    )
+
+
+def test_share_matches_claimed_area_fires_when_they_disagree():
+    found = f.run(conservation.share_matches_claimed_area, _both(Fraction(1, 2), 60))
+    assert len(found) == 1
+    assert found[0].evidence["share_implies"] == "50 decimal"
+    assert found[0].evidence["claimed"] == "60 decimal"
+
+
+def test_share_matches_claimed_area_passes_when_they_agree():
+    assert f.run(conservation.share_matches_claimed_area, _both(Fraction(1, 2), 50)) == []
+
+
+def test_share_matches_claimed_area_abstains_when_only_one_is_recorded():
+    found = f.run(conservation.share_matches_claimed_area, _both(None, 50))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
