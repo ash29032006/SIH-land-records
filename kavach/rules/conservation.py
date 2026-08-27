@@ -339,3 +339,70 @@ def holding_shares_sum_to_one(view, report):
                 {"shares_sum_to": str(total),
                  "shares": ", ".join(str(h.share) for h in holdings)},
             )
+
+
+@conservation_rule("C2.tenure_totals_reconcile")
+def tenure_totals_reconcile(view, report):
+    """Parcels of each tenure class sum to the subtotal the mouza states.
+
+    This is what makes `raiyati_total + gairmazrua_total == mouza_total` checkable.
+    Without independently stated subtotals, flipping one parcel from raiyati to
+    gairmazrua is arithmetically invisible: the partition sums either way.
+
+    EVIDENCE.md E6: the digitised jamabandi has no classification column at all, so
+    on that input this rule abstains rather than passing.
+    """
+    mouza = view.records.mouza
+    subject = mouza_subject(mouza, "tenure_totals")
+    if not mouza.tenure_totals:
+        yield report.abstain(
+            subject,
+            "the mouza states no per-tenure subtotals, so a misclassified parcel "
+            "cannot be detected arithmetically",
+            missing_witness="mouza.tenure_totals",
+        )
+        return
+    unclassified = [k for k in view.index.leaves() if k.tenure is None]
+    if unclassified:
+        yield report.abstain(
+            subject,
+            f"{len(unclassified)} current parcels carry no tenure class",
+            missing_witness="khesra.tenure",
+            evidence={"parcels": ", ".join(sorted(k.id for k in unclassified)[:10])},
+        )
+        return
+    by_code: dict[str, Fraction] = {}
+    for parcel in view.index.leaves():
+        if parcel.area_stated is None:
+            yield report.abstain(
+                khesra_subject(parcel, view.index, "area_stated"),
+                "parcel states no area, so tenure subtotals cannot be reconciled",
+                missing_witness="khesra.area_stated",
+            )
+            return
+        by_code[parcel.tenure] = by_code.get(parcel.tenure, Fraction(0)) + units_of(
+            parcel.area_stated
+        )
+    ladder_id = mouza.ladder_id
+    for total in mouza.tenure_totals:
+        stated = units_of(total.area_stated)
+        actual = by_code.get(total.code, Fraction(0))
+        if actual != stated:
+            yield report.error(
+                subject,
+                f"parcels classified {total.code!r} do not sum to the stated subtotal",
+                {
+                    "tenure": total.code,
+                    "parcels_sum_to": _text(actual, ladder_id, view.registry),
+                    "mouza_states": _text(stated, ladder_id, view.registry),
+                    "difference": _text(actual - stated, ladder_id, view.registry),
+                },
+            )
+    unstated = sorted(set(by_code) - {t.code for t in mouza.tenure_totals})
+    for code in unstated:
+        yield report.error(
+            subject,
+            f"parcels are classified {code!r} but the mouza states no subtotal for it",
+            {"tenure": code,
+             "parcels_sum_to": _text(by_code[code], ladder_id, view.registry)},
+        )

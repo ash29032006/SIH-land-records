@@ -251,3 +251,51 @@ def test_holding_shares_passes_an_exact_undivided_split():
 def test_holding_shares_abstains_when_no_share_is_recorded():
     found = f.run(conservation.holding_shares_sum_to_one, _undivided([None, None]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C2.tenure_totals_reconcile -------------------------------------------
+
+
+def _classified(tenures, subtotals):
+    return f.records(
+        mouza=f.mouza(
+            classification_scheme="bihar.khatiyan",
+            tenure_totals=tuple(
+                TenureTotal(code=c, area_stated=f.stated(u)) for c, u in subtotals
+            ),
+        ),
+        khesras=tuple(
+            f.khesra(f"K{n}", str(200 + n), area_stated=f.stated(50), tenure=t,
+                     classification_scheme="bihar.khatiyan")
+            for n, t in enumerate(tenures, start=1)
+        ),
+    )
+
+
+def test_tenure_totals_fires_when_a_parcel_is_reclassified():
+    found = f.run(
+        conservation.tenure_totals_reconcile,
+        _classified(["raiyati", "gairmazrua_aam"], [("raiyati", 100)]),
+    )
+    assert found
+    assert any(x.evidence.get("tenure") == "raiyati" for x in found)
+    assert all(x.finding_class is FindingClass.CERTAIN_ERROR for x in found)
+
+
+def test_tenure_totals_passes_when_the_classification_reconciles():
+    found = f.run(
+        conservation.tenure_totals_reconcile,
+        _classified(["raiyati", "gairmazrua_aam"],
+                    [("raiyati", 50), ("gairmazrua_aam", 50)]),
+    )
+    assert found == []
+
+
+def test_tenure_totals_abstains_on_jamabandi_input_with_no_classification():
+    """EVIDENCE.md E6: the digitised jamabandi has no classification column."""
+    found = f.run(
+        conservation.tenure_totals_reconcile,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(50)),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "mouza.tenure_totals"
