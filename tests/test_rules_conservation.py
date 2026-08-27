@@ -336,8 +336,6 @@ def test_cross_unit_restatement_passes_an_exact_conversion():
     from kavach.units import convert
 
     exact = convert(f.area(100), "metric.hectare", f.REG)
-    found = f.run(conservation.cross_unit_restatement, _restated(100, 0))
-    # replace the deliberately-wrong restatement with the exact one
     records = _restated(100, 0)
     khesra = records.khesras[0]
     fixed = khesra.model_copy(
