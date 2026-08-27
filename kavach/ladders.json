@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "_readme": [
+    "Unit ladders are DATA. Structure (unit names and bases) comes from",
+    "HANDOFF_BUILD.md 3.5 and nowhere else.",
+    "",
+    "smallest_unit_in_sqm is the ONLY thing that permits cross-ladder arithmetic.",
+    "It is a declared exact rational, written as [numerator, denominator] integers.",
+    "There are no floats in this file and the loader rejects any that appear.",
+    "",
+    "null anchor = the physical size of this ladder's units has not been measured",
+    "from a source we hold. Cross-ladder conversion then REFUSES. It does not guess.",
+    "Adding an anchor requires a citation in anchor_source. Do not add one otherwise."
+  ],
+  "ladders": [
+    {
+      "id": "bihar.unspecified",
+      "region": "Bihar",
+      "units": ["bigha", "katha", "dhur"],
+      "bases": [20, 20],
+      "aliases": {
+        "bigah": "bigha", "biga": "bigha", "beegha": "bigha", "bighas": "bigha",
+        "kattha": "katha", "kaththa": "katha", "kathas": "katha",
+        "dhoor": "dhur", "dhurr": "dhur", "dhurs": "dhur"
+      },
+      "smallest_unit_in_sqm": null,
+      "anchor_source": null,
+      "notes": "District unknown. The physical size of a Bihar bigha is not constant across districts, so an area in this ladder must never be converted into any other ladder. Structure per HANDOFF_BUILD.md 3.5."
+    },
+    {
+      "id": "bihar.patna",
+      "region": "Bihar / Patna",
+      "units": ["bigha", "katha", "dhur"],
+      "bases": [20, 20],
+      "aliases": {
+        "bigah": "bigha", "biga": "bigha", "beegha": "bigha", "bighas": "bigha",
+        "kattha": "katha", "kaththa": "katha", "kathas": "katha",
+        "dhoor": "dhur", "dhurr": "dhur", "dhurs": "dhur"
+      },
+      "smallest_unit_in_sqm": null,
+      "anchor_source": null,
+      "notes": "Same LADDER STRUCTURE as bihar.mithila, different physical unit size. Identical structure is exactly why the ladder id, not the structure, is what makes two areas comparable. Physical size unmeasured -> anchor null."
+    },
+    {
+      "id": "bihar.mithila",
+      "region": "Bihar / Mithila",
+      "units": ["bigha", "katha", "dhur"],
+      "bases": [20, 20],
+      "aliases": {
+        "bigah": "bigha", "biga": "bigha", "beegha": "bigha", "bighas": "bigha",
+        "kattha": "katha", "kaththa": "katha", "kathas": "katha",
+        "dhoor": "dhur", "dhurr": "dhur", "dhurs": "dhur"
+      },
+      "smallest_unit_in_sqm": null,
+      "anchor_source": null,
+      "notes": "See bihar.patna. Structurally identical, physically distinct, unmeasured."
+    },
+    {
+      "id": "punjab.standard",
+      "region": "Punjab / Haryana",
+      "units": ["acre", "kanal", "marla"],
+      "bases": [8, 20],
+      "aliases": {
+        "acres": "acre", "ekar": "acre",
+        "kanaal": "kanal", "kanals": "kanal",
+        "marlas": "marla", "marlah": "marla"
+      },
+      "smallest_unit_in_sqm": [2529285264, 100000000],
+      "anchor_source": "1 acre = 4840 sq yd; international yard = 0.9144 m exactly (1959 international yard and pound agreement). 1 acre = 4046.8564224 m2 exactly; 1 marla = 1 acre / 160. Ladder structure per HANDOFF_BUILD.md 3.5.",
+      "notes": "Anchored because the acre is a defined unit, not a regional one."
+    },
+    {
+      "id": "deccan.standard",
+      "region": "Deccan",
+      "units": ["acre", "guntha"],
+      "bases": [40],
+      "aliases": {
+        "acres": "acre", "ekar": "acre",
+        "gunta": "guntha", "guntas": "guntha", "gunthas": "guntha"
+      },
+      "smallest_unit_in_sqm": [10117141056, 100000000],
+      "anchor_source": "1 acre = 4046.8564224 m2 exactly (see punjab.standard); 1 guntha = 1 acre / 40. Ladder structure per HANDOFF_BUILD.md 3.5.",
+      "notes": "Anchored to the same defined acre, so punjab.standard <-> deccan.standard is exact: 1 guntha = 4 marla."
+    },
+    {
+      "id": "bihar.jamabandi",
+      "region": "Bihar (digitised Jamabandi Register / Register-II)",
+      "units": ["acre", "decimal"],
+      "bases": [100],
+      "aliases": {
+        "acres": "acre", "ekar": "acre",
+        "dec": "decimal", "decimals": "decimal", "decimel": "decimal", "dismil": "decimal"
+      },
+      "smallest_unit_in_sqm": [40468564224, 1000000000],
+      "anchor_source": "Rakba in the Bihar jamabandi RoR is recorded in acres, decimal and hectares; 1 decimal = 435.6 sq ft = 0.01 acre (Evaluation of Quality of Land Records - Bihar, DoLR, p.12 fn.2). 1 acre = 43560 sq ft; international foot = 0.3048 m exactly. See EVIDENCE.md E4.",
+      "notes": "THIS is the ladder the Phase 1 audit runs on for Bihar. bigha/katha/dhur is the colloquial and khatian ladder, not what the digitised RoR uses."
+    },
+    {
+      "id": "metric.hectare",
+      "region": "metric (hectare column of the rakba field)",
+      "units": ["hectare", "are", "centiare"],
+      "bases": [100, 100],
+      "aliases": {
+        "hectares": "hectare", "ha": "hectare", "hect": "hectare",
+        "ares": "are",
+        "centiares": "centiare", "sqm": "centiare", "m2": "centiare"
+      },
+      "smallest_unit_in_sqm": [1, 1],
+      "anchor_source": "1 centiare = 1 square metre by definition; 1 are = 100 centiare; 1 hectare = 100 are. Exact.",
+      "notes": "Present so the third rakba column can be checked against the other two. A hectare value written to four decimal places is an exact whole number of centiare, which makes that check integer arithmetic rather than an epsilon comparison. See EVIDENCE.md E10."
+    }
+  ]
+}
