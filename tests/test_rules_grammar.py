@@ -97,3 +97,32 @@ def test_identifier_charset_abstains_over_undated_records():
         f.records(undated=True, khesras=(f.khesra("K1", "2l7", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C1.area_positive ------------------------------------------------------
+
+
+def test_area_positive_fires_on_zero_area():
+    found = f.run(
+        grammar.area_positive,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(0)),)),
+    )
+    assert len(found) == 1 and found[0].evidence["count"] == "0"
+
+
+def test_area_positive_passes_real_areas_and_ignores_absent_ones():
+    found = f.run(
+        grammar.area_positive,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(100)),
+                           f.khesra("K2", "218"))),
+    )
+    assert found == []
+
+
+def test_area_positive_abstains_over_undated_records():
+    found = f.run(
+        grammar.area_positive,
+        f.records(undated=True,
+                  khesras=(f.khesra("K1", "217", area_stated=f.stated(0), valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

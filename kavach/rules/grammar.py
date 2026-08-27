@@ -103,3 +103,36 @@ def identifier_charset(view, report):
                 "khata number contains characters that are not digits or separators",
                 {"number": value, "stray_characters": "".join(stray)},
             )
+
+
+@grammar_rule("C1.area_positive")
+def area_positive(view, report):
+    """A stated area must be greater than zero.
+
+    EVIDENCE.md E5 records area entered as zero or blank as a real, measured error
+    class. Zero is treated as a violation; absent is not — absence makes downstream
+    conservation UNVERIFIABLE and is reported by Class 8, not here.
+    """
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for khesra in view.index.khesras:
+        if khesra.area_stated is None:
+            continue
+        count = khesra.area_stated.area.count
+        if count <= 0:
+            yield report.error(
+                khesra_subject(khesra, view.index, "area_stated"),
+                "parcel area is not greater than zero",
+                {"count": str(count)},
+            )
+    for khata in view.index.khatas:
+        if khata.area_stated is None:
+            continue
+        count = khata.area_stated.area.count
+        if count <= 0:
+            yield report.error(
+                khata_subject(khata, "area_stated"),
+                "khata area is not greater than zero",
+                {"count": str(count)},
+            )
