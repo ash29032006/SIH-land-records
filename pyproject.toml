@@ -1,0 +1,23 @@
+[project]
+name = "kavach"
+version = "0.1.0"
+description = "Validation layer for Indian land records — Phase 1: harness and rules engine"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.9,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+    "hypothesis>=6.100,<7",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ""
+
+[tool.kavach]
+# Phase 1 runs on a laptop with no GPU. Nothing here needs a model, a portal,
+# an annotator, or network access. See AGENTS.md 5.
+phase = 1
