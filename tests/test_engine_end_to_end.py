@@ -154,3 +154,69 @@ def test_blocked_classes_are_present_and_abstain_in_a_full_run():
     seen = {x.rule_id for x in result.abstentions}
     assert blocked_ids <= seen
     assert {r.id for r in CENSUS_RULES} <= seen
+
+
+# ==========================================================================
+# the false-positive guard, over the whole parameter space
+# ==========================================================================
+
+
+from hypothesis import given, settings  # noqa: E402
+from hypothesis import strategies as st  # noqa: E402
+
+
+@settings(max_examples=60, deadline=None)
+@given(
+    seed=st.integers(min_value=1, max_value=10_000),
+    profile=st.sampled_from(list(DocumentProfile)),
+    root_khesras=st.integers(min_value=2, max_value=18),
+    subdivide_percent=st.integers(min_value=0, max_value=100),
+    max_depth=st.integers(min_value=1, max_value=4),
+    max_holders=st.integers(min_value=1, max_value=4),
+    max_owners=st.integers(min_value=1, max_value=4),
+    ladder_id=st.sampled_from(
+        ["bihar.jamabandi", "bihar.patna", "punjab.standard", "west_bengal.standard"]
+    ),
+)
+def test_no_rule_ever_fires_on_a_record_set_that_is_correct_by_construction(
+    seed, profile, root_khesras, subdivide_percent, max_depth, max_holders,
+    max_owners, ladder_id,
+):
+    """The strongest form of the false-positive guard.
+
+    Sixty random shapes of mouza — different sizes, depths, holder counts, document
+    profiles and unit ladders, including a base-16 one. Every one holds its
+    invariants by construction, so every CERTAIN_ERROR is a false positive.
+    """
+    records = synthetic_mouza(
+        MouzaSpec(
+            seed=seed,
+            profile=profile,
+            ladder_id=ladder_id,
+            root_khesras=root_khesras,
+            subdivide_percent=subdivide_percent,
+            max_depth=max_depth,
+            max_children=4,
+            max_holders_per_parcel=max_holders,
+            max_owners_per_khata=max_owners,
+            total_area=8_000,
+        )
+    )
+    result = _run(records)
+    assert result.certain_errors == (), [str(x) for x in result.certain_errors]
+
+
+@settings(max_examples=40, deadline=None)
+@given(
+    seed=st.integers(min_value=1, max_value=10_000),
+    ladder_id=st.sampled_from(
+        ["bihar.jamabandi", "bihar.mithila", "punjab.standard", "deccan.standard"]
+    ),
+)
+def test_the_verifiability_rate_is_always_an_exact_fraction_between_zero_and_one(
+    seed, ladder_id
+):
+    records = synthetic_mouza(MouzaSpec(seed=seed, ladder_id=ladder_id, total_area=6_000))
+    rate = verifiability_rate(records, REG)
+    assert isinstance(rate, Fraction)
+    assert 0 <= rate <= 1
