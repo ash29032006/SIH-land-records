@@ -3,13 +3,10 @@
 `python -m kavach.report`
 
 AGENTS.md 7 asks for precision and recall to be **measured and printed, whatever
-they are**. No rule classes ship yet, so the honest printed value for those is
-`None`, and this says so rather than borrowing a number from a test double. The
-moment Classes 1-3 land, the same command produces real figures with no edits here.
+they are**. They are measured here against the mutation set, and printed unrounded.
+Nothing in this file hardcodes a result; every figure comes from running the engine.
 
-What it can report today is real: the generator's invariant status, the mutation
-catalogue with what each corruption actually breaks, and witness availability across
-document profiles — which is the shape Class 8's verifiability rate will take.
+`None` still appears wherever nothing was measured, and it means exactly that.
 """
 
 from __future__ import annotations
@@ -19,7 +16,7 @@ from fractions import Fraction
 
 from kavach.classifications import default_schemes
 from kavach.findings import Engine
-from kavach.mutations import MUTATIONS, all_mutation_cases, apply_mutation, summarise
+from kavach.mutations import MUTATIONS, all_mutation_cases, score_case, summarise
 from kavach.records import RecordSet
 from kavach.synthetic import (
     DocumentProfile,
@@ -29,8 +26,17 @@ from kavach.synthetic import (
 )
 from kavach.units import default_registry
 
-# No rule classes are implemented yet (AGENTS.md 5, steps 3-6).
-SHIPPED_RULES: tuple = ()
+from kavach.rules import (
+    ALL_RULES,
+    BLOCKED_RULES,
+    CENSUS_RULES,
+    COMPLETENESS_RULES,
+    CONSERVATION_RULES,
+    GRAMMAR_RULES,
+)
+from kavach.rules.census import witness_census
+
+SHIPPED_RULES: tuple = ALL_RULES
 
 REPORT_SEED = 11
 MUTATION_SEED = 3
@@ -177,25 +183,69 @@ def main() -> int:
 
     # -- what is measured, and what is not -----------------------------------
 
-    _heading("Engine")
-    engine = Engine(SHIPPED_RULES)
-    clean_result = engine.run(clean, registry, as_of=clean.as_of)
-    results = [
-        engine.run(case.mutated, registry, as_of=case.mutated.as_of) for case in cases
-    ]
-    score = summarise(cases, results, clean_result)
+    _heading("Rules registered")
+    for label, group in (
+        ("Class 1 grammar", GRAMMAR_RULES),
+        ("Class 2 conservation", CONSERVATION_RULES),
+        ("Class 3 completeness", COMPLETENESS_RULES),
+        ("Class 8 census", CENSUS_RULES),
+        ("Classes 4-7 blocked", BLOCKED_RULES),
+    ):
+        print(f"  {label:24} {len(group):>3}")
+    print(f"  {'TOTAL':24} {len(SHIPPED_RULES):>3}")
 
-    print(f"  rule classes implemented   {len(SHIPPED_RULES)}")
-    print(f"  findings on clean input    {len(clean_result)}")
-    print(f"  false positives on clean   {len(clean_result.certain_errors)}")
+    # -- the false-positive guard -------------------------------------------
+
+    _heading("Clean input — every finding here would be a false positive")
+    engine = Engine(SHIPPED_RULES)
+    clean_results = {}
+    for profile, record_set in cleans.items():
+        result = engine.run(
+            record_set, registry, as_of=record_set.as_of, schemes=schemes
+        )
+        clean_results[profile] = result
+        print(
+            f"  {profile:10} findings={len(result):3}  "
+            f"CERTAIN_ERROR={len(result.certain_errors):3}  "
+            f"abstentions={len(result.abstentions):3}"
+        )
+        for finding in result.certain_errors[:5]:
+            print(f"      FALSE POSITIVE: {finding}")
+
+    # -- the witness census --------------------------------------------------
+
+    _heading("Class 8 — verifiability rate")
+    for profile, record_set in cleans.items():
+        result = witness_census(record_set, registry, record_set.as_of)
+        rate = result.verifiability_rate
+        shown = "None"
+        if rate is not None:
+            percent = (100 * rate.numerator) // rate.denominator
+            shown = f"{rate} (~{percent}%)"
+        print(
+            f"  {profile:10} parcels={len(result.parcels):3}  "
+            f"unexaminable={len(result.unexaminable):3}  rate={shown}"
+        )
     print()
-    print(score.report())
+    print("  A rate, not an error rate. It says how much of the register can be")
+    print("  independently checked at all — the number the department does not have.")
+
+    # -- measured precision and recall ---------------------------------------
+
+    _heading("Mutation harness — measured")
+    clean_result = clean_results[DocumentProfile.COMBINED]
+    results = [
+        engine.run(case.mutated, registry, as_of=case.mutated.as_of, schemes=schemes)
+        for case in cases
+    ]
+    for case, result in zip(cases, results):
+        marker = "hit " if score_case(case, result).localised else "MISS"
+        print(
+            f"  {marker} {case.name:30} "
+            f"certain_errors={len(result.certain_errors):3}"
+        )
     print()
-    if not SHIPPED_RULES:
-        print("  recall, localisation and precision are None because no rule class is")
-        print("  implemented yet — not because they were measured and came out empty.")
-        print("  Implement Classes 1, 2, 3 and 8, register them in SHIPPED_RULES, and")
-        print("  this command prints real numbers with no other change.")
+    print(summarise(cases, results, clean_result).report())
     return 0
 
 
