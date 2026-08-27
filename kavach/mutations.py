@@ -673,7 +673,6 @@ class MutationScore:
             ("recall", self.recall),
             ("localisation", self.localisation_rate),
             ("precision", self.precision),
-            ("propagation", self.propagation),
         ):
             if value is None:
                 reason = (
@@ -683,6 +682,15 @@ class MutationScore:
             else:
                 percent = (100 * value.numerator) // value.denominator
                 lines.append(f"  {label:22} {value} (~{percent}%)")
+        spread = self.propagation
+        if spread is None:
+            lines.append(f"  {'propagation':22} None (no cases)")
+        else:
+            whole = spread.numerator // spread.denominator
+            lines.append(
+                f"  {'propagation':22} {spread} "
+                f"(~{whole} findings per corruption — reviewer load, not error)"
+            )
         return "\n".join(lines)
 
 
