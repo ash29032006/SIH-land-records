@@ -237,3 +237,30 @@ def test_khata_number_unique_abstains_over_undated_khatas():
         f.records(undated=True, khatas=(f.khata("T1", "2001", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.no_cyclic_parentage ------------------------------------------------
+
+
+def test_no_cyclic_parentage_fires_on_a_loop():
+    records = f.records(
+        khesras=(f.khesra("A", "1", parent_khesra_id="B"),
+                 f.khesra("B", "2", parent_khesra_id="A")),
+    )
+    found = f.run(completeness.no_cyclic_parentage, records)
+    assert len(found) == 1 and found[0].evidence["khesras"] == "A, B"
+
+
+def test_no_cyclic_parentage_passes_a_tree():
+    records = f.records(
+        khesras=(f.khesra("P", "217"), f.khesra("C1", "1", parent_khesra_id="P")),
+    )
+    assert f.run(completeness.no_cyclic_parentage, records) == []
+
+
+def test_no_cyclic_parentage_abstains_over_undated_records():
+    found = f.run(
+        completeness.no_cyclic_parentage,
+        f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

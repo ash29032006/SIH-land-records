@@ -224,3 +224,27 @@ def khata_number_unique(view, report):
                 "more than one khata carries this number in the same mouza",
                 {"number": number, "khatas": ", ".join(sorted(k.id for k in group))},
             )
+
+
+@completeness_rule("C3.no_cyclic_parentage")
+def no_cyclic_parentage(view, report):
+    """Parcel parentage forms a tree, not a loop.
+
+    A cycle makes depth, paths and leaf status undefinable, so it has to be reported
+    before any rule that depends on them can be believed.
+    """
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    cyclic = sorted(view.index.cyclic_khesra_ids)
+    if cyclic:
+        yield report.error(
+            tuple(
+                khesra_subject(view.index.khesra_by_id[k], view.index, "parent_khesra_id")
+                for k in cyclic
+                if k in view.index.khesra_by_id
+            )
+            or (mouza_subject(view.records.mouza),),
+            "parcel parentage contains a loop, so paths and leaf status are undefined",
+            {"khesras": ", ".join(cyclic)},
+        )
