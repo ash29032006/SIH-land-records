@@ -22,6 +22,7 @@ from kavach.synthetic import (
     DocumentProfile,
     MouzaSpec,
     synthetic_mouza,
+    synthetic_partition_event,
     verify_synthetic_invariants,
 )
 from kavach.units import default_registry
@@ -229,6 +230,26 @@ def main() -> int:
     print()
     print("  A rate, not an error rate. It says how much of the register can be")
     print("  independently checked at all — the number the department does not have.")
+
+    # -- the across-version path ---------------------------------------------
+
+    _heading("Across versions — a partition event")
+    before, after = synthetic_partition_event(clean, registry, seed=1)
+    early_leaves = len(before.index(before.as_of).leaves())
+    late_leaves = len(after.index(after.as_of).leaves())
+    paired = engine.run_pair(
+        before, after, registry,
+        earlier_as_of=before.as_of, later_as_of=after.as_of,
+    )
+    print(f"  parcels                {early_leaves} -> {late_leaves}")
+    print(f"  CERTAIN_ERROR          {len(paired.certain_errors)}")
+    print(f"  rules that ran         {len(paired.rules_run)}")
+    print()
+    print("  A legitimate sub-division must produce nothing. Parcels split all the")
+    print("  time and the total does not move; a rule that flagged that would fire")
+    print("  on every partition in the register.")
+    for finding in paired.certain_errors[:5]:
+        print(f"      FALSE POSITIVE: {finding}")
 
     # -- measured precision and recall ---------------------------------------
 
