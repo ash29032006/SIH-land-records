@@ -31,6 +31,7 @@ def _blocked(rule_id: str, validation_class: int, needs: str, blocked_on: str,
 
     @rule(rule_id, validation_class, scope)
     def declared(view, report, _needs=needs, _blocked=blocked_on):
+        """Specced, blocked on external data. Abstains; never passes."""
         return [
             report.abstain(
                 mouza_subject(view.records.mouza)

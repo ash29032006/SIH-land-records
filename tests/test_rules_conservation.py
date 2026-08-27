@@ -197,7 +197,7 @@ def _co_owned(shares):
     )
 
 
-def test_co_owner_shares_fires_when_they_do_not_sum_to_one():
+def test_co_owner_shares_sum_to_one_fires_when_they_do_not():
     found = f.run(
         conservation.co_owner_shares_sum_to_one,
         _co_owned([Fraction(1, 3), Fraction(1, 3)]),
@@ -205,7 +205,7 @@ def test_co_owner_shares_fires_when_they_do_not_sum_to_one():
     assert len(found) == 1 and found[0].evidence["shares_sum_to"] == "2/3"
 
 
-def test_co_owner_shares_passes_thirds_that_are_exact():
+def test_co_owner_shares_sum_to_one_passes_thirds_that_are_exact():
     found = f.run(
         conservation.co_owner_shares_sum_to_one,
         _co_owned([Fraction(1, 3), Fraction(1, 3), Fraction(1, 3)]),
@@ -213,7 +213,7 @@ def test_co_owner_shares_passes_thirds_that_are_exact():
     assert found == []
 
 
-def test_co_owner_shares_abstains_because_bihar_records_no_shares():
+def test_co_owner_shares_sum_to_one_abstains_because_bihar_records_no_shares():
     """EVIDENCE.md E2 — this is the real-input case, not an edge case."""
     found = f.run(conservation.co_owner_shares_sum_to_one, _co_owned([None, None]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
@@ -234,21 +234,21 @@ def _undivided(shares):
     )
 
 
-def test_holding_shares_fires_when_the_parcel_is_over_allocated():
+def test_holding_shares_sum_to_one_fires_when_over_allocated():
     found = f.run(
         conservation.holding_shares_sum_to_one, _undivided([Fraction(3, 4), Fraction(1, 2)])
     )
     assert len(found) == 1 and found[0].evidence["shares_sum_to"] == "5/4"
 
 
-def test_holding_shares_passes_an_exact_undivided_split():
+def test_holding_shares_sum_to_one_passes_an_exact_undivided_split():
     found = f.run(
         conservation.holding_shares_sum_to_one, _undivided([Fraction(3, 4), Fraction(1, 4)])
     )
     assert found == []
 
 
-def test_holding_shares_abstains_when_no_share_is_recorded():
+def test_holding_shares_sum_to_one_abstains_when_no_share_is_recorded():
     found = f.run(conservation.holding_shares_sum_to_one, _undivided([None, None]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
 
@@ -272,7 +272,7 @@ def _classified(tenures, subtotals):
     )
 
 
-def test_tenure_totals_fires_when_a_parcel_is_reclassified():
+def test_tenure_totals_reconcile_fires_when_a_parcel_is_reclassified():
     found = f.run(
         conservation.tenure_totals_reconcile,
         _classified(["raiyati", "gairmazrua_aam"], [("raiyati", 100)]),
@@ -282,7 +282,7 @@ def test_tenure_totals_fires_when_a_parcel_is_reclassified():
     assert all(x.finding_class is FindingClass.CERTAIN_ERROR for x in found)
 
 
-def test_tenure_totals_passes_when_the_classification_reconciles():
+def test_tenure_totals_reconcile_passes_when_the_classification_reconciles():
     found = f.run(
         conservation.tenure_totals_reconcile,
         _classified(["raiyati", "gairmazrua_aam"],
@@ -291,7 +291,7 @@ def test_tenure_totals_passes_when_the_classification_reconciles():
     assert found == []
 
 
-def test_tenure_totals_abstains_on_jamabandi_input_with_no_classification():
+def test_tenure_totals_reconcile_abstains_on_jamabandi_input():
     """EVIDENCE.md E6: the digitised jamabandi has no classification column."""
     found = f.run(
         conservation.tenure_totals_reconcile,
