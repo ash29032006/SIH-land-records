@@ -246,3 +246,27 @@ def date_ordering(view, report):
                 "mutation is dated before the survey that created the record",
                 {"mutation_date": str(event.date), "survey_date": str(survey)},
             )
+
+
+@grammar_rule("C1.khata_number_positive")
+def khata_number_positive(view, report):
+    """A khata number is positive, never 0.
+
+    Found by the mutation harness, not by reading the spec.
+    `C1.subdivision_number_positive` covered parcels only, so a khata numbered 0 —
+    which EVIDENCE.md E5 records as a measured error class alongside khesra zeros —
+    went straight through every Class 1 rule.
+    """
+    abstention = undated_abstention(report, view, "khatas", view.index.unknown_khatas)
+    if abstention:
+        yield abstention
+    for khata in view.index.khatas:
+        number = khata.number.strip()
+        if not number:
+            continue  # blank is C1.identifier_present's job
+        if number.lstrip("-").isdigit() and int(number) <= 0:
+            yield report.error(
+                khata_subject(khata, "number"),
+                "khata number is not positive",
+                {"number": khata.number},
+            )

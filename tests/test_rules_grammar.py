@@ -234,3 +234,23 @@ def test_date_ordering_abstains_without_a_survey_date():
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "mouza.survey_date"
+
+
+# ---- C1.khata_number_positive ----------------------------------------------
+
+
+def test_khata_number_positive_fires_on_zero():
+    found = f.run(grammar.khata_number_positive, f.records(khatas=(f.khata("T1", "0"),)))
+    assert len(found) == 1 and found[0].evidence["number"] == "0"
+
+
+def test_khata_number_positive_passes_a_real_number():
+    assert f.run(grammar.khata_number_positive, f.records(khatas=(f.khata("T1", "2001"),))) == []
+
+
+def test_khata_number_positive_abstains_over_undated_khatas():
+    found = f.run(
+        grammar.khata_number_positive,
+        f.records(undated=True, khatas=(f.khata("T1", "0", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
