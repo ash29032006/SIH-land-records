@@ -161,6 +161,16 @@ class UnitLadder:
     smallest_unit_in_sqm: Fraction | None
     anchor_source: str | None
     notes: str
+    structure_source: str = ""
+    structure_confidence: str = "reference"
+    """How well sourced the unit names and bases are.
+
+    `sourced` — stated in a document cited in `structure_source`.
+    `reference` — widely documented but no primary source read.
+
+    A wrong base does not merely mis-display: it makes `C1.unit_carry` report a
+    correct record as un-normalised. Ladders that are not `sourced` are marked in
+    the harness report so that is visible rather than assumed."""
 
     @property
     def smallest(self) -> str:
@@ -173,6 +183,10 @@ class UnitLadder:
     @property
     def is_anchored(self) -> bool:
         return self.smallest_unit_in_sqm is not None
+
+    @property
+    def structure_is_sourced(self) -> bool:
+        return self.structure_confidence == "sourced"
 
     def canonical(self, unit: str) -> str:
         """Resolve a written unit name to a canonical one. Case- and space-insensitive."""
@@ -336,9 +350,25 @@ def _ladder_from_data(entry: Mapping[str, object]) -> UnitLadder:
             "An unsourced conversion factor is a fabricated measurement."
         )
 
+    structure_source = str(entry.get("structure_source", "")).strip()
+    if not structure_source:
+        raise LadderDataError(
+            f"ladder {ladder_id!r}: needs structure_source saying where its unit "
+            "names and bases come from. A wrong base makes C1.unit_carry report "
+            "correct records as un-normalised."
+        )
+    structure_confidence = str(entry.get("structure_confidence", "reference"))
+    if structure_confidence not in {"sourced", "reference"}:
+        raise LadderDataError(
+            f"ladder {ladder_id!r}: structure_confidence must be 'sourced' or "
+            f"'reference', got {structure_confidence!r}"
+        )
+
     return UnitLadder(
         id=ladder_id,
         region=str(entry.get("region", "")),
+        structure_source=structure_source,
+        structure_confidence=structure_confidence,
         units=units,
         bases=bases,
         aliases=MappingProxyType(aliases),
