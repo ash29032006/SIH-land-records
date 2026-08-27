@@ -92,3 +92,34 @@ def test_leaves_sum_to_mouza_abstains_without_a_stated_total():
     found = f.run(conservation.leaves_sum_to_mouza, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "mouza.area_stated"
+
+
+# ---- C2.holdings_sum_to_parcel --------------------------------------------
+
+
+def _shared_parcel(parcel_units, claims):
+    return f.records(
+        khesras=(f.khesra("K1", "217", area_stated=f.stated(parcel_units)),),
+        khatas=tuple(f.khata(f"T{n}", str(2000 + n)) for n in range(1, len(claims) + 1)),
+        holdings=tuple(
+            f.holding(f"H{n}", f"T{n}", "K1", area_claimed=None if u is None else f.stated(u))
+            for n, u in enumerate(claims, start=1)
+        ),
+    )
+
+
+def test_holdings_sum_to_parcel_fires_when_claims_overrun_the_parcel():
+    found = f.run(conservation.holdings_sum_to_parcel, _shared_parcel(100, [60, 41]))
+    assert len(found) == 1
+    assert found[0].evidence["difference"] == "1 decimal"
+    assert found[0].primary_subject.entity_id == "K1"
+
+
+def test_holdings_sum_to_parcel_passes_a_textual_partition_that_adds_up():
+    assert f.run(conservation.holdings_sum_to_parcel, _shared_parcel(100, [60, 40])) == []
+
+
+def test_holdings_sum_to_parcel_abstains_when_a_holding_claims_no_area():
+    found = f.run(conservation.holdings_sum_to_parcel, _shared_parcel(100, [60, None]))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "holding.area_claimed"

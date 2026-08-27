@@ -139,3 +139,50 @@ def leaves_sum_to_mouza(view, report):
                 "parcel_count": str(len(leaves)),
             },
         )
+
+
+@conservation_rule("C2.holdings_sum_to_parcel")
+def holdings_sum_to_parcel(view, report):
+    """Claimed areas across all khatas holding a parcel sum to that parcel.
+
+    This is the many-to-many join reconciling: several jamabandis do exist under one
+    survey number (EVIDENCE.md E1), each stating its own extent, and together they
+    must account for the parcel exactly once.
+    """
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+    for parcel in view.index.leaves():
+        holdings = view.index.holdings_by_khesra.get(parcel.id, ())
+        if not holdings:
+            continue  # unheld parcels are C3.no_unheld_parcel's finding
+        stated = units_of(parcel.area_stated)
+        if stated is None:
+            yield report.abstain(
+                khesra_subject(parcel, view.index, "area_stated"),
+                "parcel states no area to reconcile its holdings against",
+                missing_witness="khesra.area_stated",
+            )
+            continue
+        without = [h for h in holdings if h.area_claimed is None]
+        if without:
+            yield report.abstain(
+                khesra_subject(parcel, view.index),
+                f"{len(without)} of {len(holdings)} holdings claim no area",
+                missing_witness="holding.area_claimed",
+                evidence={"holdings": ", ".join(sorted(h.id for h in without))},
+            )
+            continue
+        ladder_id = parcel.area_stated.area.ladder_id
+        total = sum((units_of(h.area_claimed) for h in holdings), Fraction(0))
+        if total != stated:
+            yield report.error(
+                khesra_subject(parcel, view.index, "area_stated"),
+                "claimed areas do not account for the parcel exactly",
+                {
+                    "claims_sum_to": _text(total, ladder_id, view.registry),
+                    "parcel_states": _text(stated, ladder_id, view.registry),
+                    "difference": _text(total - stated, ladder_id, view.registry),
+                    "khatas": ", ".join(sorted(h.khata_id for h in holdings)),
+                },
+            )
