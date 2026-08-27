@@ -119,3 +119,19 @@ def no_orphan_holding(view, report):
                 "holding points at a khata that does not exist in this mouza",
                 {"khata_id": holding.khata_id, "khesra_id": holding.khesra_id},
             )
+
+
+@completeness_rule("C3.no_empty_khata")
+def no_empty_khata(view, report):
+    """A khata holds at least one parcel."""
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+        return
+    for khata in view.index.khatas:
+        if not view.index.holdings_by_khata.get(khata.id):
+            yield report.error(
+                khata_subject(khata),
+                "khata holds no parcel",
+                {"khata_number": khata.number},
+            )
