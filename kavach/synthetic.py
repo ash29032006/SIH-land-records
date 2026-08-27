@@ -452,6 +452,17 @@ def verify_synthetic_invariants(
         problems.append("duplicate khesra id")
     if index.cyclic_khesra_ids:
         problems.append(f"cyclic khesra parentage: {sorted(index.cyclic_khesra_ids)}")
+    known_ids = {k.id for k in records.khesras}
+    for khesra in records.khesras:
+        if khesra.parent_khesra_id and khesra.parent_khesra_id not in known_ids:
+            problems.append(
+                f"khesra {khesra.id} names a parent that is not in the record set"
+            )
+        if khesra.area_stated and khesra.area_stated.area.ladder_id != ladder_id:
+            problems.append(
+                f"khesra {khesra.id} states area in ladder "
+                f"{khesra.area_stated.area.ladder_id!r}, mouza declares {ladder_id!r}"
+            )
 
     for khesra in records.khesras:
         if khesra.mouza_id != records.mouza.id:
