@@ -123,3 +123,33 @@ def test_holdings_sum_to_parcel_abstains_when_a_holding_claims_no_area():
     found = f.run(conservation.holdings_sum_to_parcel, _shared_parcel(100, [60, None]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "holding.area_claimed"
+
+
+# ---- C2.holdings_sum_to_khata ---------------------------------------------
+
+
+def _khata_with(total, claims):
+    return f.records(
+        khesras=tuple(f.khesra(f"K{n}", str(200 + n), area_stated=f.stated(999))
+                      for n in range(1, len(claims) + 1)),
+        khatas=(f.khata("T1", "2001", area_stated=None if total is None else f.stated(total)),),
+        holdings=tuple(
+            f.holding(f"H{n}", "T1", f"K{n}", area_claimed=f.stated(u))
+            for n, u in enumerate(claims, start=1)
+        ),
+    )
+
+
+def test_holdings_sum_to_khata_fires_on_a_mismatch():
+    found = f.run(conservation.holdings_sum_to_khata, _khata_with(100, [60, 41]))
+    assert len(found) == 1 and found[0].evidence["difference"] == "1 decimal"
+
+
+def test_holdings_sum_to_khata_passes_when_they_add_up():
+    assert f.run(conservation.holdings_sum_to_khata, _khata_with(100, [60, 40])) == []
+
+
+def test_holdings_sum_to_khata_abstains_without_a_stated_khata_total():
+    found = f.run(conservation.holdings_sum_to_khata, _khata_with(None, [60, 40]))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "khata.area_stated"

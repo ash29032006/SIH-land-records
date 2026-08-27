@@ -186,3 +186,43 @@ def holdings_sum_to_parcel(view, report):
                     "khatas": ", ".join(sorted(h.khata_id for h in holdings)),
                 },
             )
+
+
+@conservation_rule("C2.holdings_sum_to_khata")
+def holdings_sum_to_khata(view, report):
+    """A khata's holdings sum to the total that khata states."""
+    abstention = undated_abstention(report, view, "khatas", view.index.unknown_khatas)
+    if abstention:
+        yield abstention
+    for khata in view.index.khatas:
+        stated = units_of(khata.area_stated)
+        if stated is None:
+            yield report.abstain(
+                khata_subject(khata, "area_stated"),
+                "khata states no total to reconcile its holdings against",
+                missing_witness="khata.area_stated",
+            )
+            continue
+        holdings = view.index.holdings_by_khata.get(khata.id, ())
+        if not holdings:
+            continue  # empty khatas are C3.no_empty_khata's finding
+        without = [h for h in holdings if h.area_claimed is None]
+        if without:
+            yield report.abstain(
+                khata_subject(khata),
+                f"{len(without)} of {len(holdings)} holdings claim no area",
+                missing_witness="holding.area_claimed",
+            )
+            continue
+        ladder_id = khata.area_stated.area.ladder_id
+        total = sum((units_of(h.area_claimed) for h in holdings), Fraction(0))
+        if total != stated:
+            yield report.error(
+                khata_subject(khata, "area_stated"),
+                "holdings do not sum to the khata's stated total",
+                {
+                    "holdings_sum_to": _text(total, ladder_id, view.registry),
+                    "khata_states": _text(stated, ladder_id, view.registry),
+                    "difference": _text(total - stated, ladder_id, view.registry),
+                },
+            )
