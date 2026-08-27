@@ -220,3 +220,57 @@ def test_the_verifiability_rate_is_always_an_exact_fraction_between_zero_and_one
     rate = verifiability_rate(records, REG)
     assert isinstance(rate, Fraction)
     assert 0 <= rate <= 1
+
+
+# ==========================================================================
+# across versions
+# ==========================================================================
+
+
+def test_a_legitimate_partition_produces_no_certain_error():
+    """Parcels split constantly. A rule that flagged that would fire on the register."""
+    from kavach.synthetic import synthetic_partition_event
+
+    for seed in (1, 11, 42, 77):
+        before, after = synthetic_partition_event(
+            synthetic_mouza(MouzaSpec(seed=seed)), REG, seed=seed
+        )
+        result = Engine(ALL_RULES).run_pair(
+            before, after, REG,
+            earlier_as_of=before.as_of, later_as_of=after.as_of,
+        )
+        assert result.certain_errors == (), [str(x) for x in result.certain_errors]
+
+
+def test_ground_appearing_between_versions_is_caught():
+    from kavach.synthetic import synthetic_partition_event
+    from kavach.units import Area
+
+    before, after = synthetic_partition_event(
+        synthetic_mouza(MouzaSpec(seed=11)), REG, seed=1
+    )
+    victim = after.index(after.as_of).leaves()[0]
+    inflated = victim.area_stated.model_copy(
+        update={
+            "area": Area(
+                victim.area_stated.area.ladder_id, victim.area_stated.area.count + 1
+            )
+        }
+    )
+    broken = after.model_copy(
+        update={
+            "khesras": tuple(
+                k.model_copy(update={"area_stated": inflated, "area_restatements": ()})
+                if k.id == victim.id else k
+                for k in after.khesras
+            )
+        }
+    )
+    result = Engine(ALL_RULES).run_pair(
+        before, broken, REG, earlier_as_of=before.as_of, later_as_of=broken.as_of
+    )
+    across = [
+        x for x in result.certain_errors
+        if x.rule_id == "C2.area_conserved_across_versions"
+    ]
+    assert across, "area appeared between versions and no across-version rule fired"
