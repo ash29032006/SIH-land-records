@@ -299,3 +299,87 @@ def test_tenure_totals_abstains_on_jamabandi_input_with_no_classification():
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "mouza.tenure_totals"
+
+
+# ---- C2.cross_unit_restatement (EVIDENCE.md E10) --------------------------
+
+
+def _restated(primary_units, hectare_centiare):
+    from kavach.records import AreaStatement, Provenance
+    from kavach.units import Area
+
+    return f.records(
+        khesras=(
+            f.khesra(
+                "K1", "217",
+                area_stated=f.stated(primary_units),
+                area_restatements=(
+                    AreaStatement(
+                        area=Area("metric.hectare", Fraction(hectare_centiare)),
+                        provenance=Provenance(document_id="FIX-DOC", cell="rakba/hectare"),
+                    ),
+                ),
+            ),
+        )
+    )
+
+
+def test_cross_unit_restatement_fires_when_the_hectare_column_disagrees():
+    found = f.run(conservation.cross_unit_restatement, _restated(100, 4047))
+    assert len(found) == 1
+    assert found[0].finding_class is FindingClass.CERTAIN_ERROR
+    assert found[0].evidence["ladder"] == "metric.hectare"
+
+
+def test_cross_unit_restatement_passes_an_exact_conversion():
+    """1 acre = 4046.8564224 m2 exactly, held as a rational rather than rounded."""
+    from kavach.units import convert
+
+    exact = convert(f.area(100), "metric.hectare", f.REG)
+    found = f.run(conservation.cross_unit_restatement, _restated(100, 0))
+    # replace the deliberately-wrong restatement with the exact one
+    records = _restated(100, 0)
+    khesra = records.khesras[0]
+    fixed = khesra.model_copy(
+        update={
+            "area_restatements": (
+                khesra.area_restatements[0].model_copy(update={"area": exact}),
+            )
+        }
+    )
+    assert f.run(
+        conservation.cross_unit_restatement, records.model_copy(update={"khesras": (fixed,)})
+    ) == []
+
+
+def test_cross_unit_restatement_abstains_when_no_second_unit_is_recorded():
+    found = f.run(
+        conservation.cross_unit_restatement,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(100)),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "khesra.area_restatements"
+
+
+def test_cross_unit_restatement_abstains_when_a_ladder_has_no_anchor():
+    """bigha has no measured physical size, so the module refuses to guess a factor."""
+    from kavach.records import AreaStatement, Provenance
+    from kavach.units import Area
+
+    records = f.records(
+        khesras=(
+            f.khesra(
+                "K1", "217",
+                area_stated=f.stated(100),
+                area_restatements=(
+                    AreaStatement(
+                        area=Area("bihar.patna", Fraction(400)),
+                        provenance=Provenance(document_id="FIX-DOC"),
+                    ),
+                ),
+            ),
+        )
+    )
+    found = f.run(conservation.cross_unit_restatement, records)
+    assert all(x.finding_class is FindingClass.UNVERIFIABLE for x in found)
+    assert any("exact rational" in x.missing_witness for x in found)

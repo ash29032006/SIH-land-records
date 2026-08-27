@@ -406,3 +406,54 @@ def tenure_totals_reconcile(view, report):
             {"tenure": code,
              "parcels_sum_to": _text(by_code[code], ladder_id, view.registry)},
         )
+
+
+@conservation_rule("C2.cross_unit_restatement")
+def cross_unit_restatement(view, report):
+    """An area restated in another unit system must convert back exactly.
+
+    EVIDENCE.md E10. The Bihar rakba field records one area **three times** — acres,
+    decimal and hectares — on the same row. That is a second witness inside a single
+    record: no other document, no OCR, no portal, no model. It is very likely the
+    cheapest certain check in the whole system, and neither build document names it.
+
+    Where a ladder carries no declared exact rational the conversion refuses, and the
+    refusal becomes an abstention rather than a guess.
+    """
+    checked = 0
+    for parcel in view.index.khesras:
+        primary = parcel.area_stated
+        if primary is None or not parcel.area_restatements:
+            continue
+        for restatement in parcel.area_restatements:
+            try:
+                converted = convert(
+                    primary.area, restatement.area.ladder_id, view.registry
+                )
+            except ConversionRefused as refusal:
+                yield report.abstain(
+                    khesra_subject(parcel, view.index, "area_restatements"),
+                    "the two unit systems cannot be reconciled exactly",
+                    missing_witness="declared exact rational between ladders",
+                    evidence={"reason": str(refusal)},
+                )
+                continue
+            checked += 1
+            if converted != restatement.area:
+                yield report.error(
+                    khesra_subject(parcel, view.index, "area_restatements"),
+                    "the same area stated in two unit systems does not agree",
+                    {
+                        "primary": format_area(primary.area, view.registry),
+                        "restated_as": format_area(restatement.area, view.registry),
+                        "primary_converts_to": format_area(converted, view.registry),
+                        "ladder": restatement.area.ladder_id,
+                    },
+                )
+    if checked == 0:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "no parcel restates its area in a second unit system, so there is no "
+            "second witness inside the record to check against",
+            missing_witness="khesra.area_restatements",
+        )
