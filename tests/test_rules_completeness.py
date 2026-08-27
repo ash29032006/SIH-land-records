@@ -291,3 +291,42 @@ def test_records_belong_to_this_mouza_abstains_over_undated_records():
         f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.classification_is_known --------------------------------------------
+
+
+def test_classification_is_known_fires_on_a_code_no_scheme_defines():
+    records = f.records(
+        khesras=(f.khesra("K1", "217", tenure="not_a_real_class",
+                          classification_scheme="bihar.khatiyan"),)
+    )
+    found = f.run(completeness.classification_is_known, records, schemes=f.SCHEMES)
+    assert len(found) == 1 and found[0].evidence["tenure"] == "not_a_real_class"
+
+
+def test_classification_is_known_passes_a_defined_code():
+    records = f.records(
+        khesras=(f.khesra("K1", "217", tenure="raiyati",
+                          classification_scheme="bihar.khatiyan"),)
+    )
+    assert f.run(completeness.classification_is_known, records, schemes=f.SCHEMES) == []
+
+
+def test_classification_is_known_abstains_on_unclassified_jamabandi_input():
+    found = f.run(
+        completeness.classification_is_known,
+        f.records(khesras=(f.khesra("K1", "217"),)),
+        schemes=f.SCHEMES,
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "khesra.tenure"
+
+
+def test_classification_is_known_abstains_when_no_schemes_were_supplied():
+    records = f.records(
+        khesras=(f.khesra("K1", "217", tenure="raiyati",
+                          classification_scheme="bihar.khatiyan"),)
+    )
+    found = f.run(completeness.classification_is_known, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

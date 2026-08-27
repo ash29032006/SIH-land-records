@@ -276,3 +276,47 @@ def records_belong_to_this_mouza(view, report):
     abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
     if abstention:
         yield abstention
+
+
+@completeness_rule("C3.classification_is_known")
+def classification_is_known(view, report):
+    """A parcel's tenure class exists in the scheme that parcel declares.
+
+    "One plot, one classification" holds **per axis** and is structural here: tenure
+    and land use are separate fields, so a parcel cannot carry two tenures. What can
+    go wrong is a code that no scheme defines, or a code with no scheme named.
+    """
+    classified = [k for k in view.index.khesras if k.tenure]
+    if not classified:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "no parcel carries a tenure class, so nothing can be checked against a "
+            "scheme (the digitised jamabandi has no classification column)",
+            missing_witness="khesra.tenure",
+        )
+        return
+    if view.schemes is None:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "no classification schemes were supplied to this run",
+            missing_witness="classification schemes",
+        )
+        return
+    for khesra in classified:
+        scheme_id = khesra.classification_scheme
+        if not scheme_id:
+            yield report.error(
+                khesra_subject(khesra, view.index, "classification_scheme"),
+                "parcel carries a tenure class but names no scheme to read it in",
+                {"tenure": khesra.tenure},
+            )
+            continue
+        try:
+            scheme = view.schemes.get(scheme_id)
+            scheme.tenure_class(khesra.tenure)
+        except Exception as failure:
+            yield report.error(
+                khesra_subject(khesra, view.index, "tenure"),
+                "tenure class is not defined in the scheme this parcel names",
+                {"tenure": khesra.tenure, "scheme": scheme_id, "reason": str(failure)},
+            )
