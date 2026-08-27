@@ -186,3 +186,21 @@ def no_duplicate_holding(view, report):
                     "holdings": ", ".join(sorted(h.id for h in duplicates)),
                 },
             )
+
+
+@completeness_rule("C3.no_ownerless_khata")
+def no_ownerless_khata(view, report):
+    """A khata names at least one owner."""
+    abstention = undated_abstention(
+        report, view, "memberships", view.index.unknown_memberships
+    )
+    if abstention:
+        yield abstention
+        return
+    for khata in view.index.khatas:
+        if not view.index.memberships_by_khata.get(khata.id):
+            yield report.error(
+                khata_subject(khata),
+                "khata names no owner",
+                {"khata_number": khata.number},
+            )

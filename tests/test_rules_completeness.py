@@ -185,3 +185,28 @@ def test_no_duplicate_holding_abstains_over_undated_holdings():
     )
     found = f.run(completeness.no_duplicate_holding, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.no_ownerless_khata -------------------------------------------------
+
+
+def test_no_ownerless_khata_fires_when_nobody_is_named():
+    found = f.run(completeness.no_ownerless_khata, f.records(khatas=(f.khata("T1", "2001"),)))
+    assert len(found) == 1 and found[0].primary_subject.entity_id == "T1"
+
+
+def test_no_ownerless_khata_passes_when_an_owner_is_named():
+    records = f.records(
+        khatas=(f.khata("T1", "2001"),), owners=(f.owner("O1"),),
+        memberships=(f.membership("M1", "T1", "O1"),),
+    )
+    assert f.run(completeness.no_ownerless_khata, records) == []
+
+
+def test_no_ownerless_khata_abstains_over_undated_memberships():
+    records = f.records(
+        undated=True, khatas=(f.khata("T1", "2001", valid_from=None),),
+        memberships=(f.membership("M1", "T1", "O1", valid_from=None),),
+    )
+    found = f.run(completeness.no_ownerless_khata, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
