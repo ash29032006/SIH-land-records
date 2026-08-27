@@ -59,3 +59,42 @@ def parcel_identifier_unique(view, report):
                 "more than one parcel carries this number in the same mouza",
                 {"path": "/".join(path), "khesras": ", ".join(sorted(k.id for k in group))},
             )
+
+
+@completeness_rule("C3.subdivision_sequence_complete")
+def subdivision_sequence_complete(view, report):
+    """Sub-division numbering runs 1..n with no holes.
+
+    217/1 and 217/3 exist — where is 217/2? Either the record is missing or the
+    numbering is wrong, and both warrant review.
+    """
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for parent_id, children in view.index.children.items():
+        parent = view.index.khesra_by_id.get(parent_id)
+        if parent is None:
+            continue
+        numbers = []
+        for child in children:
+            value = child.local_number.strip()
+            if not value.isdigit():
+                numbers = []
+                break  # non-numeric numbering is Class 1's finding, not a gap
+            numbers.append(int(value))
+        if not numbers:
+            continue
+        expected = set(range(1, len(numbers) + 1))
+        actual = set(numbers)
+        if actual != expected:
+            missing = sorted(expected - actual)
+            extra = sorted(actual - expected)
+            yield report.error(
+                khesra_subject(parent, view.index, "sub-divisions"),
+                "sub-division numbering is not a complete run from 1",
+                {
+                    "found": ", ".join(str(n) for n in sorted(numbers)),
+                    "missing": ", ".join(str(n) for n in missing) or "-",
+                    "unexpected": ", ".join(str(n) for n in extra) or "-",
+                },
+            )

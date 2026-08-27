@@ -35,3 +35,34 @@ def test_parcel_identifier_unique_abstains_over_undated_records():
         f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.subdivision_sequence_complete -------------------------------------
+
+
+def _subdivided(child_numbers):
+    return f.records(
+        khesras=(f.khesra("P", "217"),)
+        + tuple(f.khesra(f"C{n}", n, parent_khesra_id="P") for n in child_numbers)
+    )
+
+
+def test_subdivision_sequence_complete_fires_on_a_gap():
+    found = f.run(completeness.subdivision_sequence_complete, _subdivided(["1", "3"]))
+    assert len(found) == 1
+    assert found[0].evidence["missing"] == "2"
+    assert found[0].primary_subject.entity_id == "P"
+
+
+def test_subdivision_sequence_complete_passes_a_full_run():
+    assert f.run(completeness.subdivision_sequence_complete, _subdivided(["1", "2", "3"])) == []
+
+
+def test_subdivision_sequence_complete_abstains_over_undated_records():
+    records = f.records(
+        undated=True,
+        khesras=(f.khesra("P", "217", valid_from=None),
+                 f.khesra("C1", "1", parent_khesra_id="P", valid_from=None)),
+    )
+    found = f.run(completeness.subdivision_sequence_complete, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
