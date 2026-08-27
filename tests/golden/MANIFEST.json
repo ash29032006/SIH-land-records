@@ -15,6 +15,23 @@
       "profile": "khatian",
       "seed": 11
     },
+    "mutated.co_owner_share_inflated.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHT-0002",
+          "entity_type": "khata",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "co_owner_share_inflated",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
     "mutated.holding_orphaned.json": {
       "breaks_invariants": true,
       "broken_invariant_count": 3,
@@ -32,9 +49,49 @@
       "profile": "combined",
       "seed": 11
     },
+    "mutated.holding_recorded_twice.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 4,
+      "expected": [
+        {
+          "entity_id": "HLD-0017-TWICE",
+          "entity_type": "holding",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        },
+        {
+          "entity_id": "KHS-0014",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "holding_recorded_twice",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.identifier_charset_corrupted.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0020",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "identifier_charset_corrupted",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
     "mutated.khata_duplicated.json": {
       "breaks_invariants": true,
-      "broken_invariant_count": 16,
+      "broken_invariant_count": 17,
       "expected": [
         {
           "entity_id": "KHT-0003-DUP",
@@ -51,6 +108,23 @@
       ],
       "kind": "mutated",
       "mutation": "khata_duplicated",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.khata_number_duplicated.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHT-0002",
+          "entity_type": "khata",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "khata_number_duplicated",
       "mutation_seed": 3,
       "profile": "combined",
       "seed": 11
@@ -85,6 +159,23 @@
       ],
       "kind": "mutated",
       "mutation": "khesra_number_blank",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.mutation_predates_survey.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "MUT-0003",
+          "entity_type": "mutation",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "mutation_predates_survey",
       "mutation_seed": 3,
       "profile": "combined",
       "seed": 11
@@ -137,6 +228,74 @@
       ],
       "kind": "mutated",
       "mutation": "one_unit_added_to_parcel",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.parcel_area_removed.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 6,
+      "expected": [
+        {
+          "entity_id": "MZ-SYNTH",
+          "entity_type": "mouza",
+          "finding_class": "unverifiable",
+          "validation_class": 8
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "parcel_area_removed",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.parcel_moved_to_another_mouza.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0008",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "parcel_moved_to_another_mouza",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.parentage_loop_introduced.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 6,
+      "expected": [
+        {
+          "entity_id": "KHS-0011",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "parentage_loop_introduced",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.restated_area_corrupted.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0019",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "restated_area_corrupted",
       "mutation_seed": 3,
       "profile": "combined",
       "seed": 11
@@ -234,6 +393,23 @@
       ],
       "kind": "mutated",
       "mutation": "witness_removed",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.written_area_disagrees.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0016",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "written_area_disagrees",
       "mutation_seed": 3,
       "profile": "combined",
       "seed": 11
