@@ -164,6 +164,10 @@ class SingleVersionView:
     index: Index
     registry: LadderRegistry
     as_of: dt.date | None = None
+    schemes: object | None = None
+    """Classification schemes, when the caller supplied them. `None` is not an
+    error: a rule that needs them abstains, exactly as it would for any other
+    missing witness."""
 
     @classmethod
     def of(
@@ -171,8 +175,9 @@ class SingleVersionView:
         records: RecordSet,
         registry: LadderRegistry,
         as_of: dt.date | None = None,
+        schemes: object | None = None,
     ) -> "SingleVersionView":
-        return cls(records, records.index(as_of), registry, as_of)
+        return cls(records, records.index(as_of), registry, as_of, schemes)
 
     @property
     def ladder_id(self) -> str:
@@ -266,8 +271,9 @@ class Engine:
         registry: LadderRegistry,
         *,
         as_of: dt.date | None = None,
+        schemes: object | None = None,
     ) -> EngineResult:
-        view = SingleVersionView.of(records, registry, as_of)
+        view = SingleVersionView.of(records, registry, as_of, schemes)
         return self._run_views(
             {RuleScope.WITHIN_VERSION: view}, as_of=as_of
         )

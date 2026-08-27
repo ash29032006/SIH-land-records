@@ -24,6 +24,7 @@ from kavach.records import (
     SetKind,
     TenureTotal,
 )
+from kavach.classifications import default_schemes
 from kavach.units import Area, default_registry
 
 REG = default_registry()
@@ -34,7 +35,7 @@ SURVEY = dt.date(1900, 1, 1)
 __all__ = [
     "LADDER", "REG", "SURVEY", "TODAY",
     "area", "holding", "khata", "khesra", "membership", "mouza", "owner",
-    "records", "run", "stated", "view",
+    "SCHEMES", "records", "run", "stated", "view",
 ]
 
 
@@ -108,9 +109,12 @@ def records(*, undated: bool = False, **kw) -> RecordSet:
     return RecordSet(**base)
 
 
-def view(record_set: RecordSet, as_of: dt.date | None = TODAY) -> SingleVersionView:
-    return SingleVersionView.of(record_set, REG, as_of)
+def view(record_set: RecordSet, as_of: dt.date | None = TODAY, schemes=None) -> SingleVersionView:
+    return SingleVersionView.of(record_set, REG, as_of, schemes)
 
 
-def run(rule, record_set: RecordSet, as_of: dt.date | None = TODAY):
-    return list(rule(view(record_set, as_of)))
+def run(rule, record_set: RecordSet, as_of: dt.date | None = TODAY, schemes=None):
+    return list(rule(view(record_set, as_of, schemes)))
+
+
+SCHEMES = default_schemes()
