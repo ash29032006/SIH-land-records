@@ -46,3 +46,44 @@ def conservation_rule(rule_id: str, scope: RuleScope = RuleScope.WITHIN_VERSION)
 
 def _text(count: Fraction, ladder_id: str, registry) -> str:
     return format_area(Area(ladder_id, count), registry)
+
+
+@conservation_rule("C2.children_sum_to_parent")
+def children_sum_to_parent(view, report):
+    """Sub-plot areas sum to the parent plot's area, exactly."""
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for parent in view.index.khesras:
+        children = view.index.children.get(parent.id, ())
+        if not children:
+            continue
+        stated = units_of(parent.area_stated)
+        if stated is None:
+            yield report.abstain(
+                khesra_subject(parent, view.index, "area_stated"),
+                "parent states no area, so its children cannot be reconciled against it",
+                missing_witness="khesra.area_stated",
+            )
+            continue
+        missing = [c for c in children if c.area_stated is None]
+        if missing:
+            yield report.abstain(
+                khesra_subject(parent, view.index),
+                f"{len(missing)} of {len(children)} sub-plots state no area",
+                missing_witness="khesra.area_stated",
+                evidence={"without_area": ", ".join(sorted(c.id for c in missing))},
+            )
+            continue
+        total = sum((units_of(c.area_stated) for c in children), Fraction(0))
+        if total != stated:
+            yield report.error(
+                khesra_subject(parent, view.index, "area_stated"),
+                "sub-plot areas do not sum to the parent plot",
+                {
+                    "children_sum_to": _text(total, parent.area_stated.area.ladder_id, view.registry),
+                    "parent_states": _text(stated, parent.area_stated.area.ladder_id, view.registry),
+                    "difference": _text(total - stated, parent.area_stated.area.ladder_id, view.registry),
+                    "children": ", ".join(sorted(c.id for c in children)),
+                },
+            )
