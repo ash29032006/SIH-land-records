@@ -103,11 +103,14 @@ def test_no_orphan_holding_abstains_over_undated_holdings():
 
 
 def test_no_empty_khata_fires_on_a_khata_holding_nothing():
-    found = f.run(
-        completeness.no_empty_khata,
-        f.records(khesras=(f.khesra("K1", "217"),), khatas=(f.khata("T1", "2001"),)),
+    """T2 holds nothing while T1 does, so the holdings table is demonstrably present."""
+    records = f.records(
+        khesras=(f.khesra("K1", "217"),),
+        khatas=(f.khata("T1", "2001"), f.khata("T2", "2002")),
+        holdings=(f.holding("H1", "T1", "K1"),),
     )
-    assert len(found) == 1 and found[0].primary_subject.entity_id == "T1"
+    found = f.run(completeness.no_empty_khata, records)
+    assert len(found) == 1 and found[0].primary_subject.entity_id == "T2"
 
 
 def test_no_empty_khata_passes_when_every_khata_holds_something():
@@ -128,11 +131,14 @@ def test_no_empty_khata_abstains_over_undated_holdings():
 
 
 def test_no_unheld_parcel_fires_on_a_parcel_no_khata_holds():
-    found = f.run(
-        completeness.no_unheld_parcel,
-        f.records(khesras=(f.khesra("K1", "217"),), khatas=(f.khata("T1", "2001"),)),
+    """K2 is unheld while K1 is held, so the holdings table is demonstrably present."""
+    records = f.records(
+        khesras=(f.khesra("K1", "217"), f.khesra("K2", "218")),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(f.holding("H1", "T1", "K1"),),
     )
-    assert len(found) == 1 and found[0].primary_subject.entity_id == "K1"
+    found = f.run(completeness.no_unheld_parcel, records)
+    assert len(found) == 1 and found[0].primary_subject.entity_id == "K2"
 
 
 def test_no_unheld_parcel_does_not_fire_on_a_sub_divided_parent():
@@ -191,8 +197,14 @@ def test_no_duplicate_holding_abstains_over_undated_holdings():
 
 
 def test_no_ownerless_khata_fires_when_nobody_is_named():
-    found = f.run(completeness.no_ownerless_khata, f.records(khatas=(f.khata("T1", "2001"),)))
-    assert len(found) == 1 and found[0].primary_subject.entity_id == "T1"
+    """T2 names nobody while T1 does, so the membership table is demonstrably present."""
+    records = f.records(
+        khatas=(f.khata("T1", "2001"), f.khata("T2", "2002")),
+        owners=(f.owner("O1"),),
+        memberships=(f.membership("M1", "T1", "O1"),),
+    )
+    found = f.run(completeness.no_ownerless_khata, records)
+    assert len(found) == 1 and found[0].primary_subject.entity_id == "T2"
 
 
 def test_no_ownerless_khata_passes_when_an_owner_is_named():
