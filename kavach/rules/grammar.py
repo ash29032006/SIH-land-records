@@ -9,8 +9,9 @@ or excluding them (Ruling 2).
 
 from __future__ import annotations
 
-from kavach.findings import RuleScope, rule
+from kavach.findings import RuleScope, Subject, rule
 from kavach.units import UnitError, format_area, parse_area
+from kavach.records import EntityType
 from kavach.rules._support import (
     khata_subject,
     khesra_subject,
@@ -216,4 +217,32 @@ def area_written_matches_value(view, report):
                     "written_value": format_area(parsed.area, view.registry),
                     "stored_value": format_area(statement.area, view.registry),
                 },
+            )
+
+
+@grammar_rule("C1.date_ordering")
+def date_ordering(view, report):
+    """A mutation cannot predate the survey that created the record."""
+    survey = view.records.mouza.survey_date
+    if survey is None:
+        yield report.abstain(
+            mouza_subject(view.records.mouza, "survey_date"),
+            "no survey date, so mutation chronology cannot be checked",
+            missing_witness="mouza.survey_date",
+        )
+        return
+    undated = [m for m in view.records.mutations if m.date is None]
+    if undated:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            f"{len(undated)} mutations carry no date",
+            missing_witness="mutation.date",
+            evidence={"mutations": ", ".join(sorted(m.id for m in undated)[:10])},
+        )
+    for event in view.records.mutations:
+        if event.date is not None and event.date < survey:
+            yield report.error(
+                Subject(EntityType.MUTATION, event.id, "date"),
+                "mutation is dated before the survey that created the record",
+                {"mutation_date": str(event.date), "survey_date": str(survey)},
             )

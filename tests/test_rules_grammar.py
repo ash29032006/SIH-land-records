@@ -192,3 +192,45 @@ def test_area_written_matches_value_abstains_without_a_written_form():
         f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, None)),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C1.date_ordering ------------------------------------------------------
+
+
+def _mutation(mutation_id, date):
+    from kavach.records import EntityType, Mutation
+
+    return Mutation(
+        id=mutation_id, mouza_id="MZ", subject_type=EntityType.KHESRA,
+        subject_id="K1", date=date, valid_from=f.SURVEY,
+    )
+
+
+def test_date_ordering_fires_on_an_impossible_chronology():
+    import datetime as dt
+
+    found = f.run(
+        grammar.date_ordering,
+        f.records(mutations=(_mutation("M1", dt.date(1899, 6, 1)),)),
+    )
+    assert len(found) == 1
+    assert found[0].primary_subject.entity_id == "M1"
+
+
+def test_date_ordering_passes_a_mutation_after_the_survey():
+    import datetime as dt
+
+    found = f.run(
+        grammar.date_ordering,
+        f.records(mutations=(_mutation("M1", dt.date(1950, 6, 1)),)),
+    )
+    assert found == []
+
+
+def test_date_ordering_abstains_without_a_survey_date():
+    found = f.run(
+        grammar.date_ordering,
+        f.records(mouza=f.mouza(survey_date=None), mutations=(_mutation("M1", None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "mouza.survey_date"
