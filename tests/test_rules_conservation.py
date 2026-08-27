@@ -153,3 +153,31 @@ def test_holdings_sum_to_khata_abstains_without_a_stated_khata_total():
     found = f.run(conservation.holdings_sum_to_khata, _khata_with(None, [60, 40]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "khata.area_stated"
+
+
+# ---- C2.khata_totals_sum_to_mouza -----------------------------------------
+
+
+def _ledger(mouza_total, khata_totals):
+    return f.records(
+        mouza=f.mouza(area_stated=None if mouza_total is None else f.stated(mouza_total)),
+        khatas=tuple(
+            f.khata(f"T{n}", str(2000 + n), area_stated=f.stated(u))
+            for n, u in enumerate(khata_totals, start=1)
+        ),
+    )
+
+
+def test_khata_totals_sum_to_mouza_fires_on_a_duplicated_khata():
+    found = f.run(conservation.khata_totals_sum_to_mouza, _ledger(100, [60, 40, 40]))
+    assert len(found) == 1
+    assert found[0].evidence["difference"] == "40 decimal"
+
+
+def test_khata_totals_sum_to_mouza_passes_a_balanced_ledger():
+    assert f.run(conservation.khata_totals_sum_to_mouza, _ledger(100, [60, 40])) == []
+
+
+def test_khata_totals_sum_to_mouza_abstains_without_a_mouza_total():
+    found = f.run(conservation.khata_totals_sum_to_mouza, _ledger(None, [60, 40]))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

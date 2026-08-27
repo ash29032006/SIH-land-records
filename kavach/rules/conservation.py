@@ -226,3 +226,49 @@ def holdings_sum_to_khata(view, report):
                     "difference": _text(total - stated, ladder_id, view.registry),
                 },
             )
+
+
+@conservation_rule("C2.khata_totals_sum_to_mouza")
+def khata_totals_sum_to_mouza(view, report):
+    """Every khata total in the mouza sums to the mouza total.
+
+    The trial balance seen from the tenurial spine instead of the spatial one. It
+    catches a duplicated khata, which `C2.leaves_sum_to_mouza` cannot see at all.
+    """
+    mouza = view.records.mouza
+    subject = mouza_subject(mouza, "area_stated")
+    if mouza.area_stated is None:
+        yield report.abstain(
+            subject,
+            "the mouza states no total to reconcile khata totals against",
+            missing_witness="mouza.area_stated",
+        )
+        return
+    abstention = undated_abstention(report, view, "khatas", view.index.unknown_khatas)
+    if abstention:
+        yield abstention
+        return
+    khatas = view.index.khatas
+    without = [k for k in khatas if k.area_stated is None]
+    if without:
+        yield report.abstain(
+            subject,
+            f"{len(without)} of {len(khatas)} khatas state no total",
+            missing_witness="khata.area_stated",
+            evidence={"khatas": ", ".join(sorted(k.id for k in without)[:10])},
+        )
+        return
+    ladder_id = mouza.area_stated.area.ladder_id
+    total = sum((units_of(k.area_stated) for k in khatas), Fraction(0))
+    stated = units_of(mouza.area_stated)
+    if total != stated:
+        yield report.error(
+            subject,
+            "khata totals do not sum to the stated mouza total",
+            {
+                "khatas_sum_to": _text(total, ladder_id, view.registry),
+                "mouza_states": _text(stated, ladder_id, view.registry),
+                "difference": _text(total - stated, ladder_id, view.registry),
+                "khata_count": str(len(khatas)),
+            },
+        )
