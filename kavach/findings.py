@@ -24,13 +24,15 @@ from collections import Counter
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import MappingProxyType
-from typing import Mapping, Protocol, Sequence, runtime_checkable
+from typing import Callable, Mapping, Protocol, Sequence, runtime_checkable
 
 from kavach.records import EntityType, Index, RecordSet
 from kavach.units import LadderRegistry
 
 __all__ = [
     "Engine",
+    "Reporter",
+    "rule",
     "EngineResult",
     "Finding",
     "FindingClass",
@@ -336,3 +338,92 @@ class Engine:
                     )
                 )
         return EngineResult(tuple(findings), tuple(ran), as_of)
+
+
+# --------------------------------------------------------------------------
+# rule authoring
+# --------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Reporter:
+    """Binds a rule's identity to the findings it emits.
+
+    Rules never construct a `Finding` by hand. That keeps `rule_id`,
+    `validation_class` and `as_of` consistent across every finding a rule
+    produces, and makes it impossible to emit an abstention without naming the
+    witness that was missing.
+    """
+
+    rule_id: str
+    validation_class: int
+    as_of: dt.date | None = None
+
+    def _make(self, finding_class, subjects, message, evidence, missing_witness):
+        if isinstance(subjects, Subject):
+            subjects = (subjects,)
+        return Finding(
+            rule_id=self.rule_id,
+            validation_class=self.validation_class,
+            finding_class=finding_class,
+            subjects=tuple(subjects),
+            message=message,
+            evidence=evidence or {},
+            as_of=self.as_of,
+            missing_witness=missing_witness,
+        )
+
+    def error(self, subjects, message, evidence=None) -> Finding:
+        """Grammar or conservation violated. No judgement involved."""
+        return self._make(FindingClass.CERTAIN_ERROR, subjects, message, evidence, None)
+
+    def conflict(self, subjects, message, evidence=None) -> Finding:
+        """Two witnesses disagree. Never a verdict about which is right."""
+        return self._make(FindingClass.CONFLICT, subjects, message, evidence, None)
+
+    def anomaly(self, subjects, message, evidence=None) -> Finding:
+        """A statistical outlier. Directs sampling; never a finding alone."""
+        return self._make(FindingClass.ANOMALY, subjects, message, evidence, None)
+
+    def abstain(self, subjects, message, missing_witness, evidence=None) -> Finding:
+        """The rule could not run. This is not a pass."""
+        return self._make(
+            FindingClass.UNVERIFIABLE, subjects, message, evidence, missing_witness
+        )
+
+
+@dataclass(frozen=True)
+class _DeclaredRule:
+    id: str
+    validation_class: int
+    scope: RuleScope
+    fn: Callable
+    description: str
+
+    def __call__(self, view) -> list[Finding]:
+        reporter = Reporter(
+            self.id, self.validation_class, getattr(view, "as_of", None)
+        )
+        return list(self.fn(view, reporter) or ())
+
+
+def rule(rule_id: str, validation_class: int, scope: RuleScope = RuleScope.WITHIN_VERSION):
+    """Declare a pure rule.
+
+    The decorated function receives `(view, report)` and may return or yield
+    findings. Scope is mandatory and explicit — Ruling 2 — so that a rule can
+    never quietly guess which version of a record it is looking at.
+    """
+
+    def wrap(fn: Callable) -> _DeclaredRule:
+        if validation_class not in VALIDATION_CLASSES:
+            raise ValueError(f"{rule_id}: validation_class must be 1-8")
+        return _DeclaredRule(
+            id=rule_id,
+            validation_class=validation_class,
+            scope=scope,
+            fn=fn,
+            description=(fn.__doc__ or "").strip().splitlines()[0] if fn.__doc__ else "",
+        )
+
+    return wrap
