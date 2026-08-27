@@ -19,7 +19,10 @@ from kavach.rules import (
     GRAMMAR_RULES,
 )
 
-CATALOGUE_PATH = Path(__file__).resolve().parents[1] / "RULES.md"
+# `.joinpath` rather than `/`: the exactness guard in tests/test_units.py bans the
+# division operator outright across the package. pathlib's `/` is harmless, but a
+# guard with an exception is a guard somebody argues with, so the ban stays absolute.
+CATALOGUE_PATH = Path(__file__).resolve().parents[1].joinpath("RULES.md")
 
 SECTIONS = (
     ("Class 1 — Grammar", GRAMMAR_RULES,
