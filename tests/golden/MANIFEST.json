@@ -268,7 +268,7 @@
     },
     "mutated.parentage_loop_introduced.json": {
       "breaks_invariants": true,
-      "broken_invariant_count": 6,
+      "broken_invariant_count": 9,
       "expected": [
         {
           "entity_id": "KHS-0011",

@@ -56,6 +56,7 @@ __all__ = [
     "SYNTHETIC_SOURCE_PREFIX",
     "is_synthetic",
     "synthetic_mouza",
+    "synthetic_partition_event",
     "verify_synthetic_invariants",
 ]
 
@@ -478,6 +479,10 @@ def verify_synthetic_invariants(
     if len(set(roots)) != len(roots):
         problems.append("duplicate root survey number")
 
+    khata_numbers = [k.number for k in records.khatas]
+    if len(set(khata_numbers)) != len(khata_numbers):
+        problems.append("duplicate khata number in the mouza")
+
     # -- areas partition exactly -------------------------------------------
 
     for khesra in records.khesras:
@@ -607,10 +612,18 @@ def verify_synthetic_invariants(
 
     # -- classification -----------------------------------------------------
 
+    classified_non_leaves = [
+        k for k in records.khesras if k.tenure and k not in set(leaves)
+    ]
+    if classified_non_leaves:
+        problems.append(
+            "sub-divided parcels still carry a tenure class: "
+            + ", ".join(sorted(k.id for k in classified_non_leaves)[:5])
+        )
     if records.mouza.tenure_totals:
         scheme = schemes.get(records.mouza.classification_scheme or "")
         by_code: dict[str, Fraction] = {}
-        for khesra in records.khesras:
+        for khesra in leaves:
             if khesra.tenure:
                 scheme.tenure_class(khesra.tenure)
                 by_code[khesra.tenure] = by_code.get(khesra.tenure, Fraction(0)) + (
@@ -641,3 +654,139 @@ def verify_synthetic_invariants(
                 )
 
     return tuple(problems)
+
+
+# --------------------------------------------------------------------------
+# version pairs
+# --------------------------------------------------------------------------
+
+
+def synthetic_partition_event(
+    earlier: RecordSet,
+    registry: LadderRegistry | None = None,
+    *,
+    seed: int = 0,
+    parts: int = 2,
+) -> tuple[RecordSet, RecordSet]:
+    """Return `(earlier, later)` where one parcel has been partitioned exactly.
+
+    A real mutation event, applied correctly: the parent stops being a parcel, its
+    children partition its area to the last unit, and the mouza total is untouched.
+    Both record sets hold every invariant on their own — the point of the pair is
+    that a rule can be asked whether area was conserved *between* them.
+
+    This is what an `ACROSS_VERSION` rule needs and what Class 4 is blocked on for
+    real data. Synthetic pairs let the machinery be built and tested now.
+    """
+    registry = registry or default_registry()
+    rng = random.Random(seed)
+    index = earlier.index(earlier.as_of)
+    candidates = [
+        k for k in index.leaves()
+        if k.area_stated is not None and k.area_stated.area.count >= parts
+    ]
+    if not candidates:
+        raise ValueError("no parcel large enough to partition")
+    parent = rng.choice(sorted(candidates, key=lambda k: k.id))
+    parent_units = int(parent.area_stated.area.count)
+    ladder_id = parent.area_stated.area.ladder_id
+
+    def statement(units: int) -> AreaStatement:
+        value = Area(ladder_id, Fraction(units))
+        return AreaStatement(
+            area=value,
+            as_written=format_area(value, registry),
+            provenance=Provenance(document_id=f"SYNTH-PARTITION-{seed}", page=1),
+        )
+
+    shares = _compose(rng, parent_units, parts)
+    children = tuple(
+        Khesra(
+            id=f"{parent.id}-P{position}",
+            mouza_id=parent.mouza_id,
+            parent_khesra_id=parent.id,
+            local_number=str(position),
+            area_stated=statement(units),
+            tenure=parent.tenure,
+            classification_scheme=parent.classification_scheme,
+            valid_from=earlier.as_of,
+        )
+        for position, units in enumerate(shares, start=1)
+    )
+
+    # Each child parcel goes wholly to one of the khatas that held the parent,
+    # cycling through them. That is what a textual partition among heirs looks like
+    # (EVIDENCE.md E1) and it keeps every claimed area an exact integer.
+    #
+    # An earlier version copied *every* parent holding onto *every* child, which
+    # multiplied each child's claimed area by the number of holders. The invariant
+    # checker caught it on 32 of 39 seeds.
+    parent_holdings = index.holdings_by_khesra.get(parent.id, ())
+    moved: list[Holding] = []
+    if parent_holdings:
+        for position, (child, units) in enumerate(zip(children, shares), start=1):
+            holding = parent_holdings[(position - 1) % len(parent_holdings)]
+            moved.append(
+                holding.model_copy(
+                    update={
+                        "id": f"{holding.id}-P{position}",
+                        "khesra_id": child.id,
+                        "area_claimed": (
+                            statement(units) if holding.area_claimed else None
+                        ),
+                        "share": Fraction(1) if holding.share is not None else None,
+                        "valid_from": earlier.as_of,
+                    }
+                )
+            )
+
+    # The parent stops being a parcel, so it stops carrying a classification.
+    # Leaving the tenure on it would double-count its area in the mouza subtotals —
+    # caught by verify_synthetic_invariants the first time this ran.
+    retired_parent = parent.model_copy(
+        update={"tenure": None, "classification_scheme": None}
+    )
+    new_khesras = tuple(
+        retired_parent if k.id == parent.id else k for k in earlier.khesras
+    ) + children
+    new_holdings = tuple(
+        h for h in earlier.holdings if h.khesra_id != parent.id
+    ) + tuple(moved)
+
+    # A partition moves parcels between khatas, so khata totals genuinely change.
+    # Recompute them from the holdings rather than carrying the old figures, which
+    # would make the later version violate C2.holdings_sum_to_khata by construction.
+    area_by_khesra = {
+        k.id: k.area_stated.area.count for k in new_khesras if k.area_stated
+    }
+    totals: dict[str, Fraction] = {}
+    for holding in new_holdings:
+        if holding.area_claimed is not None:
+            contribution = holding.area_claimed.area.count
+        elif holding.share is not None and holding.khesra_id in area_by_khesra:
+            contribution = area_by_khesra[holding.khesra_id] * holding.share
+        else:
+            continue
+        totals[holding.khata_id] = totals.get(holding.khata_id, Fraction(0)) + contribution
+
+    def restate(khata):
+        if khata.id not in totals or khata.area_stated is None:
+            return khata
+        value = Area(khata.area_stated.area.ladder_id, totals[khata.id])
+        return khata.model_copy(
+            update={
+                "area_stated": khata.area_stated.model_copy(
+                    update={"area": value, "as_written": format_area(value, registry)}
+                )
+            }
+        )
+
+    later = earlier.model_copy(
+        update={
+            "khesras": new_khesras,
+            "holdings": new_holdings,
+            "khatas": tuple(restate(k) for k in earlier.khatas),
+            "source": f"{earlier.source}:partitioned",
+        }
+    )
+    return earlier, later

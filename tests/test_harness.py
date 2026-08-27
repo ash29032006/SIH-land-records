@@ -794,3 +794,60 @@ def test_a_class_without_a_source_is_refused(tmp_path):
     )
     with pytest.raises(ClassificationError, match="source"):
         load_schemes(path)
+
+
+def test_the_invariant_checker_catches_a_duplicated_khata_number():
+    """Found because a mutation broke zero invariants: the checker had the hole,
+    not the mutation."""
+    records = synthetic_mouza(MouzaSpec(seed=4))
+    first, second = records.khatas[0], records.khatas[1]
+    broken = records.model_copy(
+        update={
+            "khatas": (first, second.model_copy(update={"number": first.number}))
+            + records.khatas[2:]
+        }
+    )
+    assert any("duplicate khata number" in v for v in verify_synthetic_invariants(broken, REG))
+
+
+# ==========================================================================
+# version pairs
+# ==========================================================================
+
+
+@pytest.mark.parametrize("profile", list(DocumentProfile))
+@pytest.mark.parametrize("seed", [1, 7, 23, 88])
+def test_a_partition_event_leaves_both_versions_clean(seed, profile):
+    """Both sides must hold every invariant alone. The pair only tests the *between*."""
+    from kavach.synthetic import synthetic_partition_event
+
+    earlier = synthetic_mouza(MouzaSpec(seed=seed, profile=profile))
+    before, after = synthetic_partition_event(earlier, REG, seed=seed)
+    assert verify_synthetic_invariants(before, REG) == ()
+    assert verify_synthetic_invariants(after, REG) == ()
+
+
+def test_a_partition_event_conserves_area_and_adds_parcels():
+    from kavach.synthetic import synthetic_partition_event
+
+    before, after = synthetic_partition_event(
+        synthetic_mouza(MouzaSpec(seed=11)), REG, seed=1
+    )
+    early, late = before.index(before.as_of), after.index(after.as_of)
+    total_before = sum((k.area_stated.area.count for k in early.leaves()), Fraction(0))
+    total_after = sum((k.area_stated.area.count for k in late.leaves()), Fraction(0))
+    assert total_before == total_after
+    assert len(late.leaves()) > len(early.leaves())
+
+
+def test_a_retired_parent_stops_carrying_a_classification():
+    """It is no longer a parcel, so its tenure must not be counted again."""
+    from kavach.synthetic import synthetic_partition_event
+
+    before, after = synthetic_partition_event(
+        synthetic_mouza(MouzaSpec(seed=11)), REG, seed=1
+    )
+    index = after.index(after.as_of)
+    for khesra in after.khesras:
+        if index.children.get(khesra.id):
+            assert khesra.tenure is None, khesra.id
