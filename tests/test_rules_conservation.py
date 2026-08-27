@@ -181,3 +181,40 @@ def test_khata_totals_sum_to_mouza_passes_a_balanced_ledger():
 def test_khata_totals_sum_to_mouza_abstains_without_a_mouza_total():
     found = f.run(conservation.khata_totals_sum_to_mouza, _ledger(None, [60, 40]))
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C2.co_owner_shares_sum_to_one ----------------------------------------
+
+
+def _co_owned(shares):
+    return f.records(
+        khatas=(f.khata("T1", "2001"),),
+        owners=tuple(f.owner(f"O{n}") for n in range(1, len(shares) + 1)),
+        memberships=tuple(
+            f.membership(f"M{n}", "T1", f"O{n}", share=s)
+            for n, s in enumerate(shares, start=1)
+        ),
+    )
+
+
+def test_co_owner_shares_fires_when_they_do_not_sum_to_one():
+    found = f.run(
+        conservation.co_owner_shares_sum_to_one,
+        _co_owned([Fraction(1, 3), Fraction(1, 3)]),
+    )
+    assert len(found) == 1 and found[0].evidence["shares_sum_to"] == "2/3"
+
+
+def test_co_owner_shares_passes_thirds_that_are_exact():
+    found = f.run(
+        conservation.co_owner_shares_sum_to_one,
+        _co_owned([Fraction(1, 3), Fraction(1, 3), Fraction(1, 3)]),
+    )
+    assert found == []
+
+
+def test_co_owner_shares_abstains_because_bihar_records_no_shares():
+    """EVIDENCE.md E2 — this is the real-input case, not an edge case."""
+    found = f.run(conservation.co_owner_shares_sum_to_one, _co_owned([None, None]))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "membership.share"

@@ -272,3 +272,42 @@ def khata_totals_sum_to_mouza(view, report):
                 "khata_count": str(len(khatas)),
             },
         )
+
+
+@conservation_rule("C2.co_owner_shares_sum_to_one")
+def co_owner_shares_sum_to_one(view, report):
+    """Co-owner shares in a khata sum to exactly one.
+
+    EVIDENCE.md E2: Bihar jamabandis with multiple owners state **no shares at all**.
+    So on real input this rule abstains rather than passing, and that abstention is
+    probably the highest-volume honest output the engine produces.
+    """
+    abstention = undated_abstention(
+        report, view, "memberships", view.index.unknown_memberships
+    )
+    if abstention:
+        yield abstention
+    for khata in view.index.khatas:
+        members = view.index.memberships_by_khata.get(khata.id, ())
+        if not members:
+            continue  # ownerless khatas are C3.no_ownerless_khata's finding
+        without = [m for m in members if m.share is None]
+        if without:
+            yield report.abstain(
+                khata_subject(khata),
+                f"{len(without)} of {len(members)} owners have no recorded share",
+                missing_witness="membership.share",
+                evidence={"owners": ", ".join(sorted(m.owner_id for m in without))},
+            )
+            continue
+        total = sum((m.share for m in members), Fraction(0))
+        if total != 1:
+            yield report.error(
+                khata_subject(khata, "memberships"),
+                "co-owner shares do not sum to exactly one",
+                {
+                    "shares_sum_to": str(total),
+                    "owner_count": str(len(members)),
+                    "shares": ", ".join(str(m.share) for m in members),
+                },
+            )
