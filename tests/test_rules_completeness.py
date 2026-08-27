@@ -330,3 +330,43 @@ def test_classification_is_known_abstains_when_no_schemes_were_supplied():
     )
     found = f.run(completeness.classification_is_known, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- absence of a whole record type is a missing witness, not an error ------
+#
+# Found by tests/test_engine_end_to_end.py. A record set holding parcels but no
+# khata table at all is not a set of orphaned parcels; it is a set with no
+# tenurial witness. Firing CERTAIN_ERROR there would have flagged every parcel of
+# any extract that omitted the holdings table.
+
+
+def test_no_unheld_parcel_abstains_when_no_holding_exists_at_all():
+    found = f.run(
+        completeness.no_unheld_parcel,
+        f.records(khesras=(f.khesra("K1", "217"), f.khesra("K2", "218"))),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+    assert found[0].missing_witness == "holding records"
+
+
+def test_no_empty_khata_abstains_when_no_holding_exists_at_all():
+    found = f.run(completeness.no_empty_khata, f.records(khatas=(f.khata("T1", "2001"),)))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+def test_no_ownerless_khata_abstains_when_no_membership_exists_at_all():
+    found = f.run(completeness.no_ownerless_khata, f.records(khatas=(f.khata("T1", "2001"),)))
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+def test_but_a_genuine_orphan_still_fires_when_the_table_is_present():
+    """The distinction that matters: absent table abstains, absent row reports."""
+    records = f.records(
+        khesras=(f.khesra("K1", "217"), f.khesra("K2", "218")),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(f.holding("H1", "T1", "K1"),),
+    )
+    found = f.run(completeness.no_unheld_parcel, records)
+    assert len(found) == 1
+    assert found[0].finding_class is FindingClass.CERTAIN_ERROR
+    assert found[0].primary_subject.entity_id == "K2"

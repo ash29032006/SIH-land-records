@@ -128,6 +128,14 @@ def no_empty_khata(view, report):
     if abstention:
         yield abstention
         return
+    if view.index.khatas and not view.index.holdings:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "the record set contains khatas but no holdings at all, so whether any "
+            "khata is empty cannot be told from whether the holdings were extracted",
+            missing_witness="holding records",
+        )
+        return
     for khata in view.index.khatas:
         if not view.index.holdings_by_khata.get(khata.id):
             yield report.error(
@@ -148,6 +156,14 @@ def no_unheld_parcel(view, report):
     abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
     if abstention:
         yield abstention
+        return
+    if not view.index.holdings:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "the record set contains no holdings at all, so an unheld parcel cannot "
+            "be distinguished from a tenurial record that was never extracted",
+            missing_witness="holding records",
+        )
         return
     for parcel in view.index.leaves():
         if not view.index.holdings_by_khesra.get(parcel.id):
@@ -196,6 +212,14 @@ def no_ownerless_khata(view, report):
     )
     if abstention:
         yield abstention
+        return
+    if view.index.khatas and not view.index.memberships:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            "the record set contains khatas but no memberships at all, so an "
+            "ownerless khata cannot be distinguished from unextracted ownership",
+            missing_witness="membership records",
+        )
         return
     for khata in view.index.khatas:
         if not view.index.memberships_by_khata.get(khata.id):
