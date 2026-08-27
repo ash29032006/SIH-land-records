@@ -52,7 +52,9 @@ PUNJAB = "punjab.standard"
 DECCAN = "deccan.standard"
 JAMABANDI = "bihar.jamabandi"
 METRIC = "metric.hectare"
-ALL_LADDERS = [BIHAR, PATNA, MITHILA, PUNJAB, DECCAN, JAMABANDI, METRIC]
+UP = "uttar_pradesh.standard"
+WB = "west_bengal.standard"
+ALL_LADDERS = [BIHAR, PATNA, MITHILA, PUNJAB, DECCAN, JAMABANDI, METRIC, UP, WB]
 ANCHORED = [PUNJAB, DECCAN, JAMABANDI, METRIC]
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1] / "kavach"
@@ -588,3 +590,55 @@ def test_empty_sum_needs_an_explicit_ladder():
     with pytest.raises(ValueError):
         sum_areas([])
     assert sum_areas([], ladder_id=BIHAR) == Area.zero(BIHAR)
+
+
+# ==========================================================================
+# ladder provenance and non-base-20 ladders
+# ==========================================================================
+
+
+def test_every_ladder_says_where_its_bases_come_from():
+    for ladder_id in REG.ids():
+        ladder = REG.get(ladder_id)
+        assert ladder.structure_source
+        assert ladder.structure_confidence in {"sourced", "reference"}
+
+
+def test_reference_grade_ladders_are_unanchored():
+    """If the bases are not confirmed, the physical size certainly is not."""
+    for ladder_id in REG.ids():
+        ladder = REG.get(ladder_id)
+        if not ladder.structure_is_sourced:
+            assert not ladder.is_anchored, ladder_id
+
+
+def test_a_ladder_without_a_structure_source_is_refused(tmp_path):
+    path = tmp_path / "nosource.json"
+    path.write_text(
+        json.dumps({"ladders": [{"id": "x", "units": ["a", "b"], "bases": [20]}]}),
+        encoding="utf-8",
+    )
+    with pytest.raises(LadderDataError, match="structure_source"):
+        load_registry(path)
+
+
+def test_the_machinery_does_not_assume_base_twenty():
+    """West Bengal carries a base-16 rung. 1 katha = 16 chatak, not 20."""
+    ladder = REG.get("west_bengal.standard")
+    assert ladder.bases == (20, 16)
+    assert ladder.factor("bigha") == 320
+    assert ladder.factor("katha") == 16
+    area = ladder.area(bigha=1, katha=3, chatak=5)
+    assert area.count == Fraction(320 + 48 + 5)
+    assert format_area(area, REG) == "1 bigha 3 katha 5 chatak"
+    # 16 chatak must carry; 15 must not
+    assert parse_area("16 chatak", "west_bengal.standard", REG).is_normalised is False
+    assert parse_area("15 chatak", "west_bengal.standard", REG).is_normalised is True
+
+
+def test_unsourced_ladders_refuse_conversion_in_both_directions():
+    for ladder_id in ("uttar_pradesh.standard", "west_bengal.standard"):
+        with pytest.raises(ConversionRefused):
+            convert(Area(ladder_id, Fraction(320)), METRIC, REG)
+        with pytest.raises(ConversionRefused):
+            convert(Area(METRIC, Fraction(1000)), ladder_id, REG)

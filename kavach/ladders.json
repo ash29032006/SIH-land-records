@@ -214,6 +214,56 @@
       "notes": "Present so the third rakba column can be checked against the other two. A hectare value written to four decimal places is an exact whole number of centiare, which makes that check integer arithmetic rather than an epsilon comparison. See EVIDENCE.md E10.",
       "structure_source": "1 hectare = 100 are = 10000 centiare, by definition.",
       "structure_confidence": "sourced"
+    },
+    {
+      "id": "uttar_pradesh.standard",
+      "region": "Uttar Pradesh",
+      "units": [
+        "bigha",
+        "biswa",
+        "biswansi"
+      ],
+      "bases": [
+        20,
+        20
+      ],
+      "aliases": {
+        "bighas": "bigha",
+        "bissa": "biswa",
+        "biswas": "biswa",
+        "biswansis": "biswansi",
+        "biswanshi": "biswansi"
+      },
+      "smallest_unit_in_sqm": null,
+      "anchor_source": null,
+      "structure_source": "Widely documented as 1 bigha = 20 biswa, 1 biswa = 20 biswansi. No primary revenue-manual source has been read for this project.",
+      "structure_confidence": "reference",
+      "notes": "UNANCHORED and structure marked 'reference'. The UP bigha is not physically constant, and the bases have not been confirmed against a primary source. Do not convert out of this ladder and do not cite its bases."
+    },
+    {
+      "id": "west_bengal.standard",
+      "region": "West Bengal",
+      "units": [
+        "bigha",
+        "katha",
+        "chatak"
+      ],
+      "bases": [
+        20,
+        16
+      ],
+      "aliases": {
+        "bighas": "bigha",
+        "kattha": "katha",
+        "kathas": "katha",
+        "chhatak": "chatak",
+        "chataks": "chatak"
+      },
+      "smallest_unit_in_sqm": null,
+      "anchor_source": null,
+      "structure_source": "Widely documented as 1 bigha = 20 katha, 1 katha = 16 chatak. No primary source read.",
+      "structure_confidence": "reference",
+      "notes": "Carries a base-16 rung, which the Bihar and Punjab ladders do not. Present partly to prove the ladder machinery is not quietly assuming base 20 anywhere."
     }
   ]
 }
