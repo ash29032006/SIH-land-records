@@ -1,0 +1,260 @@
+{
+  "files": {
+    "clean.combined.json": {
+      "kind": "clean",
+      "profile": "combined",
+      "seed": 11
+    },
+    "clean.jamabandi.json": {
+      "kind": "clean",
+      "profile": "jamabandi",
+      "seed": 11
+    },
+    "clean.khatian.json": {
+      "kind": "clean",
+      "profile": "khatian",
+      "seed": 11
+    },
+    "mutated.holding_orphaned.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 3,
+      "expected": [
+        {
+          "entity_id": "HLD-0028",
+          "entity_type": "holding",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "holding_orphaned",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.khata_duplicated.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 16,
+      "expected": [
+        {
+          "entity_id": "KHT-0003-DUP",
+          "entity_type": "khata",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        },
+        {
+          "entity_id": "MZ-SYNTH",
+          "entity_type": "mouza",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "khata_duplicated",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.khata_number_zero.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHT-0008",
+          "entity_type": "khata",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "khata_number_zero",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.khesra_number_blank.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0019",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "khesra_number_blank",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.one_unit_added_to_holding.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 2,
+      "expected": [
+        {
+          "entity_id": "KHT-0008",
+          "entity_type": "khata",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        },
+        {
+          "entity_id": "KHS-0042",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "one_unit_added_to_holding",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.one_unit_added_to_parcel.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 5,
+      "expected": [
+        {
+          "entity_id": "KHS-0012",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        },
+        {
+          "entity_id": "MZ-SYNTH",
+          "entity_type": "mouza",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        },
+        {
+          "entity_id": "KHS-0011",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "one_unit_added_to_parcel",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.sequence_gap_renumbered.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0040",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "sequence_gap_renumbered",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.sequence_member_deleted.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 7,
+      "expected": [
+        {
+          "entity_id": "KHS-0011",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 3
+        },
+        {
+          "entity_id": "KHS-0011",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "sequence_member_deleted",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.subdivision_numbered_zero.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 2,
+      "expected": [
+        {
+          "entity_id": "KHS-0008",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "subdivision_numbered_zero",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.tenure_flipped.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 2,
+      "expected": [
+        {
+          "entity_id": "MZ-SYNTH",
+          "entity_type": "mouza",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        },
+        {
+          "entity_id": "KHS-0022",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 2
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "tenure_flipped",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.witness_removed.json": {
+      "breaks_invariants": false,
+      "broken_invariant_count": 0,
+      "expected": [
+        {
+          "entity_id": "MZ-SYNTH",
+          "entity_type": "mouza",
+          "finding_class": "unverifiable",
+          "validation_class": 8
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "witness_removed",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    },
+    "mutated.written_area_unnormalised.json": {
+      "breaks_invariants": true,
+      "broken_invariant_count": 1,
+      "expected": [
+        {
+          "entity_id": "KHS-0020",
+          "entity_type": "khesra",
+          "finding_class": "certain_error",
+          "validation_class": 1
+        }
+      ],
+      "kind": "mutated",
+      "mutation": "written_area_unnormalised",
+      "mutation_seed": 3,
+      "profile": "combined",
+      "seed": 11
+    }
+  },
+  "golden_seed": 11
+}

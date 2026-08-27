@@ -1,0 +1,3821 @@
+{
+  "mouza": {
+    "valid_from": "1900-01-01",
+    "valid_to": null,
+    "id": "MZ-SYNTH",
+    "name": "SYNTH-MOUZA-0011",
+    "district": "SYNTH-DISTRICT",
+    "subdistrict": "SYNTH-CIRCLE",
+    "subdistrict_term": "circle",
+    "ladder_id": "bihar.jamabandi",
+    "identifiers": [],
+    "area_stated": {
+      "area": {
+        "ladder_id": "bihar.jamabandi",
+        "count": "20000"
+      },
+      "as_written": "200 acre",
+      "provenance": {
+        "document_id": "SYNTH-DOC-11",
+        "page": 1,
+        "cell": null,
+        "note": null
+      }
+    },
+    "tenure_totals": [
+      {
+        "code": "bakasht",
+        "area_stated": {
+          "area": {
+            "ladder_id": "bihar.jamabandi",
+            "count": "12662"
+          },
+          "as_written": "126 acre 62 decimal",
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": null,
+            "note": null
+          }
+        }
+      },
+      {
+        "code": "gairmazrua_aam",
+        "area_stated": {
+          "area": {
+            "ladder_id": "bihar.jamabandi",
+            "count": "1846"
+          },
+          "as_written": "18 acre 46 decimal",
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": null,
+            "note": null
+          }
+        }
+      },
+      {
+        "code": "gairmazrua_malik",
+        "area_stated": {
+          "area": {
+            "ladder_id": "bihar.jamabandi",
+            "count": "1725"
+          },
+          "as_written": "17 acre 25 decimal",
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": null,
+            "note": null
+          }
+        }
+      },
+      {
+        "code": "raiyati",
+        "area_stated": {
+          "area": {
+            "ladder_id": "bihar.jamabandi",
+            "count": "254"
+          },
+          "as_written": "2 acre 54 decimal",
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": null,
+            "note": null
+          }
+        }
+      },
+      {
+        "code": "sikmi",
+        "area_stated": {
+          "area": {
+            "ladder_id": "bihar.jamabandi",
+            "count": "3513"
+          },
+          "as_written": "35 acre 13 decimal",
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": null,
+            "note": null
+          }
+        }
+      }
+    ],
+    "classification_scheme": "bihar.khatiyan",
+    "survey_date": "1900-01-01"
+  },
+  "kind": "snapshot",
+  "source": "synthetic:seed=11:profile=combined:ladder=bihar.jamabandi",
+  "as_of": "2026-01-01",
+  "khesras": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0003",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0002",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "86"
+        },
+        "as_written": "86 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "6797454147/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "sikmi",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0004",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0002",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "726"
+        },
+        "as_written": "7 acre 26 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "57383159427/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0005",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0002",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "116"
+        },
+        "as_written": "1 acre 16 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "9168659082/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "sikmi",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0006",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0002",
+      "local_number": "4",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "234"
+        },
+        "as_written": "2 acre 34 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "18495398493/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0002",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0001",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1162"
+        },
+        "as_written": "11 acre 62 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "91844671149/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0007",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0001",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1324"
+        },
+        "as_written": "13 acre 24 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "104649177798/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0009",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0008",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "780"
+        },
+        "as_written": "7 acre 80 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "12330265662/390625"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0010",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0008",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "2785"
+        },
+        "as_written": "27 acre 85 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "88050743253/781250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "sikmi",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0008",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0001",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "3565"
+        },
+        "as_written": "35 acre 65 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "112711274577/781250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0001",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "101",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "6051"
+        },
+        "as_written": "60 acre 51 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "956544070779/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0012",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0011",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "21"
+        },
+        "as_written": "21 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "3319686909/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0013",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0011",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "8"
+        },
+        "as_written": "8 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "632321316/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0014",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0011",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "21"
+        },
+        "as_written": "21 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "3319686909/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_malik",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0011",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "102",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "50"
+        },
+        "as_written": "50 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "158080329/78125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0015",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "103",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "122"
+        },
+        "as_written": "1 acre 22 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "9642900069/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0016",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "104",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "8583"
+        },
+        "as_written": "85 acre 83 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "1356803463807/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0017",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "105",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "18"
+        },
+        "as_written": "18 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "1422722961/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_malik",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0018",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "106",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "435"
+        },
+        "as_written": "4 acre 35 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "13752988623/781250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "sikmi",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0020",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0019",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "118"
+        },
+        "as_written": "1 acre 18 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "9326739411/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_malik",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0022",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0021",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "158080329/390625"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0023",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0021",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "3"
+        },
+        "as_written": "3 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "474240987/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "raiyati",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0021",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0019",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "13"
+        },
+        "as_written": "13 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "2055044277/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0025",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0024",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "3"
+        },
+        "as_written": "3 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "474240987/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0026",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0024",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "158080329/390625"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0027",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0024",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "18"
+        },
+        "as_written": "18 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "1422722961/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0024",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0019",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "31"
+        },
+        "as_written": "31 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "4900490199/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0029",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0028",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "121"
+        },
+        "as_written": "1 acre 21 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "19127719809/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "raiyati",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0030",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0028",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "48"
+        },
+        "as_written": "48 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "3793927896/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "raiyati",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0028",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0019",
+      "local_number": "4",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "169"
+        },
+        "as_written": "1 acre 69 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "26715575601/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0019",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "107",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "331"
+        },
+        "as_written": "3 acre 31 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "52324588899/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0031",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "108",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1051"
+        },
+        "as_written": "10 acre 51 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "166142425779/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0032",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "109",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "134"
+        },
+        "as_written": "1 acre 34 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "10591382043/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0033",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "110",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1568"
+        },
+        "as_written": "15 acre 68 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "123934977936/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_malik",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0034",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "111",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "905"
+        },
+        "as_written": "9 acre 5 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "28612539549/781250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0036",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0035",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "16"
+        },
+        "as_written": "16 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "1264642632/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0038",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0037",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "362"
+        },
+        "as_written": "3 acre 62 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "28612539549/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0039",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0037",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "42"
+        },
+        "as_written": "42 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "3319686909/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "bakasht",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0037",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0035",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "404"
+        },
+        "as_written": "4 acre 4 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "31932226458/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0041",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0040",
+      "local_number": "1",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "91"
+        },
+        "as_written": "91 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "14385309939/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "sikmi",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0042",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0040",
+      "local_number": "2",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "159"
+        },
+        "as_written": "1 acre 59 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "25134772311/3906250"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "gairmazrua_aam",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0043",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0040",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "82"
+        },
+        "as_written": "82 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 4,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "6481293489/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 4,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": "raiyati",
+      "land_use": null,
+      "classification_scheme": "bihar.khatiyan"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0040",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": "KHS-0035",
+      "local_number": "3",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "332"
+        },
+        "as_written": "3 acre 32 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 3,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "26241334614/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 3,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHS-0035",
+      "mouza_id": "MZ-SYNTH",
+      "parent_khesra_id": null,
+      "local_number": "112",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "752"
+        },
+        "as_written": "7 acre 52 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 2,
+          "cell": null,
+          "note": null
+        }
+      },
+      "area_restatements": [
+        {
+          "area": {
+            "ladder_id": "metric.hectare",
+            "count": "59438203704/1953125"
+          },
+          "as_written": null,
+          "provenance": {
+            "document_id": "SYNTH-DOC-11",
+            "page": 2,
+            "cell": "rakba/hectare",
+            "note": null
+          }
+        }
+      ],
+      "tenure": null,
+      "land_use": null,
+      "classification_scheme": null
+    }
+  ],
+  "khatas": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0001",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2001",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1837"
+        },
+        "as_written": "18 acre 37 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0002",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2002",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "9509"
+        },
+        "as_written": "95 acre 9 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0003",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2003",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "975"
+        },
+        "as_written": "9 acre 75 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0004",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2004",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1792"
+        },
+        "as_written": "17 acre 92 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0005",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2005",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "890"
+        },
+        "as_written": "8 acre 90 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0006",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2006",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "641"
+        },
+        "as_written": "6 acre 41 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0007",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2007",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "605"
+        },
+        "as_written": "6 acre 5 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0008",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2008",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "327"
+        },
+        "as_written": "3 acre 27 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0009",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2009",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1208"
+        },
+        "as_written": "12 acre 8 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "KHT-0010",
+      "mouza_id": "MZ-SYNTH",
+      "number": "2010",
+      "identifiers": [],
+      "area_stated": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "2216"
+        },
+        "as_written": "22 acre 16 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 6,
+          "cell": null,
+          "note": null
+        }
+      }
+    }
+  ],
+  "owners": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0001",
+      "name_raw": "SYNTH-OWNER-0001",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0001"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0002",
+      "name_raw": "SYNTH-OWNER-0002",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0002"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0003",
+      "name_raw": "SYNTH-OWNER-0003",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0003"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0004",
+      "name_raw": "SYNTH-OWNER-0004",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0004"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0005",
+      "name_raw": "SYNTH-OWNER-0005",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0005"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0006",
+      "name_raw": "SYNTH-OWNER-0006",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0006"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0007",
+      "name_raw": "SYNTH-OWNER-0007",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0007"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0008",
+      "name_raw": "SYNTH-OWNER-0008",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0008"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0009",
+      "name_raw": "SYNTH-OWNER-0009",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0009"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0010",
+      "name_raw": "SYNTH-OWNER-0010",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0010"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0011",
+      "name_raw": "SYNTH-OWNER-0011",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0011"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0012",
+      "name_raw": "SYNTH-OWNER-0012",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0012"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0013",
+      "name_raw": "SYNTH-OWNER-0013",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0013"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0014",
+      "name_raw": "SYNTH-OWNER-0014",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0014"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0015",
+      "name_raw": "SYNTH-OWNER-0015",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0015"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0016",
+      "name_raw": "SYNTH-OWNER-0016",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0016"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0017",
+      "name_raw": "SYNTH-OWNER-0017",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0017"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0018",
+      "name_raw": "SYNTH-OWNER-0018",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0018"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0019",
+      "name_raw": "SYNTH-OWNER-0019",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0019"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0020",
+      "name_raw": "SYNTH-OWNER-0020",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0020"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0021",
+      "name_raw": "SYNTH-OWNER-0021",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0021"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0022",
+      "name_raw": "SYNTH-OWNER-0022",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0022"
+      ]
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "OWN-0023",
+      "name_raw": "SYNTH-OWNER-0023",
+      "qualifiers": [
+        "s/o SYNTH-PARENT-0023"
+      ]
+    }
+  ],
+  "memberships": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0001",
+      "khata_id": "KHT-0001",
+      "owner_id": "OWN-0001",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0002",
+      "khata_id": "KHT-0001",
+      "owner_id": "OWN-0002",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0003",
+      "khata_id": "KHT-0001",
+      "owner_id": "OWN-0003",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0004",
+      "khata_id": "KHT-0002",
+      "owner_id": "OWN-0004",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0005",
+      "khata_id": "KHT-0002",
+      "owner_id": "OWN-0005",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0006",
+      "khata_id": "KHT-0002",
+      "owner_id": "OWN-0006",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0007",
+      "khata_id": "KHT-0003",
+      "owner_id": "OWN-0007",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0008",
+      "khata_id": "KHT-0003",
+      "owner_id": "OWN-0008",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0009",
+      "khata_id": "KHT-0003",
+      "owner_id": "OWN-0009",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0010",
+      "khata_id": "KHT-0004",
+      "owner_id": "OWN-0010",
+      "share": "1"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0011",
+      "khata_id": "KHT-0005",
+      "owner_id": "OWN-0011",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0012",
+      "khata_id": "KHT-0005",
+      "owner_id": "OWN-0012",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0013",
+      "khata_id": "KHT-0005",
+      "owner_id": "OWN-0013",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0014",
+      "khata_id": "KHT-0006",
+      "owner_id": "OWN-0014",
+      "share": "1/2"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0015",
+      "khata_id": "KHT-0006",
+      "owner_id": "OWN-0015",
+      "share": "1/2"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0016",
+      "khata_id": "KHT-0007",
+      "owner_id": "OWN-0016",
+      "share": "1/2"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0017",
+      "khata_id": "KHT-0007",
+      "owner_id": "OWN-0017",
+      "share": "1/2"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0018",
+      "khata_id": "KHT-0008",
+      "owner_id": "OWN-0018",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0019",
+      "khata_id": "KHT-0008",
+      "owner_id": "OWN-0019",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0020",
+      "khata_id": "KHT-0008",
+      "owner_id": "OWN-0020",
+      "share": "1/3"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0021",
+      "khata_id": "KHT-0009",
+      "owner_id": "OWN-0021",
+      "share": "1"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0022",
+      "khata_id": "KHT-0010",
+      "owner_id": "OWN-0022",
+      "share": "1/2"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MEM-0023",
+      "khata_id": "KHT-0010",
+      "owner_id": "OWN-0023",
+      "share": "1/2"
+    }
+  ],
+  "holdings": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0001",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0003",
+      "share": "17/86",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "17"
+        },
+        "as_written": "17 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0002",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0003",
+      "share": "4/43",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "8"
+        },
+        "as_written": "8 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0003",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0003",
+      "share": "61/86",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "61"
+        },
+        "as_written": "61 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0004",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0004",
+      "share": "10/11",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "660"
+        },
+        "as_written": "6 acre 60 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0005",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0004",
+      "share": "1/11",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "66"
+        },
+        "as_written": "66 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0006",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0005",
+      "share": "15/116",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "15"
+        },
+        "as_written": "15 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0007",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0005",
+      "share": "101/116",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "101"
+        },
+        "as_written": "1 acre 1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0008",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-0006",
+      "share": "6/13",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "108"
+        },
+        "as_written": "1 acre 8 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0009",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0006",
+      "share": "7/13",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "126"
+        },
+        "as_written": "1 acre 26 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0010",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0007",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1324"
+        },
+        "as_written": "13 acre 24 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0011",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0009",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "780"
+        },
+        "as_written": "7 acre 80 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0012",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0010",
+      "share": "2428/2785",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "2428"
+        },
+        "as_written": "24 acre 28 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0013",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0010",
+      "share": "357/2785",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "357"
+        },
+        "as_written": "3 acre 57 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0014",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0012",
+      "share": "1/21",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0015",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0012",
+      "share": "20/21",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "20"
+        },
+        "as_written": "20 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0016",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0013",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "8"
+        },
+        "as_written": "8 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0017",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0014",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "21"
+        },
+        "as_written": "21 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0018",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-0015",
+      "share": "55/61",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "110"
+        },
+        "as_written": "1 acre 10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0019",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0015",
+      "share": "6/61",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "12"
+        },
+        "as_written": "12 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0020",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0016",
+      "share": "230/2861",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "690"
+        },
+        "as_written": "6 acre 90 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0021",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0016",
+      "share": "318/2861",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "954"
+        },
+        "as_written": "9 acre 54 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0022",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0016",
+      "share": "2313/2861",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "6939"
+        },
+        "as_written": "69 acre 39 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0023",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0017",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "18"
+        },
+        "as_written": "18 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0024",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0018",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "435"
+        },
+        "as_written": "4 acre 35 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0025",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0020",
+      "share": "17/59",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "34"
+        },
+        "as_written": "34 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0026",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0020",
+      "share": "42/59",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "84"
+        },
+        "as_written": "84 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0027",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0022",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0028",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-MISSING",
+      "share": "1/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0029",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0023",
+      "share": "1/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0030",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0023",
+      "share": "1/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0031",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0025",
+      "share": "1/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0032",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0025",
+      "share": "2/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "2"
+        },
+        "as_written": "2 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0033",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0026",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0034",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0027",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "18"
+        },
+        "as_written": "18 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0035",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0029",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "121"
+        },
+        "as_written": "1 acre 21 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0036",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0030",
+      "share": "1/3",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "16"
+        },
+        "as_written": "16 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0037",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0030",
+      "share": "25/48",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "25"
+        },
+        "as_written": "25 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0038",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-0030",
+      "share": "7/48",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "7"
+        },
+        "as_written": "7 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0039",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0031",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1051"
+        },
+        "as_written": "10 acre 51 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0040",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0032",
+      "share": "95/134",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "95"
+        },
+        "as_written": "95 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0041",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0032",
+      "share": "1/134",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "1"
+        },
+        "as_written": "1 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0042",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0032",
+      "share": "19/67",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "38"
+        },
+        "as_written": "38 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0043",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0033",
+      "share": "261/1568",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "261"
+        },
+        "as_written": "2 acre 61 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0044",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0033",
+      "share": "167/392",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "668"
+        },
+        "as_written": "6 acre 68 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0045",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0033",
+      "share": "639/1568",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "639"
+        },
+        "as_written": "6 acre 39 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0046",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0034",
+      "share": "496/905",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "496"
+        },
+        "as_written": "4 acre 96 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0047",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0034",
+      "share": "357/905",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "357"
+        },
+        "as_written": "3 acre 57 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0048",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-0034",
+      "share": "52/905",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "52"
+        },
+        "as_written": "52 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0049",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0036",
+      "share": "3/16",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "3"
+        },
+        "as_written": "3 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0050",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0036",
+      "share": "11/16",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "11"
+        },
+        "as_written": "11 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0051",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0036",
+      "share": "1/8",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "2"
+        },
+        "as_written": "2 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0052",
+      "khata_id": "KHT-0002",
+      "khesra_id": "KHS-0038",
+      "share": "47/181",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "94"
+        },
+        "as_written": "94 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0053",
+      "khata_id": "KHT-0003",
+      "khesra_id": "KHS-0038",
+      "share": "134/181",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "268"
+        },
+        "as_written": "2 acre 68 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0054",
+      "khata_id": "KHT-0004",
+      "khesra_id": "KHS-0039",
+      "share": "5/21",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0055",
+      "khata_id": "KHT-0005",
+      "khesra_id": "KHS-0039",
+      "share": "5/21",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "10"
+        },
+        "as_written": "10 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0056",
+      "khata_id": "KHT-0006",
+      "khesra_id": "KHS-0039",
+      "share": "11/21",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "22"
+        },
+        "as_written": "22 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0057",
+      "khata_id": "KHT-0007",
+      "khesra_id": "KHS-0041",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "91"
+        },
+        "as_written": "91 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0058",
+      "khata_id": "KHT-0008",
+      "khesra_id": "KHS-0042",
+      "share": "49/159",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "49"
+        },
+        "as_written": "49 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0059",
+      "khata_id": "KHT-0009",
+      "khesra_id": "KHS-0042",
+      "share": "5/53",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "15"
+        },
+        "as_written": "15 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0060",
+      "khata_id": "KHT-0010",
+      "khesra_id": "KHS-0042",
+      "share": "95/159",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "95"
+        },
+        "as_written": "95 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "HLD-0061",
+      "khata_id": "KHT-0001",
+      "khesra_id": "KHS-0043",
+      "share": "1",
+      "area_claimed": {
+        "area": {
+          "ladder_id": "bihar.jamabandi",
+          "count": "82"
+        },
+        "as_written": "82 decimal",
+        "provenance": {
+          "document_id": "SYNTH-DOC-11",
+          "page": 7,
+          "cell": null,
+          "note": null
+        }
+      }
+    }
+  ],
+  "mutations": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MUT-0001",
+      "mouza_id": "MZ-SYNTH",
+      "subject_type": "khesra",
+      "subject_id": "KHS-0006",
+      "date": "1918-08-21",
+      "kind": "sale",
+      "order_ref": "SYNTH-ORDER-0001",
+      "from_state": null,
+      "to_state": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MUT-0002",
+      "mouza_id": "MZ-SYNTH",
+      "subject_type": "khesra",
+      "subject_id": "KHS-0005",
+      "date": "1991-12-08",
+      "kind": "inheritance",
+      "order_ref": "SYNTH-ORDER-0002",
+      "from_state": null,
+      "to_state": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MUT-0003",
+      "mouza_id": "MZ-SYNTH",
+      "subject_type": "khesra",
+      "subject_id": "KHS-0022",
+      "date": "1970-04-09",
+      "kind": "inheritance",
+      "order_ref": "SYNTH-ORDER-0003",
+      "from_state": null,
+      "to_state": null
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "MUT-0004",
+      "mouza_id": "MZ-SYNTH",
+      "subject_type": "khesra",
+      "subject_id": "KHS-0036",
+      "date": "2007-01-11",
+      "kind": "inheritance",
+      "order_ref": "SYNTH-ORDER-0004",
+      "from_state": null,
+      "to_state": null
+    }
+  ],
+  "registrations": [
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "REG-0001",
+      "mouza_id": "MZ-SYNTH",
+      "khesra_id": "KHS-0006",
+      "external_system": "SYNTH-REGISTRY",
+      "reference": "SYNTH-DEED-0001",
+      "date": "1918-08-21"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "REG-0002",
+      "mouza_id": "MZ-SYNTH",
+      "khesra_id": "KHS-0005",
+      "external_system": "SYNTH-REGISTRY",
+      "reference": "SYNTH-DEED-0002",
+      "date": "1991-12-08"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "REG-0003",
+      "mouza_id": "MZ-SYNTH",
+      "khesra_id": "KHS-0022",
+      "external_system": "SYNTH-REGISTRY",
+      "reference": "SYNTH-DEED-0003",
+      "date": "1970-04-09"
+    },
+    {
+      "valid_from": "1900-01-01",
+      "valid_to": null,
+      "id": "REG-0004",
+      "mouza_id": "MZ-SYNTH",
+      "khesra_id": "KHS-0036",
+      "external_system": "SYNTH-REGISTRY",
+      "reference": "SYNTH-DEED-0004",
+      "date": "2007-01-11"
+    }
+  ]
+}
