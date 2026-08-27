@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "_readme": [
+    "Land classification is DATA for the same reason unit ladders are: the taxonomy",
+    "is regional and, for Bihar, not settled. See EVIDENCE.md E9.",
+    "",
+    "Every class carries a `confidence`:",
+    "  sourced   - stated in a source recorded in `source`",
+    "  disputed  - sources disagree; do not cite this from the project",
+    "  unsourced - present only to make the scheme usable; must not be cited",
+    "",
+    "`government` drives Class 2's raiyati_total + gairmazrua_total == mouza_total.",
+    "Nothing else in the engine may branch on a class code."
+  ],
+  "schemes": [
+    {
+      "id": "bihar.khatiyan",
+      "region": "Bihar",
+      "axis_notes": "Tenure and land use are orthogonal axes. The digitised jamabandi carries NEITHER (EVIDENCE.md E6); these come from the khatian.",
+      "tenure_classes": [
+        {
+          "code": "raiyati",
+          "label": "Raiyati",
+          "government": false,
+          "transferable": true,
+          "confidence": "sourced",
+          "source": "Land of a raiyat with settled, heritable cultivation rights under the Bihar Tenancy Act 1885. Private and transferable."
+        },
+        {
+          "code": "bakasht",
+          "label": "Bakasht",
+          "government": false,
+          "transferable": true,
+          "confidence": "sourced",
+          "source": "Land under the former landlord's direct cultivation."
+        },
+        {
+          "code": "sikmi",
+          "label": "Sikmi",
+          "government": false,
+          "transferable": false,
+          "confidence": "sourced",
+          "source": "Sub-tenant land."
+        },
+        {
+          "code": "gairmazrua_aam",
+          "label": "Gairmazrua Aam",
+          "government": true,
+          "transferable": false,
+          "confidence": "sourced",
+          "source": "Common land for public use - roads, ponds, pathways, cremation grounds."
+        },
+        {
+          "code": "gairmazrua_malik",
+          "label": "Gairmazrua Malik",
+          "government": true,
+          "transferable": false,
+          "confidence": "disputed",
+          "source": "Uncultivated land formerly of the zamindar, vested in the State. Secondary sources disagree on whether the correct term here is 'malik' or 'khas'. DO NOT CITE - see EVIDENCE.md E9."
+        }
+      ],
+      "land_use_classes": [],
+      "land_use_note": "Deliberately empty. No primary source has been read for a Bihar land-use codebook, and the jamabandi has no land-use column. An empty list makes land_use None everywhere, which makes any land-use rule abstain - the correct behaviour."
+    }
+  ]
+}
