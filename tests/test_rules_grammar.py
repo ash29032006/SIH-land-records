@@ -254,3 +254,39 @@ def test_khata_number_positive_abstains_over_undated_khatas():
         f.records(undated=True, khatas=(f.khata("T1", "0", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C1.area_ladder_matches_mouza ------------------------------------------
+
+
+def test_area_ladder_matches_mouza_fires_on_a_foreign_ladder():
+    found = f.run(
+        grammar.area_ladder_matches_mouza,
+        f.records(
+            khesras=(
+                f.khesra("K1", "217", area_stated=f.stated(400, None, "bihar.patna")),
+            )
+        ),
+    )
+    assert len(found) == 1
+    assert found[0].evidence["parcel_ladder"] == "bihar.patna"
+    assert found[0].evidence["mouza_ladder"] == "bihar.jamabandi"
+
+
+def test_area_ladder_matches_mouza_passes_a_consistent_register():
+    found = f.run(
+        grammar.area_ladder_matches_mouza,
+        f.records(
+            khesras=(f.khesra("K1", "217", area_stated=f.stated(100)),),
+            khatas=(f.khata("T1", "2001", area_stated=f.stated(100)),),
+        ),
+    )
+    assert found == []
+
+
+def test_area_ladder_matches_mouza_abstains_over_undated_records():
+    found = f.run(
+        grammar.area_ladder_matches_mouza,
+        f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

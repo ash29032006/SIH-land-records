@@ -270,3 +270,40 @@ def khata_number_positive(view, report):
                 "khata number is not positive",
                 {"number": khata.number},
             )
+
+
+@grammar_rule("C1.area_ladder_matches_mouza")
+def area_ladder_matches_mouza(view, report):
+    """Every stated area is measured in the ladder the mouza declares.
+
+    This is what the ladder identity on `Area` is for. A parcel recorded in bigha
+    inside a mouza whose register is in acre/decimal is not a small discrepancy —
+    the two numbers describe different amounts of ground, and summing them would
+    produce a total that means nothing.
+
+    Restatements are exempt by definition: a second unit system is the point of them.
+    """
+    expected = view.records.mouza.ladder_id
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for khesra in view.index.khesras:
+        if khesra.area_stated is None:
+            continue
+        found = khesra.area_stated.area.ladder_id
+        if found != expected:
+            yield report.error(
+                khesra_subject(khesra, view.index, "area_stated"),
+                "parcel area is measured in a different ladder than the mouza declares",
+                {"parcel_ladder": found, "mouza_ladder": expected},
+            )
+    for khata in view.index.khatas:
+        if khata.area_stated is None:
+            continue
+        found = khata.area_stated.area.ladder_id
+        if found != expected:
+            yield report.error(
+                khata_subject(khata, "area_stated"),
+                "khata total is measured in a different ladder than the mouza declares",
+                {"khata_ladder": found, "mouza_ladder": expected},
+            )
