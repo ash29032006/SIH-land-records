@@ -153,3 +153,35 @@ def test_no_unheld_parcel_abstains_over_undated_holdings():
     )
     found = f.run(completeness.no_unheld_parcel, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.no_duplicate_holding ----------------------------------------------
+
+
+def test_no_duplicate_holding_fires_when_a_holding_is_written_twice():
+    records = f.records(
+        khesras=(f.khesra("K1", "217"),),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(f.holding("H1", "T1", "K1"), f.holding("H2", "T1", "K1")),
+    )
+    found = f.run(completeness.no_duplicate_holding, records)
+    assert len(found) == 1 and found[0].evidence["times"] == "2"
+
+
+def test_no_duplicate_holding_passes_two_khatas_sharing_one_parcel():
+    """EVIDENCE.md E1: several jamabandis under one survey number is normal."""
+    records = f.records(
+        khesras=(f.khesra("K1", "217"),),
+        khatas=(f.khata("T1", "2001"), f.khata("T2", "2002")),
+        holdings=(f.holding("H1", "T1", "K1"), f.holding("H2", "T2", "K1")),
+    )
+    assert f.run(completeness.no_duplicate_holding, records) == []
+
+
+def test_no_duplicate_holding_abstains_over_undated_holdings():
+    records = f.records(
+        undated=True,
+        holdings=(f.holding("H1", "T1", "K1", valid_from=None),),
+    )
+    found = f.run(completeness.no_duplicate_holding, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]

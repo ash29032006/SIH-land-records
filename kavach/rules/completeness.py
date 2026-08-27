@@ -156,3 +156,33 @@ def no_unheld_parcel(view, report):
                 "parcel belongs to no khata",
                 {"parcel": view.index.display_path(parcel.id) or parcel.local_number},
             )
+
+
+@completeness_rule("C3.no_duplicate_holding")
+def no_duplicate_holding(view, report):
+    """A khata is not recorded as holding the same parcel twice.
+
+    This is the honest version of the spec's "duplicate khata per owner". An owner
+    with several khatas is normal in Bihar; the same holding written down twice is
+    not, and it inflates the parcel's claimed area by exactly one entry.
+    """
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+    pairs = Counter((h.khata_id, h.khesra_id) for h in view.index.holdings)
+    for (khata_id, khesra_id), count in sorted(pairs.items()):
+        if count > 1:
+            duplicates = [
+                h for h in view.index.holdings
+                if h.khata_id == khata_id and h.khesra_id == khesra_id
+            ]
+            yield report.error(
+                tuple(holding_subject(h) for h in duplicates),
+                "the same khata is recorded as holding this parcel more than once",
+                {
+                    "khata_id": khata_id,
+                    "khesra_id": khesra_id,
+                    "times": str(count),
+                    "holdings": ", ".join(sorted(h.id for h in duplicates)),
+                },
+            )
