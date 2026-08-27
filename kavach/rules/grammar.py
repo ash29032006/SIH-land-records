@@ -178,3 +178,42 @@ def unit_carry(view, report):
                     "over_base": ", ".join(parsed.over_base) or "-",
                 },
             )
+
+
+@grammar_rule("C1.area_written_matches_value")
+def area_written_matches_value(view, report):
+    """The written area string must read back as the stored value."""
+    unwritten = [
+        k for k in view.index.khesras if k.area_stated and not k.area_stated.as_written
+    ]
+    if unwritten:
+        yield report.abstain(
+            mouza_subject(view.records.mouza),
+            f"{len(unwritten)} parcels record no written form to compare against",
+            missing_witness="area_stated.as_written",
+        )
+    for khesra in view.index.khesras:
+        statement = khesra.area_stated
+        if statement is None or not statement.as_written:
+            continue
+        try:
+            parsed = parse_area(
+                statement.as_written, statement.area.ladder_id, view.registry
+            )
+        except UnitError as exc:
+            yield report.error(
+                khesra_subject(khesra, view.index, "area_stated.as_written"),
+                "written area cannot be read as an area in this ladder",
+                {"as_written": statement.as_written, "reason": str(exc)},
+            )
+            continue
+        if parsed.area != statement.area:
+            yield report.error(
+                khesra_subject(khesra, view.index, "area_stated"),
+                "written area disagrees with the stored value",
+                {
+                    "as_written": statement.as_written,
+                    "written_value": format_area(parsed.area, view.registry),
+                    "stored_value": format_area(statement.area, view.registry),
+                },
+            )

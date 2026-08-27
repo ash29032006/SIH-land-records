@@ -156,3 +156,39 @@ def test_unit_carry_abstains_when_nothing_records_how_the_area_was_written():
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "area_stated.as_written"
+
+
+# ---- C1.area_written_matches_value ----------------------------------------
+
+
+def test_area_written_matches_value_fires_when_the_string_disagrees():
+    found = f.run(
+        grammar.area_written_matches_value,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, "1 acre 44 decimal")),)),
+    )
+    assert len(found) == 1
+    assert found[0].evidence["stored_value"] == "1 acre 43 decimal"
+
+
+def test_area_written_matches_value_fires_on_an_unreadable_string():
+    found = f.run(
+        grammar.area_written_matches_value,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, "about an acre")),)),
+    )
+    assert len(found) == 1 and "cannot be read" in found[0].message
+
+
+def test_area_written_matches_value_passes_a_faithful_string():
+    found = f.run(
+        grammar.area_written_matches_value,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143)),)),
+    )
+    assert found == []
+
+
+def test_area_written_matches_value_abstains_without_a_written_form():
+    found = f.run(
+        grammar.area_written_matches_value,
+        f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(143, None)),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
