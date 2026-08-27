@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+.DS_Store
+
+# Internal pitch + competition strategy — NOT for a public repo.
+# Contains candid personal notes and deck tactics. Remove these lines to publish.
+SIH26018_HANDOFF_v6.md
+*.pptx
+*.docx
