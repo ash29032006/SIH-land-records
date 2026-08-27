@@ -98,3 +98,24 @@ def subdivision_sequence_complete(view, report):
                     "unexpected": ", ".join(str(n) for n in extra) or "-",
                 },
             )
+
+
+@completeness_rule("C3.no_orphan_holding")
+def no_orphan_holding(view, report):
+    """Every holding points at a parcel and a khata that exist."""
+    abstention = undated_abstention(report, view, "holdings", view.index.unknown_holdings)
+    if abstention:
+        yield abstention
+    for holding in view.index.holdings:
+        if holding.khesra_id not in view.index.khesra_by_id:
+            yield report.error(
+                holding_subject(holding, "khesra_id"),
+                "holding points at a parcel that does not exist in this mouza",
+                {"khesra_id": holding.khesra_id, "khata_id": holding.khata_id},
+            )
+        if holding.khata_id not in view.index.khata_by_id:
+            yield report.error(
+                holding_subject(holding, "khata_id"),
+                "holding points at a khata that does not exist in this mouza",
+                {"khata_id": holding.khata_id, "khesra_id": holding.khesra_id},
+            )

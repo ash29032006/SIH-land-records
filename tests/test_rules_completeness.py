@@ -66,3 +66,34 @@ def test_subdivision_sequence_complete_abstains_over_undated_records():
     )
     found = f.run(completeness.subdivision_sequence_complete, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.no_orphan_holding --------------------------------------------------
+
+
+def _held(khesra_id="K1", khata_id="T1"):
+    return f.records(
+        khesras=(f.khesra("K1", "217"),),
+        khatas=(f.khata("T1", "2001"),),
+        holdings=(f.holding("H1", khata_id, khesra_id),),
+    )
+
+
+def test_no_orphan_holding_fires_on_a_dangling_parcel_reference():
+    found = f.run(completeness.no_orphan_holding, _held(khesra_id="GONE"))
+    assert len(found) == 1 and found[0].evidence["khesra_id"] == "GONE"
+
+
+def test_no_orphan_holding_passes_when_both_ends_exist():
+    assert f.run(completeness.no_orphan_holding, _held()) == []
+
+
+def test_no_orphan_holding_abstains_over_undated_holdings():
+    records = f.records(
+        undated=True,
+        khesras=(f.khesra("K1", "217", valid_from=None),),
+        khatas=(f.khata("T1", "2001", valid_from=None),),
+        holdings=(f.holding("H1", "T1", "GONE", valid_from=None),),
+    )
+    found = f.run(completeness.no_orphan_holding, records)
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
