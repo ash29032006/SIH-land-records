@@ -102,7 +102,80 @@ def _witnesses(records: RecordSet) -> dict[str, str]:
     }
 
 
+def as_json() -> dict:
+    """The same figures as `main()`, machine-readable.
+
+    Exists so CI can track precision, recall and the verifiability rate over time
+    without parsing prose. Every rational is emitted as an exact "n/d" string —
+    serialising these as decimals would reintroduce the inexactness the whole
+    codebase is built to avoid.
+    """
+    registry = default_registry()
+    schemes = default_schemes()
+    engine = Engine(SHIPPED_RULES)
+
+    profiles = {}
+    for profile in DocumentProfile:
+        records = synthetic_mouza(MouzaSpec(seed=REPORT_SEED, profile=profile))
+        result = engine.run(records, registry, as_of=records.as_of, schemes=schemes)
+        rate = witness_census(records, registry, records.as_of).verifiability_rate
+        profiles[str(profile)] = {
+            "parcels": len(records.index(records.as_of).leaves()),
+            "findings": len(result),
+            "certain_errors": len(result.certain_errors),
+            "abstentions": len(result.abstentions),
+            "invariant_violations": len(
+                verify_synthetic_invariants(records, registry, schemes)
+            ),
+            "verifiability_rate": str(rate) if rate is not None else None,
+        }
+
+    clean = synthetic_mouza(
+        MouzaSpec(seed=REPORT_SEED, profile=DocumentProfile.COMBINED)
+    )
+    clean_result = engine.run(clean, registry, as_of=clean.as_of, schemes=schemes)
+    cases = all_mutation_cases(clean, registry, seed=MUTATION_SEED)
+    results = [
+        engine.run(c.mutated, registry, as_of=c.mutated.as_of, schemes=schemes)
+        for c in cases
+    ]
+    score = summarise(cases, results, clean_result)
+
+    def rational(value):
+        return str(value) if value is not None else None
+
+    return {
+        "rules": {
+            "grammar": len(GRAMMAR_RULES),
+            "conservation": len(CONSERVATION_RULES),
+            "completeness": len(COMPLETENESS_RULES),
+            "census": len(CENSUS_RULES),
+            "blocked": len(BLOCKED_RULES),
+            "total": len(SHIPPED_RULES),
+        },
+        "profiles": profiles,
+        "mutations": {
+            "cases": score.total,
+            "detected": score.detected,
+            "localised": score.localised,
+            "true_positives": score.true_positives,
+            "collateral": score.collateral,
+            "false_positives_on_clean": score.clean_certain_errors,
+            "rules_run": score.rules_run,
+            "recall": rational(score.recall),
+            "localisation": rational(score.localisation_rate),
+            "precision": rational(score.precision),
+            "propagation": rational(score.propagation),
+        },
+    }
+
+
 def main() -> int:
+    if "--json" in sys.argv:
+        import json
+
+        print(json.dumps(as_json(), indent=2))
+        return 0
     registry = default_registry()
     schemes = default_schemes()
 

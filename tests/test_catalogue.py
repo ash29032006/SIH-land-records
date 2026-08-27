@@ -23,3 +23,29 @@ def test_the_catalogue_records_what_was_deliberately_not_built():
     text = render()
     assert "Deliberately not implemented" in text
     assert "Duplicate khata per owner" in text
+
+
+# ---- machine-readable report ------------------------------------------------
+
+
+def test_the_json_report_emits_exact_rationals_not_decimals():
+    """Serialising a rate as a decimal would reintroduce the inexactness the whole
+    codebase exists to avoid."""
+    from kavach.report import as_json
+
+    payload = as_json()
+    assert payload["mutations"]["false_positives_on_clean"] == 0
+    assert payload["mutations"]["recall"] == "1"
+    for profile, figures in payload["profiles"].items():
+        assert figures["certain_errors"] == 0, profile
+        assert figures["invariant_violations"] == 0, profile
+        rate = figures["verifiability_rate"]
+        assert rate is None or "." not in rate, f"{profile} rate {rate} is a decimal"
+
+
+def test_the_json_report_round_trips_through_json():
+    import json
+
+    from kavach.report import as_json
+
+    assert json.loads(json.dumps(as_json())) == as_json()
