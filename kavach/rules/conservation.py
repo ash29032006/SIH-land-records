@@ -502,3 +502,77 @@ def share_matches_claimed_area(view, report):
             "be cross-examined",
             missing_witness="holding.share with holding.area_claimed",
         )
+
+
+@conservation_rule("C2.area_conserved_across_versions", RuleScope.ACROSS_VERSION)
+def area_conserved_across_versions(view, report):
+    """The mouza's parcels sum to the same ground before and after a mutation.
+
+    HANDOFF_BUILD.md 4: "Parent area at T == Σ child areas at T+1". This is the only
+    ACROSS_VERSION rule in Phase 1, and it is the check that catches area appearing
+    or disappearing during a mutation rather than within a single register.
+
+    Sub-division is legitimate and must not fire: parcels split, the total does not
+    move. What fires is the total moving.
+    """
+    earlier, later = view.earlier, view.later
+    early_index, late_index = earlier.index, later.index
+
+    for label, index in (("earlier", early_index), ("later", late_index)):
+        undetermined = index.undetermined_leaves()
+        if undetermined:
+            yield report.abstain(
+                mouza_subject(index.records.mouza),
+                f"{len(undetermined)} parcels in the {label} version have "
+                "undetermined leaf status",
+                missing_witness="khesra validity dates",
+            )
+            return
+
+    early_leaves, late_leaves = early_index.leaves(), late_index.leaves()
+    missing = [k for k in early_leaves + late_leaves if k.area_stated is None]
+    if missing:
+        yield report.abstain(
+            mouza_subject(later.records.mouza),
+            f"{len(missing)} parcels state no area, so the two versions cannot be "
+            "compared",
+            missing_witness="khesra.area_stated",
+            evidence={"parcels": ", ".join(sorted(k.id for k in missing)[:10])},
+        )
+        return
+
+    ladder_id = later.records.mouza.ladder_id
+    before = sum((units_of(k.area_stated) for k in early_leaves), Fraction(0))
+    after = sum((units_of(k.area_stated) for k in late_leaves), Fraction(0))
+    if before != after:
+        yield report.error(
+            mouza_subject(later.records.mouza, "area_stated"),
+            "the mouza's parcels do not sum to the same ground in both versions",
+            {
+                "earlier_total": _text(before, ladder_id, view.registry),
+                "later_total": _text(after, ladder_id, view.registry),
+                "difference": _text(after - before, ladder_id, view.registry),
+                "earlier_parcels": str(len(early_leaves)),
+                "later_parcels": str(len(late_leaves)),
+            },
+        )
+
+    # A parcel that gained children must equal them exactly.
+    for parcel in early_leaves:
+        children = late_index.children.get(parcel.id, ())
+        if not children:
+            continue
+        if any(c.area_stated is None for c in children):
+            continue  # already abstained above
+        child_total = sum((units_of(c.area_stated) for c in children), Fraction(0))
+        parent_units = units_of(parcel.area_stated)
+        if child_total != parent_units:
+            yield report.error(
+                khesra_subject(parcel, late_index, "area_stated"),
+                "a parcel's sub-divisions do not account for it after the mutation",
+                {
+                    "parent_at_earlier": _text(parent_units, ladder_id, view.registry),
+                    "children_at_later": _text(child_total, ladder_id, view.registry),
+                    "difference": _text(child_total - parent_units, ladder_id, view.registry),
+                },
+            )
