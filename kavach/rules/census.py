@@ -201,3 +201,32 @@ def verifiability_rate(
 ) -> Fraction | None:
     """The fraction of checks that have a witness at all. `None` if there is nothing."""
     return witness_census(records, registry, as_of).verifiability_rate
+
+
+@census_rule("C8.witness_census")
+def witness_census_rule(view, report):
+    """Report parcels that no check can reach, and the rate for the whole set.
+
+    Every finding here is UNVERIFIABLE by construction. Class 8 never asserts that
+    anything is wrong — it reports how much of the register is examinable at all.
+    """
+    result = witness_census(view.records, view.registry, view.as_of)
+    for parcel in result.unexaminable:
+        yield report.abstain(
+            khesra_subject(view.index.khesra_by_id[parcel.khesra_id], view.index),
+            "no witness of any kind exists for this parcel; nothing about it can be "
+            "checked",
+            missing_witness="every witness",
+            evidence={"absent": ", ".join(parcel.absent[:6])},
+        )
+    rate = result.verifiability_rate
+    yield report.abstain(
+        mouza_subject(view.records.mouza),
+        "witness census for this record set",
+        missing_witness="census reports coverage, never correctness",
+        evidence={
+            "verifiability_rate": str(rate) if rate is not None else "None",
+            "parcels": str(len(result.parcels)),
+            "unexaminable": str(len(result.unexaminable)),
+        },
+    )

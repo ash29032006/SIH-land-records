@@ -61,3 +61,27 @@ def test_the_report_prints_a_real_rate():
     text = witness_census(synthetic_mouza(MouzaSpec(seed=3)), f.REG).report()
     assert "a rate, not an error rate" in text
     assert "verifiability rate" in text
+
+
+# ---- C8.witness_census as a rule -------------------------------------------
+
+
+def test_census_rule_fires_on_a_parcel_with_no_witnesses():
+    found = f.run(census.witness_census_rule, f.records(khesras=(f.khesra("K1", "217"),)))
+    assert all(x.finding_class is FindingClass.UNVERIFIABLE for x in found)
+    assert any(x.primary_subject.entity_id == "K1" for x in found)
+
+
+def test_census_rule_never_asserts_anything_is_wrong():
+    """Class 8 reports coverage. It has no CERTAIN_ERROR path at all."""
+    records = synthetic_mouza(MouzaSpec(seed=3))
+    found = f.run(census.witness_census_rule, records, as_of=records.as_of)
+    assert found and all(x.finding_class is FindingClass.UNVERIFIABLE for x in found)
+
+
+def test_census_rule_always_reports_the_rate_even_on_a_rich_record_set():
+    records = synthetic_mouza(MouzaSpec(seed=3))
+    found = f.run(census.witness_census_rule, records, as_of=records.as_of)
+    summary = [x for x in found if "verifiability_rate" in x.evidence]
+    assert len(summary) == 1
+    assert summary[0].evidence["verifiability_rate"] != "None"
