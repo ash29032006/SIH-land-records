@@ -12,7 +12,7 @@ UI. The whole suite runs on a laptop in about two seconds.
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python -m pytest tests/      # 544 tests
+.venv/bin/python -m pytest tests/      # 595 tests
 .venv/bin/python -m kavach.report      # the measured figures
 ```
 
@@ -23,14 +23,14 @@ hardcodes a result, and `None` appears wherever nothing was measured.
 
 | | |
 |---|---|
-| rules implemented | **34** — 8 grammar, 10 conservation, 11 completeness, 1 census, 4 blocked interfaces |
-| corruptions in the harness | **22**, each grounded in a cited document |
-| detected | **22 / 22** |
-| localised to the right record | **22 / 22** |
+| rules implemented | **37** — 9 grammar, 11 conservation, 12 completeness, 1 census, 4 blocked interfaces |
+| corruptions in the harness | **24**, each grounded in a cited document |
+| detected | **24 / 24** |
+| localised to the right record | **24 / 24** |
 | **false positives on clean input** | **0** |
 | precision | 1 |
 | propagation | ~2 findings per corruption (reviewer load, not error) |
-| tests | 544 |
+| tests | 595 |
 
 The false-positive figure is the one that matters. A rule that fires on a correct
 record costs a family money, so `test_no_rule_ever_fires_on_a_record_set_that_is_correct_by_construction`
@@ -45,9 +45,9 @@ and it is computable when every other class abstains.
 
 | document profile | verifiability rate |
 |---|---|
-| khatian (classification and shares, no per-holding areas) | 35/48 (~72%) |
-| jamabandi (per-holding areas, no shares, no classification) | 193/480 (~40%) |
-| combined (both lineages reconciled) | 43/48 (~89%) |
+| khatian (classification and shares, no per-holding areas) | 35/48 |
+| jamabandi (per-holding areas, no shares, no classification) | 193/480 |
+| combined (both lineages reconciled) | 43/48 |
 
 The jamabandi figure is the interesting one: it is the *de facto* record of rights in
 Bihar, and less than half of what the engine could check has a witness in it.
@@ -80,11 +80,11 @@ positives at scale. See [`RULES.md`](RULES.md).
 | `kavach/ladders.json` | Nine unit ladders as data, each stating where its bases come from. |
 | `kavach/records.py` | The canonical model. Two spines joined by a m:n `Holding`, validity on everything, `is_leaf` derived from an as-of date. |
 | `kavach/findings.py` | The finding contract, the rule decorator, the engine. |
-| `kavach/rules/` | Classes 1, 2, 3, 8 implemented; 4–7 as interfaces that abstain. |
+| `kavach/rules/` | Classes 1, 2, 3, 8 implemented, including the one ACROSS_VERSION rule; 4–7 as interfaces that abstain. |
 | `kavach/synthetic.py` | Generator where every invariant holds by construction, plus an independent checker. |
-| `kavach/mutations.py` | 22 corruptions with expected findings, and the scoring. |
+| `kavach/mutations.py` | 24 corruptions with expected findings, and the scoring. |
 | `kavach/report.py` | Prints what is true. `None` where nothing was measured. |
-| `tests/golden/` | 25 fixtures that regenerate byte for byte. |
+| `tests/golden/` | 27 fixtures that regenerate byte for byte. |
 
 ## The four invariants everything rests on
 
