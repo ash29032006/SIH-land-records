@@ -88,7 +88,7 @@ def test_leaves_sum_to_mouza_passes_and_counts_only_leaves():
 
 
 def test_leaves_sum_to_mouza_abstains_without_a_stated_total():
-    found = f.run(conservation.leaves_sum_to_mouza, _village(100, [40, 60])._replace_mouza()
-                  if False else f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(40)),)))
+    records = f.records(khesras=(f.khesra("K1", "217", area_stated=f.stated(40)),))
+    found = f.run(conservation.leaves_sum_to_mouza, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
     assert found[0].missing_witness == "mouza.area_stated"
