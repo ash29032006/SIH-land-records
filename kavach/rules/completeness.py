@@ -278,9 +278,10 @@ def no_cyclic_parentage(view, report):
 def records_belong_to_this_mouza(view, report):
     """Every parcel and khata in the set belongs to the mouza the set is about.
 
-    Bihar's own correction portal lists "segregation of mauja wise khesra from
-    digitized Jamabandi with khesra of multiple mauja" as a correction citizens
-    apply for, so a jamabandi carrying parcels of another village is a real state.
+    EVIDENCE.md E11: Bihar's own correction portal lists "segregation of mauja wise
+    khesra from digitized Jamabandi with khesra of multiple mauja" as a correction
+    citizens apply for, so a jamabandi carrying parcels of another village is a
+    documented real state rather than a hypothetical.
     """
     mouza_id = view.records.mouza.id
     for khesra in view.index.khesras:

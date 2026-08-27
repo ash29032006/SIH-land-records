@@ -422,6 +422,213 @@ def _witness_removed(clean, rng, registry):
     )
 
 
+def _identifier_charset_corrupted(clean, rng, registry):
+    """A digit misread as a letter — the classic transcription slip."""
+    candidates = [k for k in clean.khesras if "1" in k.local_number]
+    target = _pick(rng, candidates, "parcel numbered with a 1")
+    corrupted = target.local_number.replace("1", "l", 1)
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(update={"local_number": corrupted}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(1, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        f"{corrupted!r} read for {target.local_number!r}"),
+    )
+
+
+def _written_area_disagrees(clean, rng, registry):
+    """The written string says one thing and the stored value another."""
+    index = clean.index(clean.as_of)
+    candidates = [
+        k for k in index.leaves()
+        if k.area_stated is not None and k.area_stated.as_written
+    ]
+    target = _pick(rng, candidates, "parcel with a written area")
+    inflated = Area(
+        target.area_stated.area.ladder_id, target.area_stated.area.count + 1
+    )
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(
+                    update={
+                        "area_stated": k.area_stated.model_copy(
+                            update={"as_written": format_area(inflated, registry)}
+                        )
+                    }
+                ),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(1, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        "written form no longer matches the stored value"),
+    )
+
+
+def _mutation_predates_survey(clean, rng, registry):
+    """A mutation dated before the survey that created the record."""
+    if not clean.mutations or clean.mouza.survey_date is None:
+        raise MutationNotApplicable("no dated mutations to move")
+    target = _pick(rng, clean.mutations, "mutation")
+    impossible = clean.mouza.survey_date.replace(
+        year=clean.mouza.survey_date.year - 1
+    )
+    mutated = clean.model_copy(
+        update={
+            "mutations": _replace(
+                clean.mutations, target.id,
+                lambda m: m.model_copy(update={"date": impossible}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(1, FindingClass.CERTAIN_ERROR, EntityType.MUTATION, target.id,
+                        "impossible chronology"),
+    )
+
+
+def _parcel_moved_to_another_mouza(clean, rng, registry):
+    """A parcel of another village left inside this jamabandi."""
+    target = _pick(rng, clean.khesras, "khesra")
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(update={"mouza_id": "MZ-ELSEWHERE"}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(3, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        "parcel belongs to a different mouza"),
+    )
+
+
+def _holding_recorded_twice(clean, rng, registry):
+    """The same khata recorded as holding the same parcel twice."""
+    target = _pick(rng, clean.holdings, "holding")
+    duplicate = target.model_copy(update={"id": f"{target.id}-TWICE"})
+    mutated = clean.model_copy(update={"holdings": clean.holdings + (duplicate,)})
+    return mutated, (
+        ExpectedFinding(3, FindingClass.CERTAIN_ERROR, EntityType.HOLDING, duplicate.id,
+                        "the same holding written down twice"),
+        ExpectedFinding(2, FindingClass.CERTAIN_ERROR, EntityType.KHESRA,
+                        target.khesra_id, "parcel is now over-claimed"),
+    )
+
+
+def _khata_number_duplicated(clean, rng, registry):
+    """Two khatas carrying the same number in one mouza."""
+    if len(clean.khatas) < 2:
+        raise MutationNotApplicable("need two khatas")
+    first, second = clean.khatas[0], clean.khatas[1]
+    mutated = clean.model_copy(
+        update={
+            "khatas": _replace(
+                clean.khatas, second.id,
+                lambda k: k.model_copy(update={"number": first.number}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(3, FindingClass.CERTAIN_ERROR, EntityType.KHATA, second.id,
+                        "khata number is not unique in the mouza"),
+    )
+
+
+def _co_owner_share_inflated(clean, rng, registry):
+    """One co-owner's share raised so the khata's shares exceed one."""
+    with_shares = [m for m in clean.memberships if m.share is not None]
+    target = _pick(rng, with_shares, "membership with a share")
+    mutated = clean.model_copy(
+        update={
+            "memberships": _replace(
+                clean.memberships, target.id,
+                lambda m: m.model_copy(update={"share": m.share + Fraction(1, 10)}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(2, FindingClass.CERTAIN_ERROR, EntityType.KHATA, target.khata_id,
+                        "co-owner shares no longer sum to one"),
+    )
+
+
+def _restated_area_corrupted(clean, rng, registry):
+    """The hectare column of the rakba field disagrees with the acre column."""
+    candidates = [k for k in clean.khesras if k.area_restatements]
+    target = _pick(rng, candidates, "parcel restating its area")
+    first = target.area_restatements[0]
+    bumped = first.model_copy(
+        update={"area": Area(first.area.ladder_id, first.area.count + 1)}
+    )
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(
+                    update={"area_restatements": (bumped,) + k.area_restatements[1:]}
+                ),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(2, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        "the same area stated in two unit systems disagrees"),
+    )
+
+
+def _parcel_area_removed(clean, rng, registry):
+    """A parcel's area blanked. Not an error — it makes conservation unverifiable."""
+    index = clean.index(clean.as_of)
+    target = _pick(rng, index.leaves(), "leaf khesra")
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(
+                    update={"area_stated": None, "area_restatements": ()}
+                ),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(8, FindingClass.UNVERIFIABLE, EntityType.MOUZA, clean.mouza.id,
+                        "a parcel states no area, so the trial balance cannot run"),
+    )
+
+
+def _parentage_loop_introduced(clean, rng, registry):
+    """A parcel made its own ancestor, so paths and leaf status become undefined."""
+    index = clean.index(clean.as_of)
+    families = [
+        (parent_id, kids) for parent_id, kids in index.children.items() if kids
+    ]
+    if not families:
+        raise MutationNotApplicable("no sub-divided khesra")
+    parent_id, kids = _pick(rng, families, "sibling group")
+    child = kids[0]
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, parent_id,
+                lambda k: k.model_copy(update={"parent_khesra_id": child.id}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(3, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, parent_id,
+                        "parcel parentage now contains a loop"),
+    )
+
+
 MUTATIONS: Mapping[str, Mutator] = {
     m.name: m
     for m in (
@@ -473,6 +680,53 @@ MUTATIONS: Mapping[str, Mutator] = {
                 "Point a holding at a khesra that does not exist.",
                 "HANDOFF_BUILD.md 4 Class 3 'no orphan khesra'.",
                 _holding_orphaned),
+        Mutator("identifier_charset_corrupted",
+                "Misread a digit as a letter in a parcel number.",
+                "HANDOFF_BUILD.md 4 Class 1 charset: '2l7' read for '217'.",
+                _identifier_charset_corrupted),
+        Mutator("written_area_disagrees",
+                "Change the written area string without changing the stored value.",
+                "HANDOFF_BUILD.md 3.5 and EVIDENCE.md E5: area entries are a measured "
+                "error class.",
+                _written_area_disagrees),
+        Mutator("mutation_predates_survey",
+                "Date a mutation before the survey that created the record.",
+                "HANDOFF_BUILD.md 4 Class 1 date ordering.",
+                _mutation_predates_survey),
+        Mutator("parcel_moved_to_another_mouza",
+                "Leave a parcel of another village inside this jamabandi.",
+                "EVIDENCE.md E11: Bihar's Parimarjan portal lists correction of "
+                "'Jamabandi with khesra of multiple mauja' as something citizens apply "
+                "for, so this is a documented real state.",
+                _parcel_moved_to_another_mouza),
+        Mutator("holding_recorded_twice",
+                "Write the same holding down twice.",
+                "HANDOFF_BUILD.md 5.2, restated. See EVIDENCE.md E1 for why the "
+                "spec's 'duplicate khata per owner' is not the corruption.",
+                _holding_recorded_twice),
+        Mutator("khata_number_duplicated",
+                "Give two khatas the same number.",
+                "HANDOFF_BUILD.md 4 Class 3 uniqueness.",
+                _khata_number_duplicated),
+        Mutator("co_owner_share_inflated",
+                "Raise one co-owner's share so the khata exceeds one.",
+                "HANDOFF_BUILD.md 4 Class 2: co-owner shares sum to exactly 1.",
+                _co_owner_share_inflated, needs_classification=False),
+        Mutator("restated_area_corrupted",
+                "Make the hectare column disagree with the acre column.",
+                "EVIDENCE.md E10: rakba is recorded three times in three unit systems, "
+                "which makes the row its own second witness.",
+                _restated_area_corrupted),
+        Mutator("parcel_area_removed",
+                "Blank one parcel's area.",
+                "EVIDENCE.md E5: area mentioned as zero or blank is measured at scale. "
+                "Like witness_removed, this is an absence rather than an error.",
+                _parcel_area_removed, breaks_invariants=True),
+        Mutator("parentage_loop_introduced",
+                "Make a parcel its own ancestor.",
+                "HANDOFF_BUILD.md 4 Class 3. A loop makes paths and leaf status "
+                "undefined, so it must surface before anything depending on them.",
+                _parentage_loop_introduced),
         Mutator("witness_removed",
                 "Remove the stated mouza total.",
                 "HANDOFF_BUILD.md 5.2 last row. The one mutation that must break NO "

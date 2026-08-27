@@ -102,6 +102,21 @@ classification is loaded as data (`classifications.json`), each class carries a
 edit, not a rewrite. **Do not cite a Bihar tenure taxonomy from this project until a
 primary source is read.**
 
+## E11 — A jamabandi can carry parcels of another village. `[Certain]` S1 p.19
+
+Among the corrections citizens may apply for through the Parimarjan portal:
+
+> "Segregation of mauja wise khesra from digitized Jamabandi with khesra of
+> multiple mauja"
+
+So a record set whose parcels do not all belong to its own mouza is a documented
+real state, not a hypothetical. Grounds `C3.records_belong_to_this_mouza` and the
+`parcel_moved_to_another_mouza` mutation.
+
+The same list also names correction of "Jamabandi digitized in wrong village", and
+correction or addition of name, address, khata number, khesra number, chauhaddi,
+area and lagaan details — which is a fair summary of what Classes 1 to 3 check.
+
 ---
 
 ## E10 — A free check neither build document names `[Certain]` S1 p.12
