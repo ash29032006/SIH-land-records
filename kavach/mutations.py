@@ -629,6 +629,54 @@ def _parentage_loop_introduced(clean, rng, registry):
     )
 
 
+def _parcel_ladder_swapped(clean, rng, registry):
+    """One parcel's area recorded in a different unit ladder."""
+    index = clean.index(clean.as_of)
+    candidates = [k for k in index.leaves() if k.area_stated is not None]
+    target = _pick(rng, candidates, "parcel with a stated area")
+    elsewhere = next(
+        lid for lid in registry.ids() if lid != target.area_stated.area.ladder_id
+    )
+    moved = target.area_stated.model_copy(
+        update={
+            "area": Area(elsewhere, target.area_stated.area.count),
+            "as_written": None,
+        }
+    )
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(
+                    update={"area_stated": moved, "area_restatements": ()}
+                ),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(1, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        f"area recorded in {elsewhere} not the mouza's ladder"),
+    )
+
+
+def _parent_pointer_dangling(clean, rng, registry):
+    """A parcel pointed at a parent that is not in the record set."""
+    children = [k for k in clean.khesras if k.parent_khesra_id is not None]
+    target = _pick(rng, children, "sub-divided khesra")
+    mutated = clean.model_copy(
+        update={
+            "khesras": _replace(
+                clean.khesras, target.id,
+                lambda k: k.model_copy(update={"parent_khesra_id": "KHS-VANISHED"}),
+            )
+        }
+    )
+    return mutated, (
+        ExpectedFinding(3, FindingClass.CERTAIN_ERROR, EntityType.KHESRA, target.id,
+                        "parent parcel is not in the record set"),
+    )
+
+
 MUTATIONS: Mapping[str, Mutator] = {
     m.name: m
     for m in (
@@ -727,6 +775,15 @@ MUTATIONS: Mapping[str, Mutator] = {
                 "HANDOFF_BUILD.md 4 Class 3. A loop makes paths and leaf status "
                 "undefined, so it must surface before anything depending on them.",
                 _parentage_loop_introduced),
+        Mutator("parcel_ladder_swapped",
+                "Record one parcel's area in a different unit ladder.",
+                "HANDOFF_BUILD.md 3.5: unit ladders are per-region data, and areas in "
+                "different ladders describe different amounts of ground.",
+                _parcel_ladder_swapped),
+        Mutator("parent_pointer_dangling",
+                "Point a parcel at a parent that is not in the record set.",
+                "HANDOFF_BUILD.md 4 Class 3 orphans, applied to the spatial spine.",
+                _parent_pointer_dangling),
         Mutator("witness_removed",
                 "Remove the stated mouza total.",
                 "HANDOFF_BUILD.md 5.2 last row. The one mutation that must break NO "
