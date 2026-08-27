@@ -1,0 +1,179 @@
+<svg viewBox="0 0 1040 1440" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0F2A44"/>
+    </marker>
+    <marker id="arrowLoop" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#C25A16"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1040" height="1440" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="40" y="44" font-size="26" font-weight="bold" fill="#0F2A44">KAVACH — pipeline v6</text>
+  <text x="40" y="68" font-size="14.5" fill="#4A5A68" font-style="italic">Read · cross-examine every field · commit with a proven bound, or abstain to a human.</text>
+
+  <!-- Legend -->
+  <g font-size="12.5" fill="#0F2A44">
+    <rect x="690" y="30" width="15" height="12" fill="#E8F2EE" stroke="#1E7A45"/>
+    <text x="710" y="40">Tier 0 · free · no model</text>
+    <rect x="690" y="50" width="15" height="12" fill="#FBF0E7" stroke="#C25A16"/>
+    <text x="710" y="60">Tier 2 · expensive / external</text>
+    <rect x="690" y="70" width="15" height="12" fill="#FFFFFF" stroke="#10716C" stroke-width="2.5"/>
+    <text x="710" y="80">teal border = the moat</text>
+  </g>
+
+  <!-- ENTRY POINTS -->
+  <rect x="120" y="108" width="360" height="52" rx="6" fill="#EFF3F7" stroke="#BCCAD6"/>
+  <text x="300" y="130" font-size="15" font-weight="bold" fill="#0F2A44" text-anchor="middle">FORWARD · a new scan</text>
+  <text x="300" y="148" font-size="12.5" fill="#4A5A68" text-anchor="middle">runs A → B → C → D → E · the extraction gate</text>
+
+  <rect x="560" y="108" width="360" height="52" rx="6" fill="#EFF3F7" stroke="#BCCAD6"/>
+  <text x="740" y="130" font-size="15" font-weight="bold" fill="#0F2A44" text-anchor="middle">BACKWARD · already-digitised records</text>
+  <text x="740" y="148" font-size="12.5" fill="#4A5A68" text-anchor="middle">skips A–B · straight into C · the audit</text>
+
+  <line x1="300" y1="160" x2="300" y2="196" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M900,160 L900,505 L562,540" fill="none" stroke="#0F2A44" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="912" y="340" font-size="12" fill="#4A5A68" transform="rotate(90 912 340)">backward audit needs no OCR</text>
+
+  <!-- LAYER A -->
+  <rect x="120" y="200" width="360" height="66" rx="8" fill="#FFFFFF" stroke="#BCCAD6" stroke-width="1.5"/>
+  <text x="140" y="224" font-size="17" font-weight="bold" fill="#0F2A44">A · INGEST</text>
+  <text x="140" y="246" font-size="12.5" fill="#4A5A68">restore (red ink kept) · type · route · script-ID per region</text>
+  <text x="140" y="261" font-size="12.5" fill="#10716C" font-weight="bold">A5 abstain-router — names the script it cannot read</text>
+
+  <line x1="300" y1="266" x2="300" y2="292" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- LAYER B with split -->
+  <rect x="120" y="296" width="360" height="150" rx="8" fill="#FFFFFF" stroke="#BCCAD6" stroke-width="1.5"/>
+  <text x="140" y="320" font-size="17" font-weight="bold" fill="#0F2A44">B · READ  <tspan font-size="12" font-weight="normal" fill="#8A96A2">(commodity — do not pitch)</tspan></text>
+  <text x="140" y="340" font-size="12.5" fill="#4A5A68">B1–B2 find table · B3 Reader A (PaddleOCR)</text>
+
+  <rect x="140" y="352" width="150" height="80" rx="6" fill="#EFF3F7" stroke="#BCCAD6"/>
+  <text x="215" y="372" font-size="13" font-weight="bold" fill="#0F2A44" text-anchor="middle">B4 · VALUE path</text>
+  <text x="215" y="391" font-size="11.5" fill="#4A5A68" text-anchor="middle">image + OCR text</text>
+  <text x="215" y="407" font-size="11.5" fill="#4A5A68" text-anchor="middle">Qwen3-VL-8B</text>
+  <text x="215" y="424" font-size="11.5" fill="#0F2A44" text-anchor="middle" font-style="italic">→ the value</text>
+
+  <rect x="310" y="352" width="150" height="80" rx="6" fill="#FFFFFF" stroke="#10716C" stroke-width="2.5"/>
+  <text x="385" y="372" font-size="13" font-weight="bold" fill="#10716C" text-anchor="middle">B5 · EVIDENCE path</text>
+  <text x="385" y="391" font-size="11.5" fill="#4A5A68" text-anchor="middle">image ONLY · K=5 views</text>
+  <text x="385" y="407" font-size="11.5" fill="#AE3324" text-anchor="middle" font-weight="bold">never sees OCR text</text>
+  <text x="385" y="424" font-size="11.5" fill="#0F2A44" text-anchor="middle" font-style="italic">→ honest agreement</text>
+
+  <line x1="300" y1="446" x2="300" y2="536" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- LAYER C -->
+  <rect x="120" y="540" width="440" height="150" rx="8" fill="#FFFFFF" stroke="#10716C" stroke-width="2.5"/>
+  <text x="140" y="564" font-size="17" font-weight="bold" fill="#10716C">C · VALIDATE — the spine</text>
+  <text x="140" y="582" font-size="12" fill="#4A5A68">seven classes · runs forward (gate) and backward (audit)</text>
+
+  <g font-size="11.5" text-anchor="middle">
+    <rect x="140" y="594" width="76" height="34" rx="4" fill="#E8F2EE" stroke="#1E7A45"/>
+    <text x="178" y="609" fill="#0F2A44" font-weight="bold">1 Grammar</text><text x="178" y="622" fill="#1E7A45">free</text>
+    <rect x="222" y="594" width="88" height="34" rx="4" fill="#E8F2EE" stroke="#1E7A45"/>
+    <text x="266" y="609" fill="#0F2A44" font-weight="bold">2 Conserv.</text><text x="266" y="622" fill="#1E7A45">free · core</text>
+    <rect x="316" y="594" width="88" height="34" rx="4" fill="#E8F2EE" stroke="#1E7A45"/>
+    <text x="360" y="609" fill="#0F2A44" font-weight="bold">3 Complete</text><text x="360" y="622" fill="#1E7A45">free</text>
+    <rect x="410" y="594" width="64" height="34" rx="4" fill="#FBF0E7" stroke="#C25A16"/>
+    <text x="442" y="609" fill="#0F2A44" font-weight="bold">4 Chain</text><text x="442" y="622" fill="#C25A16">needs v2</text>
+    <rect x="480" y="594" width="64" height="34" rx="4" fill="#FBF0E7" stroke="#C25A16"/>
+    <text x="512" y="609" fill="#0F2A44" font-weight="bold">5 Geom.</text><text x="512" y="622" fill="#AE3324">⚠ unverif.</text>
+
+    <rect x="140" y="632" width="104" height="34" rx="4" fill="#FBF0E7" stroke="#C25A16"/>
+    <text x="192" y="647" fill="#0F2A44" font-weight="bold">6 Cross-sys</text><text x="192" y="660" fill="#C25A16">needs NGDRS</text>
+    <rect x="250" y="632" width="96" height="34" rx="4" fill="#EFF3F7" stroke="#BCCAD6"/>
+    <text x="298" y="647" fill="#0F2A44" font-weight="bold">7 Statistical</text><text x="298" y="660" fill="#4A5A68">directs sampling</text>
+    <rect x="352" y="632" width="122" height="34" rx="4" fill="#FFFFFF" stroke="#10716C" stroke-width="2"/>
+    <text x="413" y="647" fill="#10716C" font-weight="bold">8 Witness census</text><text x="413" y="660" fill="#4A5A68">→ verifiability map</text>
+  </g>
+
+  <!-- C -> OUTPUT -->
+  <path d="M476,648 L616,600" fill="none" stroke="#10716C" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <line x1="340" y1="690" x2="340" y2="716" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- LAYER D -->
+  <rect x="120" y="720" width="440" height="148" rx="8" fill="#FFFFFF" stroke="#10716C" stroke-width="2.5"/>
+  <text x="140" y="744" font-size="17" font-weight="bold" fill="#10716C">D · SCORE — the confidence gate</text>
+
+  <rect x="140" y="754" width="132" height="46" rx="5" fill="#EFF3F7" stroke="#BCCAD6"/>
+  <text x="206" y="771" font-size="12" font-weight="bold" fill="#0F2A44" text-anchor="middle">D1 · features</text>
+  <text x="206" y="786" font-size="10" fill="#4A5A68" text-anchor="middle">rules · B5 agreement</text>
+  <text x="206" y="797" font-size="10" fill="#4A5A68" text-anchor="middle">· OCR confidence</text>
+
+  <rect x="282" y="754" width="132" height="46" rx="5" fill="#FFFFFF" stroke="#10716C" stroke-width="2.5"/>
+  <text x="348" y="770" font-size="12" font-weight="bold" fill="#10716C" text-anchor="middle">D2 · CatBoost</text>
+  <text x="348" y="784" font-size="10" fill="#4A5A68" text-anchor="middle">neg: rules (free)</text>
+  <text x="348" y="796" font-size="10" fill="#1E7A45" text-anchor="middle" font-weight="bold">pos: E → G loop</text>
+
+  <rect x="424" y="754" width="120" height="46" rx="5" fill="#FBF0E7" stroke="#C25A16"/>
+  <text x="484" y="770" font-size="11.5" font-weight="bold" fill="#0F2A44" text-anchor="middle">D3 → D4</text>
+  <text x="484" y="784" font-size="10" fill="#4A5A68" text-anchor="middle">isotonic · conformal</text>
+  <text x="484" y="796" font-size="9.5" fill="#AE3324" text-anchor="middle">curve, not cert. bound</text>
+
+  <rect x="140" y="808" width="404" height="50" rx="5" fill="#FFFFFF" stroke="#AE3324" stroke-width="2"/>
+  <text x="342" y="827" font-size="12" font-weight="bold" fill="#AE3324" text-anchor="middle">D5 · the SAME rules as HARD GATES — they override the model</text>
+  <text x="342" y="844" font-size="10.5" fill="#4A5A68" text-anchor="middle">a rule violation is never overruled by a confident score · D1 &amp; D5 = one engine, two roles</text>
+
+  <line x1="340" y1="868" x2="340" y2="886" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- LAYER E -->
+  <rect x="120" y="890" width="440" height="86" rx="8" fill="#FFFFFF" stroke="#BCCAD6" stroke-width="1.5"/>
+  <text x="140" y="914" font-size="17" font-weight="bold" fill="#0F2A44">E · REVIEW</text>
+  <text x="140" y="934" font-size="12.5" fill="#4A5A68">E1 queue by consequence × uncertainty (not ascending confidence)</text>
+  <text x="140" y="951" font-size="12.5" fill="#4A5A68">E2 evidence: field · crop · rule that fired · record that disagrees</text>
+  <text x="140" y="968" font-size="12.5" fill="#1E7A45" font-weight="bold">E3 capture every decision — incl. "confirmed correct"</text>
+
+  <line x1="340" y1="976" x2="340" y2="1002" stroke="#0F2A44" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="120" y="1006" width="440" height="46" rx="8" fill="#EFF3F7" stroke="#BCCAD6"/>
+  <text x="340" y="1026" font-size="12.5" font-weight="bold" fill="#0F2A44" text-anchor="middle">F · PLATFORM — repository · audit trail · dashboards · APIs · RBAC</text>
+  <text x="340" y="1043" font-size="11.5" fill="#8A96A2" text-anchor="middle">scored, but slideware — build last</text>
+
+  <!-- OUTPUT box (right, near C) -->
+  <rect x="620" y="558" width="300" height="84" rx="8" fill="#FFFFFF" stroke="#10716C" stroke-width="2"/>
+  <text x="640" y="582" font-size="14" font-weight="bold" fill="#10716C">OUTPUT nobody has</text>
+  <text x="640" y="602" font-size="12" fill="#4A5A68">C1–C3 + C8 over public records · no OCR</text>
+  <text x="640" y="620" font-size="12.5" fill="#0F2A44" font-weight="bold">→ the verifiability map</text>
+  <text x="640" y="636" font-size="11" fill="#8A96A2" font-style="italic">a rate, not an error rate</text>
+
+  <!-- G box (right) -->
+  <rect x="620" y="700" width="300" height="150" rx="8" fill="#FFFFFF" stroke="#C25A16" stroke-width="2.5"/>
+  <text x="640" y="724" font-size="16" font-weight="bold" fill="#C25A16">G · LEARN — the closed loop</text>
+  <text x="640" y="746" font-size="12.5" fill="#4A5A68">G1 capture every E3 decision as a label</text>
+  <text x="640" y="764" font-size="12.5" fill="#1E7A45" font-weight="bold">    → positives the rules can never mint</text>
+  <text x="640" y="783" font-size="12.5" fill="#4A5A68">G2 mine new constraints from corrections</text>
+  <text x="640" y="801" font-size="12.5" fill="#4A5A68">G3 retrain D2 · measure move at fixed α</text>
+  <text x="640" y="819" font-size="12.5" fill="#4A5A68">G4 error fingerprint by district</text>
+  <text x="640" y="839" font-size="11.5" fill="#C25A16" font-style="italic">"its corrections train it" — the honest version</text>
+
+  <!-- FIX callout (right, bottom) -->
+  <rect x="620" y="866" width="300" height="94" rx="8" fill="#FBF0E7" stroke="#C25A16"/>
+  <text x="640" y="888" font-size="13" font-weight="bold" fill="#C25A16">THE ONE FIX vs the old draft</text>
+  <text x="640" y="908" font-size="11.5" fill="#0F2A44">Old: G at the bottom, disconnected.</text>
+  <text x="640" y="925" font-size="11.5" fill="#0F2A44">D2 trained on negatives only → one class.</text>
+  <text x="640" y="945" font-size="11.5" fill="#1E7A45" font-weight="bold">Now: E3 → G1 → D2 closes it. Two classes.</text>
+
+  <!-- LOOP arrows -->
+  <!-- E3 labels in: up the channel between E and G, into G bottom-left -->
+  <path d="M560,962 L588,962 L588,852 L616,852" fill="none" stroke="#C25A16" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <text x="566" y="1000" font-size="11.5" fill="#C25A16" font-weight="bold" transform="rotate(-90 566 1000)">E3 labels →</text>
+  <!-- G3 retrain out: from G top, over the C/D gap, into D2 top -->
+  <path d="M700,700 L700,704 L348,704 L348,754" fill="none" stroke="#C25A16" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <text x="470" y="698" font-size="11.5" fill="#C25A16" font-weight="bold">← G3 retrains D2</text>
+
+  <!-- BUILD ORDER footer -->
+  <rect x="40" y="1078" width="960" height="150" rx="10" fill="#0F2A44"/>
+  <text x="60" y="1108" font-size="17" font-weight="bold" fill="#FFFFFF">BUILD ORDER — by dependency, not reading order</text>
+  <g font-size="13.5" fill="#FFFFFF">
+    <text x="60" y="1136"><tspan font-weight="bold" fill="#7FD3A0">1.</tspan>  Bhu-Naksha check (30 min) — decides whether C5 exists at all.</text>
+    <text x="60" y="1160"><tspan font-weight="bold" fill="#7FD3A0">2.</tspan>  C1–C3 + C8 over records (pure Python, no model) → the verifiability map. This is the demo.</text>
+    <text x="60" y="1184"><tspan font-weight="bold" fill="#7FD3A0">3.</tspan>  E reviewer queue on real flags from step 2 → a real screenshot under "WORKING PROTOTYPE".</text>
+    <text x="60" y="1208"><tspan font-weight="bold" fill="#F0A868">4.</tspan>  A + B on 20–30 labelled scans → the real field number.   <tspan font-weight="bold" fill="#F0A868">5.</tspan>  D → isotonic + curve.   <tspan fill="#8A96A2">6. F, G = slideware.</tspan></text>
+  </g>
+  <text x="60" y="1250" font-size="12.5" fill="#8A96A2" font-style="italic">Everything that can go wrong — OCR, VLMs, GPUs, annotators — lives downstream of steps 2 and 3.</text>
+
+  <text x="40" y="1298" font-size="14.5" font-weight="bold" fill="#0F2A44">Teal = the moat (build, never pitch) · grey = commodity, three incumbents · amber = expensive or external</text>
+  <text x="40" y="1320" font-size="13" fill="#4A5A68" font-style="italic">The extraordinary part is not in B (reading). It is C2 conservation — nobody else checks whether the records add up.</text>
+</svg>
