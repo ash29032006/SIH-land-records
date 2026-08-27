@@ -273,3 +273,57 @@ contradict each other — that was my error. The contradiction you flagged is in
    the bigha? `units.py` encodes the structure from HANDOFF_BUILD.md §3.5 and leaves
    every Bihar physical anchor `null`.
 3. Owner identity resolution — deferred. Nothing in Classes 1–3 may depend on it.
+
+---
+
+## 10. Tolerance policy — decided, as HANDOFF_BUILD.md 4 requires
+
+**Every comparison in Class 2 is exact equality over `Fraction` counts of a ladder's
+smallest unit. There is no epsilon in the codebase and no parameter to add one.**
+
+This is enforceable rather than aspirational: `tests/test_units.py` bans the `/`
+operator and every float across the package, so an epsilon cannot be introduced
+without failing the build.
+
+### Why exact equality is correct here
+
+Areas are integer counts of a smallest unit. Shares are rationals. Three one-third
+shares of a parcel sum to exactly one; in binary floating point they do not, and the
+rule would invent a violation on a correct record. Floats manufacture findings.
+
+### The one place rounding is inherent, and how it is handled
+
+The Bihar rakba field states one area in three unit systems (EVIDENCE.md E10). The
+hectare column is written to four decimal places, so it is a *rounded* rendering of an
+exact quantity — 1 acre is 0.40468564224 ha, written 0.4047.
+
+The policy for that case is **not** a tolerance. It is:
+
+> Does the written value equal the exact conversion, **rounded to the precision at
+> which it was written**?
+
+That is still exact arithmetic, because a hectare written to four decimals is a whole
+number of square metres. `metric.hectare` exists with `centiare` as its smallest unit
+precisely so this comparison is integer arithmetic rather than an epsilon.
+
+`C2.cross_unit_restatement` currently requires exact agreement, which is right for
+generated fixtures where the restatement is stored exactly. When a real corpus is
+loaded, the written precision must be carried on the `AreaStatement` and compared at
+that precision — a declared parameter with a stated justification, per
+HANDOFF_BUILD.md 4, never a magic constant.
+
+### The sub-unit share question, resolved
+
+An undivided one-third share of a parcel of 100 decimal is exactly 100/3 decimal — not
+a whole number of the smallest unit. `Area` holds it as a `Fraction`, so the partition
+still re-sums to exactly 100 and no tolerance is needed.
+
+What a real register does is write a *rounded* figure for each heir. When that happens,
+`C2.share_matches_claimed_area` will disagree with the claimed area by a sub-unit
+amount. That disagreement is a **CONFLICT**, not a `CERTAIN_ERROR`: two witnesses
+differ, and which is right is a human decision. It is recorded here so the rule is not
+later written as certain.
+
+The synthetic generator deliberately produces integral holdings so this case does not
+silently inflate the clean-input figures. Real data will exercise it; fixtures do not
+pretend to.
