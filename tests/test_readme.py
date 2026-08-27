@@ -44,12 +44,47 @@ def test_the_readme_verifiability_rates_are_current():
             assert rate in TEXT, f"README is missing the {profile} rate {rate}"
 
 
-def test_the_readme_test_count_is_current(pytestconfig):
-    """The count in the README must match what the suite actually collects."""
+def _declared_test_count() -> int:
+    """Count test functions by parsing the suite, including parametrised ones.
+
+    A test function decorated with `@pytest.mark.parametrize` produces more than one
+    case, so this counts *cases* where the parameters are literal, and functions
+    otherwise. It is the same figure a reader of the README would expect to see.
+    """
+    import ast
+
+    total = 0
+    for path in sorted(Path(__file__).parent.glob("test_*.py")):
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+                continue
+            cases = 1
+            for decorator in node.decorator_list:
+                if not isinstance(decorator, ast.Call):
+                    continue
+                target = decorator.func
+                name = getattr(target, "attr", getattr(target, "id", ""))
+                if name != "parametrize" or len(decorator.args) < 2:
+                    continue
+                values = decorator.args[1]
+                if isinstance(values, (ast.List, ast.Tuple)):
+                    cases = cases * max(1, len(values.elts))
+            total += cases
+    return total
+
+
+def test_the_readme_test_count_is_in_step_with_the_suite():
+    """Not an exact match — parametrised cases built at import time cannot be counted
+    statically — but the README must not be wildly out of date."""
     stated = re.search(r"\| tests \| (\d+) \|", TEXT)
     assert stated, "README states no test count"
-    collected = pytestconfig.pluginmanager.get_plugin("terminalreporter")
-    # `--collect-only` gives the true figure; here we assert the README is at least
-    # in the right region rather than asserting an exact number the suite cannot
-    # know about itself mid-run.
-    assert int(stated.group(1)) > 0
+    claimed = int(stated.group(1))
+    declared = _declared_test_count()
+    assert declared > 0
+    assert claimed >= declared, (
+        f"README claims {claimed} tests but the suite declares at least {declared}"
+    )
+    assert claimed <= declared * 4, (
+        f"README claims {claimed} tests against {declared} declared — likely stale"
+    )
