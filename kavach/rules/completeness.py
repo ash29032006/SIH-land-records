@@ -204,3 +204,23 @@ def no_ownerless_khata(view, report):
                 "khata names no owner",
                 {"khata_number": khata.number},
             )
+
+
+@completeness_rule("C3.khata_number_unique")
+def khata_number_unique(view, report):
+    """No two khatas in a mouza carry the same number."""
+    abstention = undated_abstention(report, view, "khatas", view.index.unknown_khatas)
+    if abstention:
+        yield abstention
+    by_number: dict[str, list] = {}
+    for khata in view.index.khatas:
+        number = khata.number.strip()
+        if number:
+            by_number.setdefault(number, []).append(khata)
+    for number, group in sorted(by_number.items()):
+        if len(group) > 1:
+            yield report.error(
+                tuple(khata_subject(k, "number") for k in group),
+                "more than one khata carries this number in the same mouza",
+                {"number": number, "khatas": ", ".join(sorted(k.id for k in group))},
+            )

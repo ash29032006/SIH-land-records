@@ -210,3 +210,30 @@ def test_no_ownerless_khata_abstains_over_undated_memberships():
     )
     found = f.run(completeness.no_ownerless_khata, records)
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.khata_number_unique ------------------------------------------------
+
+
+def test_khata_number_unique_fires_on_a_repeated_number():
+    found = f.run(
+        completeness.khata_number_unique,
+        f.records(khatas=(f.khata("T1", "2001"), f.khata("T2", "2001"))),
+    )
+    assert len(found) == 1 and {s.entity_id for s in found[0].subjects} == {"T1", "T2"}
+
+
+def test_khata_number_unique_passes_distinct_numbers():
+    found = f.run(
+        completeness.khata_number_unique,
+        f.records(khatas=(f.khata("T1", "2001"), f.khata("T2", "2002"))),
+    )
+    assert found == []
+
+
+def test_khata_number_unique_abstains_over_undated_khatas():
+    found = f.run(
+        completeness.khata_number_unique,
+        f.records(undated=True, khatas=(f.khata("T1", "2001", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
