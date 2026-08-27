@@ -87,3 +87,55 @@ def children_sum_to_parent(view, report):
                     "children": ", ".join(sorted(c.id for c in children)),
                 },
             )
+
+
+@conservation_rule("C2.leaves_sum_to_mouza")
+def leaves_sum_to_mouza(view, report):
+    """Every current parcel in the mouza sums to the mouza's stated total.
+
+    The trial balance. Sums leaves only — a sub-divided parent is no longer a parcel
+    that holds area, and counting it would double the ground it sits on.
+    """
+    mouza = view.records.mouza
+    subject = mouza_subject(mouza, "area_stated")
+    if mouza.area_stated is None:
+        yield report.abstain(
+            subject,
+            "the mouza states no total, so the trial balance cannot run",
+            missing_witness="mouza.area_stated",
+        )
+        return
+    undetermined = view.index.undetermined_leaves()
+    if undetermined:
+        yield report.abstain(
+            subject,
+            f"{len(undetermined)} parcels have undetermined leaf status, so the set "
+            "of current parcels is not known",
+            missing_witness="khesra validity dates",
+            evidence={"parcels": ", ".join(sorted(k.id for k in undetermined)[:10])},
+        )
+        return
+    leaves = view.index.leaves()
+    missing = [k for k in leaves if k.area_stated is None]
+    if missing:
+        yield report.abstain(
+            subject,
+            f"{len(missing)} of {len(leaves)} current parcels state no area",
+            missing_witness="khesra.area_stated",
+            evidence={"without_area": ", ".join(sorted(k.id for k in missing)[:10])},
+        )
+        return
+    ladder_id = mouza.area_stated.area.ladder_id
+    total = sum((units_of(k.area_stated) for k in leaves), Fraction(0))
+    stated = units_of(mouza.area_stated)
+    if total != stated:
+        yield report.error(
+            subject,
+            "current parcels do not sum to the stated mouza total",
+            {
+                "parcels_sum_to": _text(total, ladder_id, view.registry),
+                "mouza_states": _text(stated, ladder_id, view.registry),
+                "difference": _text(total - stated, ladder_id, view.registry),
+                "parcel_count": str(len(leaves)),
+            },
+        )
