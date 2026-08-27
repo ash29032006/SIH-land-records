@@ -29,3 +29,21 @@ def grammar_rule(rule_id: str, scope: RuleScope = RuleScope.WITHIN_VERSION):
         return declared
 
     return wrap
+
+
+@grammar_rule("C1.subdivision_number_positive")
+def subdivision_number_positive(view, report):
+    """Parcel numbering starts at 1, never 0 or negative."""
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    for khesra in view.index.khesras:
+        number = khesra.local_number.strip()
+        if not number:
+            continue  # blank is C1.identifier_present's job, not this rule's
+        if number.lstrip("-").isdigit() and int(number) <= 0:
+            yield report.error(
+                khesra_subject(khesra, view.index, "local_number"),
+                "parcel number is not positive; numbering starts at 1",
+                {"local_number": khesra.local_number},
+            )
