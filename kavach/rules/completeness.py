@@ -38,3 +38,24 @@ def completeness_rule(rule_id: str, scope: RuleScope = RuleScope.WITHIN_VERSION)
         return declared
 
     return wrap
+
+
+@completeness_rule("C3.parcel_identifier_unique")
+def parcel_identifier_unique(view, report):
+    """No two parcels in a mouza share the same full path."""
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention
+    seen: dict[tuple, list] = {}
+    for khesra in view.index.khesras:
+        path = view.index.path_of(khesra.id)
+        if path is None:
+            continue  # cycles are C3.no_cyclic_parentage's finding
+        seen.setdefault(path, []).append(khesra)
+    for path, group in seen.items():
+        if len(group) > 1:
+            yield report.error(
+                tuple(khesra_subject(k, view.index, "local_number") for k in group),
+                "more than one parcel carries this number in the same mouza",
+                {"path": "/".join(path), "khesras": ", ".join(sorted(k.id for k in group))},
+            )
