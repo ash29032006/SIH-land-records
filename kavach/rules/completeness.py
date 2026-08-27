@@ -248,3 +248,31 @@ def no_cyclic_parentage(view, report):
             "parcel parentage contains a loop, so paths and leaf status are undefined",
             {"khesras": ", ".join(cyclic)},
         )
+
+
+@completeness_rule("C3.records_belong_to_this_mouza")
+def records_belong_to_this_mouza(view, report):
+    """Every parcel and khata in the set belongs to the mouza the set is about.
+
+    Bihar's own correction portal lists "segregation of mauja wise khesra from
+    digitized Jamabandi with khesra of multiple mauja" as a correction citizens
+    apply for, so a jamabandi carrying parcels of another village is a real state.
+    """
+    mouza_id = view.records.mouza.id
+    for khesra in view.index.khesras:
+        if khesra.mouza_id != mouza_id:
+            yield report.error(
+                khesra_subject(khesra, view.index, "mouza_id"),
+                "parcel belongs to a different mouza than the record set",
+                {"parcel_mouza": khesra.mouza_id, "set_mouza": mouza_id},
+            )
+    for khata in view.index.khatas:
+        if khata.mouza_id != mouza_id:
+            yield report.error(
+                khata_subject(khata, "mouza_id"),
+                "khata belongs to a different mouza than the record set",
+                {"khata_mouza": khata.mouza_id, "set_mouza": mouza_id},
+            )
+    abstention = undated_abstention(report, view, "khesras", view.index.unknown_khesras)
+    if abstention:
+        yield abstention

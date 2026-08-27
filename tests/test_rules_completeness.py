@@ -264,3 +264,30 @@ def test_no_cyclic_parentage_abstains_over_undated_records():
         f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
     )
     assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
+
+
+# ---- C3.records_belong_to_this_mouza ---------------------------------------
+
+
+def test_records_belong_to_this_mouza_fires_on_a_foreign_parcel():
+    found = f.run(
+        completeness.records_belong_to_this_mouza,
+        f.records(khesras=(f.khesra("K1", "217", mouza_id="OTHER"),)),
+    )
+    assert len(found) == 1 and found[0].evidence["parcel_mouza"] == "OTHER"
+
+
+def test_records_belong_to_this_mouza_passes_a_consistent_set():
+    found = f.run(
+        completeness.records_belong_to_this_mouza,
+        f.records(khesras=(f.khesra("K1", "217"),), khatas=(f.khata("T1", "2001"),)),
+    )
+    assert found == []
+
+
+def test_records_belong_to_this_mouza_abstains_over_undated_records():
+    found = f.run(
+        completeness.records_belong_to_this_mouza,
+        f.records(undated=True, khesras=(f.khesra("K1", "217", valid_from=None),)),
+    )
+    assert [x.finding_class for x in found] == [FindingClass.UNVERIFIABLE]
