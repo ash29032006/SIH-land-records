@@ -125,6 +125,67 @@ def _finding_row(finding: Finding, records, index, registry) -> dict:
     }
 
 
+def _witness_rows(census) -> list[dict]:
+    """Per-witness availability, with the inapplicable ones marked rather than zeroed.
+
+    A witness that cannot exist for any parcel in the set — sub-plot areas, when
+    every parcel is a leaf — is not available at 0 percent. It is not a question
+    this record set can be asked, and showing it as a failed check would misread
+    the shape of the register as a defect in it.
+    """
+    share_by_name = census.by_witness()
+    rows = []
+    for name, description in WITNESSES:
+        applicable = sum(1 for p in census.parcels if name not in p.not_applicable)
+        share = share_by_name.get(name)
+        rows.append(
+            {
+                "name": name,
+                "description": description,
+                "applicable": applicable,
+                "percent": (
+                    (100 * share.numerator) // share.denominator
+                    if share is not None
+                    else None
+                ),
+            }
+        )
+    return rows
+
+
+def _profile_comparison(registry, schemes) -> list[dict]:
+    """Verifiability across the two record lineages and their reconciliation.
+
+    EVIDENCE.md E8: khatian and jamabandi are independent witnesses to the same land.
+    The gap between what either states alone and what they state together is the
+    argument for the whole system, so the page shows it rather than describing it.
+    """
+    from kavach.synthetic import DocumentProfile, MouzaSpec, synthetic_mouza
+
+    blurbs = {
+        "khatian": "the older survey lineage — classification and shares, no per-holding areas",
+        "jamabandi": "the de facto record of rights — per-holding areas, no shares, no classification",
+        "combined": "both lineages reconciled against each other",
+    }
+    out = []
+    for profile in DocumentProfile:
+        records = synthetic_mouza(MouzaSpec(seed=11, profile=profile))
+        rate = witness_census(records, registry, records.as_of).verifiability_rate
+        out.append(
+            {
+                "profile": str(profile),
+                "blurb": blurbs[str(profile)],
+                "rate": str(rate) if rate is not None else None,
+                "percent": (
+                    (100 * rate.numerator) // rate.denominator
+                    if rate is not None
+                    else 0
+                ),
+            }
+        )
+    return out
+
+
 def build_payload(
     records: RecordSet,
     *,
@@ -147,10 +208,14 @@ def build_payload(
     rows = [_finding_row(f, records, index, registry) for f in ordered]
 
     by_parcel: dict[str, list[int]] = {}
+    errors_by_parcel: dict[str, list[int]] = {}
     for position, finding in enumerate(ordered):
         for subject in finding.subjects:
-            if subject.entity_type is EntityType.KHESRA:
-                by_parcel.setdefault(subject.entity_id, []).append(position)
+            if subject.entity_type is not EntityType.KHESRA:
+                continue
+            by_parcel.setdefault(subject.entity_id, []).append(position)
+            if finding.finding_class is FindingClass.CERTAIN_ERROR:
+                errors_by_parcel.setdefault(subject.entity_id, []).append(position)
 
     census_by_id = {p.khesra_id: p for p in census.parcels}
     parcels = []
@@ -166,6 +231,11 @@ def build_payload(
                     if khesra.area_stated
                     else None
                 ),
+                "area_units": (
+                    int(khesra.area_stated.area.count)
+                    if khesra.area_stated and khesra.area_stated.area.is_integral
+                    else 0
+                ),
                 "as_written": (
                     khesra.area_stated.as_written if khesra.area_stated else None
                 ),
@@ -177,9 +247,13 @@ def build_payload(
                     _percent(entry.possible, entry.total) if entry else 0
                 ),
                 "finding_rows": by_parcel.get(khesra.id, []),
+                "error_rows": errors_by_parcel.get(khesra.id, []),
             }
         )
-    parcels.sort(key=lambda p: (-len(p["finding_rows"]), p["witness_percent"], p["path"]))
+    parcels.sort(
+        key=lambda p: (-len(p["error_rows"]), -len(p["finding_rows"]),
+                       p["witness_percent"], p["path"])
+    )
 
     rate = census.verifiability_rate
     counts = result.counts()
@@ -242,19 +316,9 @@ def build_payload(
                 (100 * rate.numerator) // rate.denominator if rate is not None else None
             ),
             "unexaminable": len(census.unexaminable),
-            "witnesses": [
-                {
-                    "name": name,
-                    "description": description,
-                    "percent": (
-                        (100 * share.numerator) // share.denominator
-                        if (share := census.by_witness().get(name)) is not None
-                        else 0
-                    ),
-                }
-                for name, description in WITNESSES
-            ],
+            "witnesses": _witness_rows(census),
         },
+        "profiles": _profile_comparison(registry, schemes),
         "queue": rows,
         "parcels": parcels,
         "rule_classes": [rules_by_class[k] for k in sorted(rules_by_class)],

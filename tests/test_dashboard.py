@@ -116,3 +116,40 @@ def test_parcels_are_ordered_by_attention_needed():
     payload = build_payload(FLAGGED)
     flagged_first = [len(p["finding_rows"]) for p in payload["parcels"]]
     assert flagged_first == sorted(flagged_first, reverse=True)
+
+
+def test_the_map_rings_errors_not_abstentions():
+    """A red ring on a parcel must mean an error was found, never that the parcel
+    could not be checked. On a jamabandi register most parcels carry abstentions and
+    almost none carry errors; ringing both would read as a village full of mistakes."""
+    from kavach.webui import demo_register
+
+    payload = build_payload(demo_register())
+    with_errors = [p for p in payload["parcels"] if p["error_rows"]]
+    with_any = [p for p in payload["parcels"] if p["finding_rows"]]
+    assert with_any, "abstentions should reach parcels"
+    assert len(with_errors) < len(with_any), "errors must be rarer than findings"
+    for parcel in payload["parcels"]:
+        assert set(parcel["error_rows"]) <= set(parcel["finding_rows"])
+        for row in parcel["error_rows"]:
+            assert payload["queue"][row]["finding_class"] == "certain_error"
+
+
+def test_witnesses_that_cannot_apply_are_marked_not_zeroed():
+    from kavach.webui import demo_register
+
+    rows = build_payload(demo_register())["verifiability"]["witnesses"]
+    child = next(r for r in rows if r["name"] == "child_areas")
+    assert child["applicable"] == 0
+    assert child["percent"] is None, "an inapplicable witness is not a failed check"
+
+
+def test_the_demo_register_is_the_de_facto_record_not_the_reconciled_one():
+    """Demonstrating on the combined profile would show coverage the real register
+    does not have."""
+    from kavach.webui import demo_register
+
+    payload = build_payload(demo_register())
+    assert payload["verifiability"]["percent"] < 60
+    assert payload["totals"]["certain_errors"] > 0
+    assert payload["totals"]["unverifiable"] > payload["totals"]["certain_errors"]
