@@ -45,12 +45,18 @@ and it is computable when every other class abstains.
 
 | document profile | verifiability rate |
 |---|---|
-| khatian (classification and shares, no per-holding areas) | 35/48 |
-| jamabandi (per-holding areas, no shares, no classification) | 193/480 |
-| combined (both lineages reconciled) | 43/48 |
+| khatian (classification and shares, no per-holding areas) | 35/43 (~81%) |
+| jamabandi (per-holding areas, no shares, no classification) | 193/433 (~44%) |
+| combined (both lineages reconciled) | 1 (~100%) |
 
-The jamabandi figure is the interesting one: it is the *de facto* record of rights in
-Bihar, and less than half of what the engine could check has a witness in it.
+The jamabandi figure is the one that matters: it is the *de facto* record of rights in
+Bihar, and **less than half** of what the engine could check has a witness in it.
+Reconciling it against the khatian — the older lineage — is what takes coverage from
+44% to complete. That gap is the argument for the whole system.
+
+A witness that cannot structurally exist for a parcel (a root has no parent; a leaf has
+no sub-plots) is excluded from its denominator rather than counted as missing, so a
+parcel is never penalised for its own shape.
 
 ## What research changed
 

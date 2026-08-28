@@ -13,12 +13,41 @@ from kavach.rules.census import WITNESS_NAMES, verifiability_rate, witness_censu
 from kavach.synthetic import DocumentProfile, MouzaSpec, synthetic_mouza
 
 
-def test_the_denominator_is_fixed_not_data_dependent():
-    """A rate whose denominator moves with the data is not a measurement."""
+def test_the_denominator_follows_structure_never_data_quality():
+    """A rate whose denominator moves with the *data* is not a measurement. One that
+    moves with a parcel's *shape* is: a root has no parent to reconcile against, and
+    penalising it for that understates the rate."""
     thin = witness_census(f.records(khesras=(f.khesra("K1", "217"),)), f.REG, f.TODAY)
-    rich = witness_census(synthetic_mouza(MouzaSpec(seed=3)), f.REG)
-    assert thin.parcels[0].total == len(WITNESS_NAMES)
-    assert all(p.total == len(WITNESS_NAMES) for p in rich.parcels)
+    root = thin.parcels[0]
+    assert "parent_area" in root.not_applicable
+    assert "child_areas" in root.not_applicable
+    assert root.total == len(WITNESS_NAMES) - 2
+
+    # Two root parcels of the same shape must share a denominator regardless of how
+    # much data either of them carries.
+    mixed = witness_census(
+        f.records(
+            khesras=(
+                f.khesra("K1", "217", area_stated=f.stated(50)),
+                f.khesra("K2", "218"),
+            )
+        ),
+        f.REG, f.TODAY,
+    )
+    assert len({p.total for p in mixed.parcels}) == 1
+
+
+def test_a_child_parcel_is_scored_against_its_parent_but_not_against_sub_plots():
+    records = f.records(
+        khesras=(
+            f.khesra("P", "217", area_stated=f.stated(100)),
+            f.khesra("C1", "1", parent_khesra_id="P", area_stated=f.stated(100)),
+        )
+    )
+    result = witness_census(records, f.REG, f.TODAY)
+    child = next(p for p in result.parcels if p.khesra_id == "C1")
+    assert "parent_area" in child.present
+    assert "child_areas" in child.not_applicable
 
 
 def test_a_bare_parcel_is_unexaminable():

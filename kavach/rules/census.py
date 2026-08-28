@@ -11,8 +11,14 @@ Two properties matter (AGENTS.md 3.5):
 
 * It must be computable **when every other class abstains** — it reads presence, never
   values, so it still returns a number on a record set nothing else can touch.
-* The denominator is a fixed, named list of witnesses. A rate whose denominator moves
-  with the data is not a measurement.
+* The denominator is derived from a fixed, named list of witnesses, minus the ones
+  that **cannot structurally exist** for that parcel. A root parcel has no parent to
+  reconcile against and a leaf has no sub-plots; counting those as missing witnesses
+  understates the rate by penalising a parcel for its own shape.
+
+  The denominator therefore varies with a parcel's *structure*, never with its data
+  quality. Two parcels of the same shape always have the same denominator, which is
+  what makes the rate a measurement rather than a moving target.
 """
 
 from __future__ import annotations
@@ -64,6 +70,10 @@ class ParcelCensus:
     display: str
     present: tuple[str, ...]
     absent: tuple[str, ...]
+    not_applicable: tuple[str, ...] = ()
+    """Witnesses that cannot exist for this parcel's shape — a root has no parent,
+    a leaf has no sub-plots. Excluded from the denominator rather than counted as
+    missing, because a parcel should not score badly for being a root."""
 
     @property
     def possible(self) -> int:
@@ -106,8 +116,11 @@ class WitnessCensus:
         if not self.parcels:
             return out
         for name in WITNESS_NAMES:
-            hits = sum(1 for p in self.parcels if name in p.present)
-            out[name] = Fraction(hits, len(self.parcels))
+            applicable = [p for p in self.parcels if name not in p.not_applicable]
+            if not applicable:
+                continue
+            hits = sum(1 for p in applicable if name in p.present)
+            out[name] = Fraction(hits, len(applicable))
         return out
 
     def report(self) -> str:
@@ -132,11 +145,19 @@ class WitnessCensus:
         return "\n".join(lines)
 
 
-def _witnesses_for(khesra, index: Index, records: RecordSet) -> tuple[list[str], list[str]]:
-    present: list[str] = []
+def _witnesses_for(
+    khesra, index: Index, records: RecordSet
+) -> tuple[list[str], list[str], list[str]]:
     holdings = index.holdings_by_khesra.get(khesra.id, ())
     khatas = [index.khata_by_id.get(h.khata_id) for h in holdings]
     children = index.children.get(khesra.id, ())
+
+    # Structurally impossible for this parcel's shape, so not a missing witness.
+    inapplicable = set()
+    if khesra.parent_khesra_id is None:
+        inapplicable.add("parent_area")
+    if not children:
+        inapplicable.add("child_areas")
 
     checks = {
         "own_area": khesra.area_stated is not None,
@@ -165,9 +186,10 @@ def _witnesses_for(khesra, index: Index, records: RecordSet) -> tuple[list[str],
         "tenure_subtotal": bool(khesra.tenure)
         and any(t.code == khesra.tenure for t in records.mouza.tenure_totals),
     }
-    absent = [name for name in WITNESS_NAMES if not checks[name]]
-    present = [name for name in WITNESS_NAMES if checks[name]]
-    return present, absent
+    present = [n for n in WITNESS_NAMES if n not in inapplicable and checks[n]]
+    absent = [n for n in WITNESS_NAMES if n not in inapplicable and not checks[n]]
+    not_applicable = [n for n in WITNESS_NAMES if n in inapplicable]
+    return present, absent, not_applicable
 
 
 def witness_census(
@@ -180,13 +202,14 @@ def witness_census(
     index = records.index(as_of if as_of is not None else records.as_of)
     parcels = []
     for khesra in index.leaves():
-        present, absent = _witnesses_for(khesra, index, records)
+        present, absent, not_applicable = _witnesses_for(khesra, index, records)
         parcels.append(
             ParcelCensus(
                 khesra_id=khesra.id,
                 display=index.display_path(khesra.id) or khesra.local_number,
                 present=tuple(present),
                 absent=tuple(absent),
+                not_applicable=tuple(not_applicable),
             )
         )
     return WitnessCensus(
