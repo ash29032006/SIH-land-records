@@ -29,7 +29,7 @@ from kavach.records import RecordSet
 from kavach.synthetic import DocumentProfile, MouzaSpec, synthetic_mouza
 from kavach.units import default_registry
 
-__all__ = ["DEMO_DEFECTS", "demo_register", "render", "write"]
+__all__ = ["DEMO_DEFECTS", "demo_register", "render", "render_fragment", "write"]
 
 OUTPUT_PATH = Path(__file__).resolve().parents[1].joinpath("dashboard.html")
 
@@ -580,6 +580,22 @@ def render(payload: dict) -> str:
     """One self-contained page. The payload is embedded, so it opens offline."""
     embedded = json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
     return _TEMPLATE.replace("__PAYLOAD__", embedded)
+
+
+def render_fragment(payload: dict) -> str:
+    """The same page without the document skeleton, for hosts that supply their own.
+
+    Keeps the title, the font link, the stylesheet and the body content; drops
+    doctype, html, head and body tags.
+    """
+    full = render(payload)
+    head_open = full.index("<title>")
+    head_close = full.index("</head>")
+    body_open = full.index("<body>") + len("<body>")
+    body_close = full.rindex("</body>")
+    head = full[head_open:head_close].strip()
+    body = full[body_open:body_close].strip()
+    return head + "\n" + body + "\n"
 
 
 DEMO_DEFECTS = (

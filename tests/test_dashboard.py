@@ -153,3 +153,40 @@ def test_the_demo_register_is_the_de_facto_record_not_the_reconciled_one():
     assert payload["verifiability"]["percent"] < 60
     assert payload["totals"]["certain_errors"] > 0
     assert payload["totals"]["unverifiable"] > payload["totals"]["certain_errors"]
+
+
+def test_the_page_is_self_contained_and_needs_no_network_but_fonts():
+    from kavach.webui import demo_register, render
+
+    html = render(build_payload(demo_register()))
+    assert "<script id=\"payload\"" in html, "the data must be embedded, not fetched"
+    for forbidden in ("fetch(", "XMLHttpRequest", "import(", "cdn."):
+        assert forbidden not in html, f"page reaches out via {forbidden}"
+    external = [
+        line for line in html.splitlines()
+        if "https://" in line and "fonts.googleapis.com" not in line
+        and "fonts.gstatic.com" not in line
+    ]
+    assert not external, external
+
+
+def test_the_page_defines_both_themes_from_tokens():
+    """A colour whose only definition sits behind a media query never applies in the
+    un-stamped default state."""
+    from kavach.webui import demo_register, render
+
+    html = render(build_payload(demo_register()))
+    assert "@media (prefers-color-scheme: dark)" in html
+    assert ':root:not([data-theme="light"])' in html
+    assert ':root[data-theme="dark"]' in html
+    assert "background:var(--ground)" in html.replace(" ", "").replace("\n", "")
+
+
+def test_the_fragment_drops_the_document_skeleton_but_keeps_the_page():
+    from kavach.webui import demo_register, render_fragment
+
+    fragment = render_fragment(build_payload(demo_register()))
+    for tag in ("<!doctype", "<html", "<head>", "<body>", "</html>"):
+        assert tag not in fragment.lower()
+    assert "<title>" in fragment and "<style>" in fragment
+    assert "Verifiability map" in fragment
