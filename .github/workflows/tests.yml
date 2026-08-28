@@ -22,3 +22,10 @@ jobs:
         run: pytest tests/ -q
       - name: Print the harness report
         run: python -m kavach.report
+      - name: Rebuild the reviewer dashboard
+        run: |
+          python -m kavach.webui
+          git diff --exit-code dashboard.html || {
+            echo "::error::dashboard.html is stale — run 'python -m kavach.webui'"
+            exit 1
+          }
