@@ -12,9 +12,31 @@ UI. The whole suite runs on a laptop in about two seconds.
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python -m pytest tests/      # 595 tests
+.venv/bin/python -m pytest tests/      # 622 tests
 .venv/bin/python -m kavach.report      # the measured figures
+.venv/bin/python -m kavach.webui       # writes dashboard.html — open it
 ```
+
+## The reviewer's view
+
+`dashboard.html` is a single self-contained page — no server, no build step, no
+network beyond a font. It opens on a synthetic Bihar **jamabandi**: the *de facto*
+record of rights, deliberately not the reconciled profile, because demonstrating on
+the reconciled one would show coverage the real register does not have.
+
+What it shows, all computed from a real engine run:
+
+- the **review queue**, ordered by severity then by land at stake — never by ascending
+  confidence, and with abstentions in it rather than filtered out of it;
+- every row naming the rule that fired, the record that disagrees, and the exact
+  evidence, expandable in place;
+- the **verifiability map** — every parcel sized by area, shaded by witness coverage,
+  ringed only where a *certain error* was found;
+- the gap between the two record lineages: khatian 81%, jamabandi 44%, reconciled 100%.
+
+Sixty-one abstentions against six errors is not the system failing. It is the system
+reporting, honestly, that most of the de facto register cannot be independently
+checked at all.
 
 ## Measured, not asserted
 
@@ -30,7 +52,7 @@ hardcodes a result, and `None` appears wherever nothing was measured.
 | **false positives on clean input** | **0** |
 | precision | 1 |
 | propagation | ~2 findings per corruption (reviewer load, not error) |
-| tests | 595 |
+| tests | 622 |
 
 The false-positive figure is the one that matters. A rule that fires on a correct
 record costs a family money, so `test_no_rule_ever_fires_on_a_record_set_that_is_correct_by_construction`
