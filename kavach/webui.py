@@ -41,317 +41,316 @@ _TEMPLATE = r"""<!doctype html>
 <title>Kavach Register Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* ---------- tokens: complete light palette on bare :root ---------- */
 :root{
-  --ink:#0F2A44; --ink-2:#44586A; --ink-3:#6B7C8C;
-  --ground:#EEF2F5; --surface:#FFFFFF; --surface-2:#F7F9FA;
-  --rule:#C6D2DC; --rule-soft:#E1E8ED;
-  --accent:#10716C; --accent-ink:#0B564F;
+  --ink:#0F2A44; --ink-2:#44586A; --ink-3:#7288A0;
+  --ground:#E8EDF1; --surface:#FFFFFF; --surface-2:#F4F7F9; --surface-3:#EAF0F4;
+  --rule:#C2D0DB; --rule-soft:#DFE7ED;
+  --accent:#10716C; --accent-ink:#0B564F; --accent-wash:#E4F0EE;
   --certain:#B02133; --conflict:#A8790A; --anomaly:#6D4CA0; --unverif:#068276;
-  --certain-wash:#FBECEE; --conflict-wash:#FAF3E2; --anomaly-wash:#F2EDF9; --unverif-wash:#E6F2F0;
-  --seq-0:#E9F0EF; --seq-1:#C2DAD6; --seq-2:#8FBDB6; --seq-3:#57998F; --seq-4:#2A7C71; --seq-5:#0E5F55;
-  --stamp:#8A2B36;
-  --shadow:0 1px 2px rgba(15,42,68,.06), 0 8px 24px -16px rgba(15,42,68,.28);
-  --edge:1px solid var(--rule-soft);
+  --certain-wash:#FBEDEF; --conflict-wash:#FAF4E4; --anomaly-wash:#F3EEFA; --unverif-wash:#E5F2F0;
+  --seq-0:#E4EDEB; --seq-1:#C2DAD6; --seq-2:#8FBDB6; --seq-3:#57998F; --seq-4:#2A7C71; --seq-5:#0E5F55;
+  --stamp:#8A2B36; --sel:#DCE9F2;
+  --topbar:#0F2A44; --topbar-ink:#DCE6EF; --topbar-ink-2:#8FA6BC; --topbar-rule:#22415E;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ink:#E7EDF2; --ink-2:#A8B8C6; --ink-3:#7E8FA0;
-    --ground:#0D1620; --surface:#131F2B; --surface-2:#17242F;
-    --rule:#2C3D4C; --rule-soft:#22313E;
-    --accent:#3DAFA4; --accent-ink:#7FCFC6;
-    --certain:#DA5C70; --conflict:#AE821A; --anomaly:#9A7BCC; --unverif:#2AA795;
-    --certain-wash:#2A1720; --conflict-wash:#241D10; --anomaly-wash:#1F1A2B; --unverif-wash:#0F2622;
-    --seq-0:#17242F; --seq-1:#1D3A38; --seq-2:#245049; --seq-3:#2C685E; --seq-4:#358274; --seq-5:#46A091;
-    --stamp:#D9707C;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
-  }
-}
-:root[data-theme="dark"]{
-  --ink:#E7EDF2; --ink-2:#A8B8C6; --ink-3:#7E8FA0;
-  --ground:#0D1620; --surface:#131F2B; --surface-2:#17242F;
-  --rule:#2C3D4C; --rule-soft:#22313E;
-  --accent:#3DAFA4; --accent-ink:#7FCFC6;
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#E7EDF2; --ink-2:#A3B4C4; --ink-3:#76889A;
+  --ground:#0A121A; --surface:#111C26; --surface-2:#16222E; --surface-3:#1B2934;
+  --rule:#2A3B4A; --rule-soft:#1F2E3B;
+  --accent:#3DAFA4; --accent-ink:#7FCFC6; --accent-wash:#102A28;
   --certain:#DA5C70; --conflict:#AE821A; --anomaly:#9A7BCC; --unverif:#2AA795;
-  --certain-wash:#2A1720; --conflict-wash:#241D10; --anomaly-wash:#1F1A2B; --unverif-wash:#0F2622;
-  --seq-0:#17242F; --seq-1:#1D3A38; --seq-2:#245049; --seq-3:#2C685E; --seq-4:#358274; --seq-5:#46A091;
-  --stamp:#D9707C;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  --certain-wash:#291620; --conflict-wash:#231C10; --anomaly-wash:#1E1929; --unverif-wash:#0E2521;
+  --seq-0:#16222E; --seq-1:#1C3836; --seq-2:#234E47; --seq-3:#2B665C; --seq-4:#348072; --seq-5:#469E90;
+  --stamp:#D9707C; --sel:#1C3247;
+  --topbar:#08111A; --topbar-ink:#DCE6EF; --topbar-ink-2:#7B92A8; --topbar-rule:#1B2E42;
+}}
+:root[data-theme="dark"]{
+  --ink:#E7EDF2; --ink-2:#A3B4C4; --ink-3:#76889A;
+  --ground:#0A121A; --surface:#111C26; --surface-2:#16222E; --surface-3:#1B2934;
+  --rule:#2A3B4A; --rule-soft:#1F2E3B;
+  --accent:#3DAFA4; --accent-ink:#7FCFC6; --accent-wash:#102A28;
+  --certain:#DA5C70; --conflict:#AE821A; --anomaly:#9A7BCC; --unverif:#2AA795;
+  --certain-wash:#291620; --conflict-wash:#231C10; --anomaly-wash:#1E1929; --unverif-wash:#0E2521;
+  --seq-0:#16222E; --seq-1:#1C3836; --seq-2:#234E47; --seq-3:#2B665C; --seq-4:#348072; --seq-5:#469E90;
+  --stamp:#D9707C; --sel:#1C3247;
+  --topbar:#08111A; --topbar-ink:#DCE6EF; --topbar-ink-2:#7B92A8; --topbar-rule:#1B2E42;
 }
 
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{height:100%}
 body{
-  margin:0; background:var(--ground); color:var(--ink);
+  margin:0; height:100%; overflow:hidden; background:var(--ground); color:var(--ink);
   font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  font-size:13px; line-height:1.45; -webkit-font-smoothing:antialiased;
 }
 .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
-.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
-h1,h2,h3{font-family:Spectral,Georgia,"Times New Roman",serif;font-weight:600;text-wrap:balance;margin:0}
-.eyebrow{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
-  font-weight:600;
-}
-a{color:var(--accent-ink)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+button{font:inherit;color:inherit}
 
-/* ---------- masthead: the register cover ---------- */
-.masthead{
-  background:var(--surface); border-bottom:2px solid var(--ink);
-  position:relative; overflow:hidden;
+/* ---------------- app shell ---------------- */
+.app{height:100dvh;display:grid;grid-template-rows:46px minmax(0,1fr) 26px;background:var(--ground)}
+.work{display:grid;grid-template-columns:288px minmax(0,1fr) 384px;min-height:0;background:var(--rule);gap:1px}
+.pane{background:var(--surface);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.scroll{overflow-y:auto;overscroll-behavior:contain;min-height:0}
+@media (max-width:1320px){.work{grid-template-columns:260px minmax(0,1fr) 340px}}
+@media (max-width:1080px){
+  .work{grid-template-columns:236px minmax(0,1fr)}
+  #detail{position:fixed;top:46px;right:0;bottom:26px;width:min(380px,90vw);
+          box-shadow:-14px 0 40px -18px rgba(0,0,0,.45);z-index:40;transform:translateX(101%);
+          transition:transform .2s cubic-bezier(.2,.7,.3,1);border-left:1px solid var(--rule)}
+  #detail.open{transform:none}
+  .closeDetail{display:inline-flex!important}
 }
-.masthead::after{
-  content:""; position:absolute; inset:auto 0 0 0; height:3px;
-  background:linear-gradient(90deg,var(--accent) 0 22%,var(--rule) 22% 100%);
-}
-.masthead-inner{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between;padding:26px 0 22px}
-.brand{display:flex;gap:14px;align-items:flex-start}
-.crest{
-  width:38px;height:38px;flex:0 0 38px;border:1.5px solid var(--ink);
-  display:grid;place-items:center;margin-top:3px;
-}
-.crest span{font-family:Spectral,serif;font-weight:700;font-size:19px;line-height:1;color:var(--ink)}
-.brand h1{font-size:25px;letter-spacing:-.01em;line-height:1.15}
-.brand p{margin:3px 0 0;font-size:13px;color:var(--ink-2);max-width:58ch;line-height:1.5}
-.ident{display:flex;flex-wrap:wrap;gap:0;border:var(--edge);background:var(--surface-2)}
-.ident div{padding:9px 16px;border-right:var(--edge)}
-.ident div:last-child{border-right:0}
-.ident dt{margin:0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
-.ident dd{margin:2px 0 0;font-size:14px;font-weight:500}
-.stamp{
-  border:1.5px solid var(--stamp); color:var(--stamp); padding:5px 11px;
-  font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;
-  transform:rotate(-1.4deg); align-self:center; white-space:nowrap;
+@media (max-width:760px){
+  .work{grid-template-columns:minmax(0,1fr)}
+  #rail{position:fixed;top:46px;left:0;bottom:26px;width:270px;z-index:39;transform:translateX(-101%);
+        transition:transform .2s;border-right:1px solid var(--rule);box-shadow:14px 0 40px -18px rgba(0,0,0,.45)}
+  #rail.open{transform:none}
+  .railToggle{display:inline-flex!important}
 }
 
-/* ---------- trial balance strip ---------- */
-.balance{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));border:var(--edge);background:var(--surface);margin:26px 0 0}
-.cell{padding:16px 18px;border-right:var(--edge);position:relative;display:flex;flex-direction:column;gap:3px}
-.cell:last-child{border-right:0}
-.cell .fig{font-family:Spectral,serif;font-size:32px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums}
-.cell .lab{font-size:12px;color:var(--ink-2)}
-.cell.k-certain{background:var(--certain-wash)} .cell.k-certain .fig{color:var(--certain)}
-.cell.k-unverif{background:var(--unverif-wash)} .cell.k-unverif .fig{color:var(--unverif)}
-.cell.k-conflict .fig{color:var(--conflict)}
-.cell.k-anomaly .fig{color:var(--anomaly)}
-.cell .edge{position:absolute;left:0;top:0;bottom:0;width:3px}
-.cell.k-certain .edge{background:var(--certain)}
-.cell.k-unverif .edge{background:var(--unverif)}
-
-/* ---------- panels ---------- */
-.panels{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,9fr);gap:20px;margin-top:20px}
-@media (max-width:940px){.panels{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:var(--edge);box-shadow:var(--shadow)}
-.panel-head{padding:15px 18px 13px;border-bottom:var(--edge);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.panel-head h2{font-size:16px}
-.panel-body{padding:18px}
-
-/* verifiability meter */
-.rate{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
-.rate .num{font-family:Spectral,serif;font-size:60px;line-height:.9;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.rate .pct{font-family:Spectral,serif;font-size:26px;color:var(--accent);font-weight:600}
-.rate .exact{font-size:12px;color:var(--ink-3);margin-left:auto;text-align:right}
-.note{font-size:12.5px;color:var(--ink-2);margin:8px 0 16px;max-width:52ch}
-.witness{display:flex;flex-direction:column;gap:7px}
-.wrow{display:grid;grid-template-columns:1fr 74px 40px;gap:10px;align-items:center;font-size:12.5px}
-.wrow .wname{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wbar{height:7px;background:var(--seq-0);position:relative;overflow:hidden}
-.wbar i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:0 2px 2px 0;transition:width .7s cubic-bezier(.2,.7,.3,1)}
-.wrow .wpct{text-align:right;color:var(--ink-3);font-size:11.5px}
-.wrow.na .wname,.wrow.na .wpct{color:var(--ink-3);opacity:.65;font-style:italic}
-.wrow.na .wbar{background:repeating-linear-gradient(45deg,var(--rule-soft) 0 3px,transparent 3px 6px)}
-
-/* parcel map — cells sized by land area, shaded by witness coverage */
-.map{display:flex;flex-wrap:wrap;gap:2px;align-content:flex-start}
-.pcell{
-  height:52px;border:1px solid transparent;position:relative;cursor:default;
-  min-width:58px;
-  display:grid;place-items:center;font-size:9.5px;overflow:hidden;
-  font-family:"IBM Plex Mono",monospace;color:var(--ink-3);
-  transition:transform .12s ease, box-shadow .12s ease, outline-color .12s ease;
-  outline:0 solid transparent;
+/* ---------------- topbar ---------------- */
+.topbar{
+  background:var(--topbar);color:var(--topbar-ink);display:flex;align-items:center;
+  gap:0;padding:0 12px;border-bottom:1px solid var(--topbar-rule);
 }
-.pcell:hover,.pcell:focus-visible{transform:translateY(-2px);z-index:5;box-shadow:var(--shadow)}
-.pcell.flagged{border-color:var(--certain);box-shadow:inset 0 0 0 1.5px var(--certain)}
-.pcell.dark-fill{color:#EAF2F0}
+.mark{display:flex;align-items:center;gap:8px;padding-right:14px;margin-right:14px;border-right:1px solid var(--topbar-rule)}
+.mark .glyph{
+  width:24px;height:24px;border:1.5px solid var(--topbar-ink);display:grid;place-items:center;
+  font-family:Spectral,serif;font-weight:700;font-size:13px;line-height:1;
+}
+.mark b{font-family:Spectral,serif;font-size:15px;font-weight:600;letter-spacing:.01em}
+.crumbs{display:flex;align-items:baseline;gap:7px;min-width:0;flex:1}
+.crumbs .v{font-weight:600;font-size:13.5px;white-space:nowrap}
+.crumbs .s{color:var(--topbar-ink-2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topmeta{display:flex;align-items:center;gap:14px;font-size:11.5px;color:var(--topbar-ink-2);white-space:nowrap}
+.topmeta b{color:var(--topbar-ink);font-weight:500}
+.badge{
+  border:1px solid var(--stamp);color:#F1A7AF;padding:2.5px 8px;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;white-space:nowrap;
+}
+.iconbtn{
+  appearance:none;background:transparent;border:1px solid var(--topbar-rule);color:var(--topbar-ink-2);
+  width:26px;height:26px;display:grid;place-items:center;cursor:pointer;padding:0;
+}
+.iconbtn:hover{color:var(--topbar-ink);border-color:var(--topbar-ink-2)}
+.railToggle,.closeDetail{display:none}
 
-/* lineage comparison */
-.lineage{display:flex;flex-direction:column;gap:11px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--rule)}
-.lrow{display:grid;grid-template-columns:96px 1fr 58px;gap:11px;align-items:center}
-.lrow .lname{font-size:12.5px;font-weight:600}
-.lrow .lbar{height:11px;background:var(--seq-0);position:relative;overflow:hidden}
-.lrow .lbar i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:0 2px 2px 0;transition:width .8s cubic-bezier(.2,.7,.3,1)}
-.lrow .lpct{text-align:right;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
-.lblurb{grid-column:2 / span 2;font-size:11.5px;color:var(--ink-3);margin-top:-6px}
-.legend{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:11.5px;color:var(--ink-3);flex-wrap:wrap}
-.ramp{display:flex;gap:2px}
-.ramp i{width:19px;height:9px;display:block}
+/* ---------------- rail ---------------- */
+.block{padding:13px 14px;border-bottom:1px solid var(--rule-soft)}
+.blocktitle{
+  font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;margin:0 0 9px;display:flex;justify-content:space-between;align-items:baseline;
+}
+.bignum{display:flex;align-items:baseline;gap:5px}
+.bignum b{font-family:Spectral,serif;font-size:46px;line-height:.85;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.bignum span{font-family:Spectral,serif;font-size:19px;color:var(--accent);font-weight:600}
+.bignum em{margin-left:auto;font-style:normal;font-size:11px;color:var(--ink-3);text-align:right;line-height:1.35}
+.hint{font-size:11.5px;color:var(--ink-3);margin:7px 0 0;line-height:1.45}
 
-/* ---------- tabs + table ---------- */
-.tabs{display:flex;gap:0;margin:24px 0 0;border-bottom:1px solid var(--rule)}
-.tab{
-  appearance:none;background:none;border:0;border-bottom:2px solid transparent;
-  padding:10px 16px;font:inherit;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;
+.lrow{display:grid;grid-template-columns:74px 1fr 34px;gap:8px;align-items:center;margin-bottom:7px}
+.lrow .n{font-size:11.5px;font-weight:600}
+.lrow .p{text-align:right;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:9px;background:var(--seq-0);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .7s cubic-bezier(.2,.7,.3,1)}
+.lnote{font-size:10.5px;color:var(--ink-3);margin:-4px 0 9px 82px;line-height:1.35}
+
+.wrow{display:grid;grid-template-columns:1fr 52px 30px;gap:7px;align-items:center;padding:2.5px 0;font-size:11.5px}
+.wrow .wn{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrow .wp{text-align:right;color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums}
+.wrow.na .wn,.wrow.na .wp{opacity:.55;font-style:italic}
+.wrow.na .bar{background:repeating-linear-gradient(45deg,var(--rule-soft) 0 3px,transparent 3px 6px)}
+.wrow.zero .bar i{background:var(--certain);opacity:.5}
+
+/* ---------------- centre ---------------- */
+.toolbar{display:flex;align-items:center;gap:7px;padding:8px 12px;border-bottom:1px solid var(--rule);background:var(--surface-2);flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:150px}
+.search input{
+  width:100%;appearance:none;background:var(--surface);border:1px solid var(--rule);
+  padding:5px 26px 5px 27px;font:inherit;font-size:12.5px;color:var(--ink);
 }
-.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
-.tab:hover{color:var(--ink)}
-.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:14px 0}
-.chip{
-  appearance:none;border:1px solid var(--rule);background:var(--surface);color:var(--ink-2);
-  padding:5px 11px;font:inherit;font-size:12px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;
+.search input::placeholder{color:var(--ink-3)}
+.search svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.search kbd{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);font:inherit;font-size:10px;
+  color:var(--ink-3);border:1px solid var(--rule);padding:0 4px;font-family:"IBM Plex Mono",monospace;
 }
-.chip[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--surface-2);font-weight:500}
-.chip i{width:8px;height:8px;border-radius:50%;display:block}
-.tablewrap{overflow-x:auto;background:var(--surface);border:var(--edge);box-shadow:var(--shadow)}
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-thead th{
-  text-align:left;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
-  font-weight:600;padding:11px 14px;border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--surface-2);
+.seg{display:flex;border:1px solid var(--rule);background:var(--surface)}
+.seg button{
+  appearance:none;background:transparent;border:0;border-right:1px solid var(--rule);
+  padding:5px 9px;font-size:11.5px;cursor:pointer;color:var(--ink-3);display:flex;align-items:center;gap:5px;
 }
-tbody tr{border-bottom:1px solid var(--rule-soft)}
-tbody tr.row{cursor:pointer}
-tbody tr.row:hover{background:var(--surface-2)}
-td{padding:11px 14px;vertical-align:top}
-td.sev{padding:0;width:3px}
-td.sev i{display:block;width:3px;height:100%;min-height:44px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--surface-3);color:var(--ink);font-weight:600}
+.seg button i{width:7px;height:7px;border-radius:50%;display:block}
+.seg button .c{font-variant-numeric:tabular-nums;font-size:11px;opacity:.75}
+
+.strip{display:flex;gap:1.5px;padding:8px 12px;border-bottom:1px solid var(--rule);background:var(--surface-2);flex-wrap:wrap;align-content:flex-start}
+.striplabel{
+  width:100%;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;
+}
+.pc{
+  height:26px;min-width:15px;border:1px solid transparent;cursor:pointer;position:relative;
+  transition:transform .1s ease;
+}
+.pc:hover{transform:translateY(-2px);z-index:3}
+.pc.err{box-shadow:inset 0 0 0 1.5px var(--certain);border-color:var(--certain)}
+.pc.on{outline:2px solid var(--ink);outline-offset:1px;z-index:4}
+
+.tablehead{
+  display:grid;grid-template-columns:3px 104px 132px minmax(118px,1fr) minmax(190px,1.7fr) 148px;
+  gap:10px;padding:7px 12px 7px 0;border-bottom:1px solid var(--rule);background:var(--surface-2);
+  font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+}
+.tablehead>span:last-child{text-align:right}
+.rows{min-height:0}
+.r{
+  display:grid;grid-template-columns:3px 104px 132px minmax(118px,1fr) minmax(190px,1.7fr) 148px;
+  gap:10px;padding:0 12px 0 0;border-bottom:1px solid var(--rule-soft);cursor:pointer;
+  align-items:center;min-height:38px;
+}
+.r:hover{background:var(--surface-2)}
+.r.sel{background:var(--sel)}
+.r .edge{align-self:stretch}
+.r .cls{font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r .rec{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r .msg{color:var(--ink-2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r .stk{text-align:right;font-size:11.5px;white-space:nowrap;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis}
 .pill{
-  display:inline-flex;align-items:center;gap:6px;padding:2px 9px;
-  font-size:11px;font-weight:600;letter-spacing:.04em;white-space:nowrap;border:1px solid;
+  display:inline-flex;align-items:center;gap:5px;padding:1px 7px;font-size:10px;font-weight:600;
+  letter-spacing:.04em;white-space:nowrap;border:1px solid;text-transform:uppercase;
 }
-.pill i{width:7px;height:7px;border-radius:50%;display:block;flex:0 0 7px}
-.p-certain{color:var(--certain);border-color:var(--certain);background:var(--certain-wash)}
-.p-certain i{background:var(--certain)}
-.p-unverifiable{color:var(--unverif);border-color:var(--unverif);background:var(--unverif-wash)}
-.p-unverifiable i{background:var(--unverif)}
-.p-conflict{color:var(--conflict);border-color:var(--conflict);background:var(--conflict-wash)}
-.p-conflict i{background:var(--conflict)}
-.p-anomaly{color:var(--anomaly);border-color:var(--anomaly);background:var(--anomaly-wash)}
-.p-anomaly i{background:var(--anomaly)}
-.subj{font-weight:600}
-.msg{color:var(--ink-2);max-width:52ch}
-.stake{text-align:right;white-space:nowrap}
-.detail td{background:var(--surface-2);padding:0 14px 16px}
-.evidence{display:grid;grid-template-columns:auto 1fr;gap:2px 20px;font-size:12.5px;padding-top:12px;border-top:1px dashed var(--rule)}
-.evidence dt{color:var(--ink-3);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding-top:3px}
-.evidence dd{margin:0}
-.caret{display:inline-block;width:9px;transition:transform .15s ease;color:var(--ink-3)}
-tr.open .caret{transform:rotate(90deg)}
-.empty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13.5px}
-.hidden{display:none}
-footer{padding:34px 0 46px;color:var(--ink-3);font-size:12.5px;line-height:1.7}
-footer strong{color:var(--ink-2);font-weight:600}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.pill i{width:6px;height:6px;border-radius:50%;display:block;flex:0 0 6px}
+.k-certain_error{color:var(--certain);border-color:var(--certain);background:var(--certain-wash)}
+.k-certain_error i{background:var(--certain)}
+.k-unverifiable{color:var(--unverif);border-color:var(--unverif);background:var(--unverif-wash)}
+.k-unverifiable i{background:var(--unverif)}
+.k-conflict{color:var(--conflict);border-color:var(--conflict);background:var(--conflict-wash)}
+.k-conflict i{background:var(--conflict)}
+.k-anomaly{color:var(--anomaly);border-color:var(--anomaly);background:var(--anomaly-wash)}
+.k-anomaly i{background:var(--anomaly)}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-3);font-size:12.5px}
+
+/* ---------------- detail ---------------- */
+.dhead{padding:12px 14px;border-bottom:1px solid var(--rule);background:var(--surface-2);display:flex;gap:10px;align-items:flex-start}
+.dhead h2{margin:6px 0 0;font-family:Spectral,serif;font-size:16px;font-weight:600;line-height:1.3}
+.drule{font-size:11px;color:var(--ink-3);margin-top:4px}
+.dsec{padding:12px 14px;border-bottom:1px solid var(--rule-soft)}
+.dsec h3{
+  margin:0 0 8px;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;
+}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;font-size:12px;align-items:baseline}
+.kv dt{color:var(--ink-3);white-space:nowrap;font-size:11px}
+.kv dd{margin:0;word-break:break-word}
+.subj{display:flex;flex-direction:column;gap:5px}
+.subj a{
+  display:flex;justify-content:space-between;gap:8px;padding:6px 9px;background:var(--surface-2);
+  border:1px solid var(--rule-soft);text-decoration:none;color:var(--ink);font-size:12px;cursor:pointer;
+}
+.subj a:hover{border-color:var(--rule);background:var(--surface-3)}
+.subj .t{color:var(--ink-3);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em}
+.wtag{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:2px 7px;border:1px solid var(--rule-soft);margin:0 4px 4px 0;background:var(--surface-2)}
+.wtag i{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.wtag.off{color:var(--ink-3)}.wtag.off i{background:var(--certain);opacity:.55}
+.wtag.na{color:var(--ink-3);opacity:.6;font-style:italic}.wtag.na i{background:var(--rule)}
+.blank{padding:44px 18px;text-align:center;color:var(--ink-3);font-size:12.5px;line-height:1.6}
+.blank b{display:block;color:var(--ink-2);font-weight:600;margin-bottom:5px;font-size:13px}
+
+/* ---------------- statusbar ---------------- */
+.statusbar{
+  background:var(--surface);border-top:1px solid var(--rule);display:flex;align-items:center;
+  gap:14px;padding:0 12px;font-size:11px;color:var(--ink-3);white-space:nowrap;overflow:hidden;
+}
+.statusbar b{color:var(--ink-2);font-weight:600;font-variant-numeric:tabular-nums}
+.statusbar .sp{margin-left:auto;display:flex;gap:12px;align-items:center}
+.statusbar kbd{
+  font-family:"IBM Plex Mono",monospace;border:1px solid var(--rule);padding:0 3px;font-size:10px;
+}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header class="masthead">
-  <div class="wrap masthead-inner">
-    <div class="brand">
-      <div class="crest"><span>क</span></div>
-      <div>
-        <h1>Kavach — Register Review</h1>
-        <p>Every field cross-examined against other records of the same land.
-           Findings are flags for review, never determinations of title.</p>
-      </div>
-    </div>
-    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-      <div class="ident" id="ident"></div>
-      <div class="stamp" id="stamp"></div>
-    </div>
-  </div>
-</header>
+<div class="app">
 
-<main class="wrap">
-  <section class="balance" id="balance" aria-label="Findings by class"></section>
+  <header class="topbar">
+    <button class="iconbtn railToggle" id="railToggle" aria-label="Toggle summary panel">&#9776;</button>
+    <div class="mark"><div class="glyph">&#2325;</div><b>Kavach</b></div>
+    <div class="crumbs">
+      <span class="v" id="cVillage"></span>
+      <span class="s" id="cWhere"></span>
+    </div>
+    <div class="topmeta">
+      <span>as of <b id="cAsOf"></b></span>
+      <span>ladder <b class="mono" id="cLadder"></b></span>
+      <span class="badge" id="cBadge"></span>
+      <button class="iconbtn" id="themeBtn" aria-label="Switch theme" title="Switch theme">&#9681;</button>
+    </div>
+  </header>
 
-  <section class="panels">
-    <div class="panel">
-      <div class="panel-head">
-        <h2>Verifiability</h2>
-        <span class="eyebrow">Class 8</span>
-      </div>
-      <div class="panel-body">
-        <div class="rate">
-          <span class="num" id="rateNum">—</span><span class="pct">%</span>
-          <span class="exact" id="rateExact"></span>
-        </div>
-        <p class="note">A rate, not an error rate. The share of checks that have a
+  <div class="work">
+
+    <aside class="pane scroll" id="rail">
+      <div class="block">
+        <p class="blocktitle">Verifiability <span>Class 8</span></p>
+        <div class="bignum"><b id="vNum">—</b><span>%</span><em id="vExact"></em></div>
+        <p class="hint">A rate, not an error rate — the share of checks that have a
            witness at all, against twelve named witnesses per parcel.</p>
-        <div class="witness" id="witness"></div>
       </div>
-    </div>
+      <div class="block">
+        <p class="blocktitle">By record lineage</p>
+        <div id="lineage"></div>
+      </div>
+      <div class="block" style="border-bottom:0">
+        <p class="blocktitle">Witness coverage</p>
+        <div id="witness"></div>
+      </div>
+    </aside>
 
-    <div class="panel">
-      <div class="panel-head">
-        <h2>Verifiability map</h2>
-        <span class="eyebrow" id="mapCount"></span>
+    <section class="pane" id="centre">
+      <div class="toolbar">
+        <label class="search">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/>
+          </svg>
+          <input id="q" type="search" placeholder="Filter by rule, record or message" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+        <div class="seg" id="classFilter"></div>
+        <button class="seg" id="clearBtn" style="padding:5px 9px;font-size:11.5px;cursor:pointer;background:var(--surface)">Reset</button>
       </div>
-      <div class="panel-body">
-        <div class="map" id="map" role="list"></div>
-        <div class="lineage" id="lineage"></div>
-        <div class="legend">
-          <span>Fewer witnesses</span>
-          <span class="ramp"><i style="background:var(--seq-0)"></i><i style="background:var(--seq-1)"></i><i style="background:var(--seq-2)"></i><i style="background:var(--seq-3)"></i><i style="background:var(--seq-4)"></i><i style="background:var(--seq-5)"></i></span>
-          <span>More</span>
-          <span style="margin-left:10px;display:inline-flex;align-items:center;gap:6px">
-            <i style="width:11px;height:11px;border:1.5px solid var(--certain);display:block"></i>
-            has a certain error
-          </span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-view="queue">Review queue</button>
-    <button class="tab" role="tab" aria-selected="false" data-view="parcels">Parcels</button>
-    <button class="tab" role="tab" aria-selected="false" data-view="rules">Rules</button>
+      <div class="strip" id="strip">
+        <div class="striplabel"><span>Verifiability map — parcels sized by area</span><span id="stripMeta"></span></div>
+      </div>
+
+      <div class="tablehead">
+        <span></span><span>Finding</span><span>Class</span><span>Record</span>
+        <span>What the rule says</span><span>Land at stake</span>
+      </div>
+      <div class="scroll rows" id="rows" tabindex="0" role="listbox" aria-label="Review queue"></div>
+    </section>
+
+    <aside class="pane scroll" id="detail"></aside>
   </div>
 
-  <section id="view-queue">
-    <div class="filters" id="filters"></div>
-    <div class="tablewrap">
-      <table>
-        <thead><tr>
-          <th></th><th>Finding</th><th>Class</th><th>Record</th>
-          <th>What the rule says</th><th class="stake">Land at stake</th>
-        </tr></thead>
-        <tbody id="queueBody"></tbody>
-      </table>
-    </div>
-    <p class="note" style="margin-top:12px">
-      Ordered by severity, then by land at stake — never by ascending confidence.
-      The uncertainty half of “consequence × uncertainty” needs a calibrated model,
-      which this phase does not have, so it is absent rather than invented.
-    </p>
-  </section>
-
-  <section id="view-parcels" class="hidden">
-    <div class="tablewrap" style="margin-top:14px">
-      <table>
-        <thead><tr>
-          <th>Parcel</th><th>Area</th><th>As written</th><th>Tenure</th>
-          <th>Held by</th><th>Witnesses</th><th>Findings</th>
-        </tr></thead>
-        <tbody id="parcelBody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="view-rules" class="hidden">
-    <div id="rulesBody" style="margin-top:14px;display:flex;flex-direction:column;gap:18px"></div>
-  </section>
-
-  <footer>
-    <p><strong id="footSource"></strong></p>
-    <p>Generated <span id="footTime"></span> · Classes 1, 2, 3 and 8 run here.
-       Classes 4–7 are specified, have no bodies, and abstain naming the external
-       record they lack.</p>
+  <footer class="statusbar">
+    <span><span class="dot" style="background:var(--certain)"></span><b id="sErr">0</b> certain errors</span>
+    <span><span class="dot" style="background:var(--unverif)"></span><b id="sUnv">0</b> unverifiable</span>
+    <span><b id="sParcels">0</b> parcels · <b id="sKhatas">0</b> khatas</span>
+    <span><b id="sRules">0</b> rules ran</span>
+    <span class="sp">
+      <span id="sShown"></span>
+      <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span>
+      <span><kbd>/</kbd> search</span>
+      <span><kbd>esc</kbd> clear</span>
+    </span>
   </footer>
-</main>
+</div>
 
 <script id="payload" type="application/json">__PAYLOAD__</script>
 <script>
@@ -364,211 +363,262 @@ footer strong{color:var(--ink-2);font-weight:600}
       return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
     });
   };
-  var CLASSES = ["certain_error","conflict","anomaly","unverifiable"];
   var LABEL = {certain_error:"Certain error", conflict:"Conflict",
                anomaly:"Anomaly", unverifiable:"Unverifiable"};
   var VAR = {certain_error:"--certain", conflict:"--conflict",
              anomaly:"--anomaly", unverifiable:"--unverif"};
+  var ORDER = ["certain_error","conflict","anomaly","unverifiable"];
 
-  /* ---- masthead ---- */
+  var state = {sel:-1, q:"", classes:{}, parcel:null, view:[]};
+  ORDER.forEach(function(c){ state.classes[c] = true; });
+
+  /* ---- chrome ---- */
   var m = D.mouza;
-  $("ident").innerHTML = [
-    ["Village", m.name], [m.subdistrict_term, m.subdistrict || "—"],
-    ["District", m.district], ["Records as of", m.as_of || "—"],
-    ["Unit ladder", m.ladder]
-  ].map(function(p){
-    return "<div><dt>" + esc(p[0]) + "</dt><dd>" + esc(p[1]) + "</dd></div>";
-  }).join("");
-  $("stamp").textContent = m.is_synthetic ? "Synthetic fixture — not a real village" : "Live records";
-  $("footSource").textContent = m.is_synthetic
-    ? "Every figure on this page is computed from a synthetic fixture in which the invariants hold by construction. No number here is a measurement of any real corpus."
-    : "Computed from " + m.source + ".";
-  $("footTime").textContent = D.generated;
-
-  /* ---- trial balance ---- */
+  $("cVillage").textContent = m.name;
+  $("cWhere").textContent = [m.subdistrict_term + " " + (m.subdistrict||"—"), m.district].join("  ·  ");
+  $("cAsOf").textContent = m.as_of || "—";
+  $("cLadder").textContent = m.ladder;
+  $("cBadge").textContent = m.is_synthetic ? "Synthetic fixture" : "Live records";
   var T = D.totals;
-  $("balance").innerHTML = [
-    {k:"certain", n:T.certain_errors, l:"Certain errors", s:"grammar or conservation violated"},
-    {k:"unverif", n:T.unverifiable, l:"Unverifiable", s:"no witness exists — not a pass"},
-    {k:"conflict", n:T.conflicts, l:"Conflicts", s:"two witnesses disagree"},
-    {k:"plain", n:T.parcels, l:"Parcels", s:T.khatas + " khatas · " + T.owners + " owners"},
-    {k:"plain", n:T.rules_ran, l:"Rules run", s:"of " + T.rules_registered + " registered"}
-  ].map(function(c){
-    return '<div class="cell k-' + c.k + '"><i class="edge"></i>' +
-      '<span class="fig">' + c.n + '</span>' +
-      '<span class="lab">' + esc(c.l) + '</span>' +
-      '<span class="lab" style="color:var(--ink-3);font-size:11.5px">' + esc(c.s) + '</span></div>';
-  }).join("");
+  $("sErr").textContent = T.certain_errors;
+  $("sUnv").textContent = T.unverifiable;
+  $("sParcels").textContent = T.parcels;
+  $("sKhatas").textContent = T.khatas;
+  $("sRules").textContent = T.rules_ran + "/" + T.rules_registered;
 
-  /* ---- verifiability ---- */
+  $("themeBtn").addEventListener("click", function(){
+    var now = document.documentElement.getAttribute("data-theme");
+    var dark = now ? now === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+  $("railToggle").addEventListener("click", function(){ $("rail").classList.toggle("open"); });
+
+  /* ---- rail ---- */
   var V = D.verifiability;
-  $("rateNum").textContent = V.percent == null ? "—" : V.percent;
-  $("rateExact").innerHTML = V.rate ? "exactly <span class='mono'>" + esc(V.rate) + "</span><br>" +
-    V.unexaminable + " parcel(s) with no witness at all" : "";
+  $("vNum").textContent = V.percent == null ? "—" : V.percent;
+  $("vExact").innerHTML = V.rate
+    ? "<span class='mono'>" + esc(V.rate) + "</span><br>checks with a witness"
+    : "";
+  $("lineage").innerHTML = D.profiles.map(function(p){
+    return '<div class="lrow"><span class="n">' + esc(p.profile) + "</span>" +
+      '<span class="bar"><i style="width:0" data-w="' + p.percent + '"></i></span>' +
+      '<span class="p">' + p.percent + "%</span></div>" +
+      '<p class="lnote">' + esc(p.blurb) + "</p>";
+  }).join("");
   $("witness").innerHTML = V.witnesses.map(function(w){
     if (w.percent === null){
       return '<div class="wrow na" title="' + esc(w.description) +
-        ' — no parcel in this register has that shape">' +
-        '<span class="wname">' + esc(w.name.replace(/_/g, " ")) + "</span>" +
-        '<span class="wbar"></span>' +
-        '<span class="wpct">n/a</span></div>';
+        ' — no parcel in this register has that shape"><span class="wn">' +
+        esc(w.name.replace(/_/g," ")) + '</span><span class="bar"></span><span class="wp">n/a</span></div>';
     }
-    return '<div class="wrow" title="' + esc(w.description) + '">' +
-      '<span class="wname">' + esc(w.name.replace(/_/g, " ")) + "</span>" +
-      '<span class="wbar"><i style="width:0" data-w="' + w.percent + '"></i></span>' +
-      '<span class="wpct">' + w.percent + "%</span></div>";
+    return '<div class="wrow' + (w.percent === 0 ? " zero" : "") + '" title="' + esc(w.description) +
+      '"><span class="wn">' + esc(w.name.replace(/_/g," ")) +
+      '</span><span class="bar"><i style="width:0" data-w="' + w.percent +
+      '"></i></span><span class="wp">' + w.percent + "%</span></div>";
   }).join("");
   requestAnimationFrame(function(){
-    Array.prototype.forEach.call(document.querySelectorAll(".wbar i"), function(el){
+    Array.prototype.forEach.call(document.querySelectorAll(".bar i"), function(el){
       el.style.width = el.getAttribute("data-w") + "%";
     });
   });
 
-  /* ---- parcel map ---- */
-  var step = function(pct){
-    return pct >= 90 ? 5 : pct >= 72 ? 4 : pct >= 54 ? 3 : pct >= 36 ? 2 : pct >= 18 ? 1 : 0;
+  /* ---- map strip ---- */
+  var tone = function(p){
+    return p>=90?5:p>=72?4:p>=54?3:p>=36?2:p>=18?1:0;
   };
-  $("mapCount").textContent = D.parcels.length + " parcels, sized by area";
-  var areas = D.parcels.map(function(p){ return p.area_units || 1; });
-  var biggest = Math.max.apply(null, areas);
-  $("map").innerHTML = D.parcels.slice().sort(function(a, b){
-    return (b.area_units || 0) - (a.area_units || 0);
-  }).map(function(p){
-    /* A red ring means an error was found, never "this could not be checked".
-       Abstention is carried by the fill tone, which is what it means. */
-    var flagged = p.error_rows.length > 0;
-    var units = p.area_units || 1;
-    var grow = Math.max(1, Math.round(100 * units / biggest));
-    var tone = step(p.witness_percent);
-    return '<div role="listitem" tabindex="0" class="pcell' + (flagged ? " flagged" : "") +
-      (tone >= 4 ? " dark-fill" : "") +
-      '" style="background:var(--seq-' + tone + ');flex:' + grow + ' 1 auto"' +
-      ' title="' + esc(p.path) + " · " + esc(p.area || "no stated area") +
-      " · " + p.witness_percent + '% of witnesses present' +
-      (p.error_rows.length ? " · " + p.error_rows.length + " error(s)" : "") +
-      (p.finding_rows.length ? " · " + p.finding_rows.length + " finding(s)" : "") + '">' +
-      (grow > 22 ? esc(p.path) : "") + "</div>";
-  }).join("");
-
-  /* lineage comparison — the gap that is the argument */
-  $("lineage").innerHTML = D.profiles.map(function(p){
-    return '<div class="lrow">' +
-      '<span class="lname">' + esc(p.profile) + "</span>" +
-      '<span class="lbar"><i style="width:0" data-w="' + p.percent + '"></i></span>' +
-      '<span class="lpct">' + p.percent + "%</span>" +
-      '<span class="lblurb">' + esc(p.blurb) + "</span></div>";
-  }).join("");
-  requestAnimationFrame(function(){
-    Array.prototype.forEach.call(document.querySelectorAll(".lbar i"), function(el){
-      el.style.width = el.getAttribute("data-w") + "%";
-    });
-  });
+  var biggest = Math.max.apply(null, D.parcels.map(function(p){ return p.area_units||1; }));
+  var mapped = D.parcels.slice().sort(function(a,b){ return (b.area_units||0)-(a.area_units||0); });
+  $("stripMeta").textContent = D.parcels.length + " parcels · click to filter";
+  $("strip").insertAdjacentHTML("beforeend", mapped.map(function(p){
+    var grow = Math.max(1, Math.round(100*(p.area_units||1)/biggest));
+    return '<div class="pc' + (p.error_rows.length?" err":"") + '" data-p="' + esc(p.id) +
+      '" style="background:var(--seq-' + tone(p.witness_percent) + ');flex:' + grow + ' 1 auto" ' +
+      'title="' + esc(p.path) + " · " + esc(p.area||"no stated area") + " · " +
+      p.witness_percent + "% witnesses" +
+      (p.error_rows.length ? " · " + p.error_rows.length + " error(s)" : "") + '"></div>';
+  }).join(""));
 
   /* ---- filters ---- */
-  var active = {};
-  CLASSES.forEach(function(c){ active[c] = true; });
   var counts = {};
-  D.queue.forEach(function(r){ counts[r.finding_class] = (counts[r.finding_class] || 0) + 1; });
-  $("filters").innerHTML = CLASSES.filter(function(c){ return counts[c]; }).map(function(c){
-    return '<button class="chip" aria-pressed="true" data-c="' + c + '">' +
-      '<i style="background:var(' + VAR[c] + ')"></i>' + LABEL[c] + " " + counts[c] + "</button>";
-  }).join("") + '<span style="font-size:12px;color:var(--ink-3);margin-left:6px">' +
-    D.queue.length + " findings — click a row for its evidence</span>";
+  D.queue.forEach(function(r){ counts[r.finding_class] = (counts[r.finding_class]||0)+1; });
+  $("classFilter").innerHTML = ORDER.filter(function(c){ return counts[c]; }).map(function(c){
+    return '<button aria-pressed="true" data-c="' + c + '"><i style="background:var(' +
+      VAR[c] + ')"></i>' + LABEL[c] + '<span class="c">' + counts[c] + "</span></button>";
+  }).join("");
 
   /* ---- queue ---- */
-  function renderQueue(){
-    var rows = D.queue.map(function(r, i){ return [r, i]; })
-      .filter(function(p){ return active[p[0].finding_class]; });
-    if (!rows.length){
-      $("queueBody").innerHTML = '<tr><td colspan="6" class="empty">Nothing selected.</td></tr>';
+  function matches(r){
+    if (!state.classes[r.finding_class]) return false;
+    if (state.parcel && r.parcel_ids.indexOf(state.parcel) < 0) return false;
+    if (state.q){
+      var hay = (r.rule_id + " " + r.primary + " " + r.message + " " + r.class_title).toLowerCase();
+      if (hay.indexOf(state.q) < 0) return false;
+    }
+    return true;
+  }
+  function renderRows(){
+    state.view = D.queue.map(function(r,i){ return {r:r,i:i}; }).filter(function(o){ return matches(o.r); });
+    $("sShown").textContent = state.view.length + " of " + D.queue.length + " shown";
+    if (!state.view.length){
+      $("rows").innerHTML = '<p class="empty">No findings match this filter.</p>';
       return;
     }
-    $("queueBody").innerHTML = rows.map(function(pair){
-      var r = pair[0], i = pair[1];
-      var ev = Object.keys(r.evidence).map(function(k){
-        return "<dt>" + esc(k.replace(/_/g, " ")) + "</dt><dd class='mono'>" + esc(r.evidence[k]) + "</dd>";
-      }).join("");
-      if (r.missing_witness){
-        ev = "<dt>missing witness</dt><dd class='mono'>" + esc(r.missing_witness) + "</dd>" + ev;
-      }
-      var subjects = r.subjects.map(function(s){
-        return esc(s.label) + (s.field ? " <span style='color:var(--ink-3)'>· " + esc(s.field) + "</span>" : "");
-      }).join("<br>");
-      return '<tr class="row" data-i="' + i + '">' +
-        '<td class="sev"><i style="background:var(' + VAR[r.finding_class] + ')"></i></td>' +
-        '<td><span class="pill p-' + r.finding_class.replace("_error","") + '"><i></i>' +
-          LABEL[r.finding_class] + "</span></td>" +
-        '<td><span class="mono" style="font-size:12px">C' + r.validation_class + "</span> " +
-          esc(r.class_title) + "</td>" +
-        '<td class="subj"><span class="caret">▸</span> ' + subjects + "</td>" +
-        '<td class="msg">' + esc(r.message) +
-          "<div style='color:var(--ink-3);font-size:11.5px;margin-top:3px' class='mono'>" +
-          esc(r.rule_id) + "</div></td>" +
-        '<td class="stake mono">' + esc(r.stake_display) + "</td></tr>" +
-        '<tr class="detail hidden" data-d="' + i + '"><td></td>' +
-        '<td colspan="5"><dl class="evidence">' + ev + "</dl></td></tr>";
+    $("rows").innerHTML = state.view.map(function(o){
+      var r = o.r;
+      return '<div class="r' + (o.i===state.sel?" sel":"") + '" data-i="' + o.i +
+        '" role="option" aria-selected="' + (o.i===state.sel) + '">' +
+        '<span class="edge" style="background:var(' + VAR[r.finding_class] + ')"></span>' +
+        '<span><span class="pill k-' + r.finding_class + '"><i></i>' + LABEL[r.finding_class] + "</span></span>" +
+        '<span class="cls"><span class="mono">C' + r.validation_class + "</span> " + esc(r.class_title) + "</span>" +
+        '<span class="rec">' + esc(r.primary) + "</span>" +
+        '<span class="msg">' + esc(r.message) + "</span>" +
+        '<span class="stk mono">' + esc(r.stake_display) + "</span></div>";
     }).join("");
   }
-  renderQueue();
 
-  document.addEventListener("click", function(e){
-    var chip = e.target.closest(".chip");
-    if (chip){
-      var c = chip.getAttribute("data-c");
-      active[c] = !active[c];
-      chip.setAttribute("aria-pressed", String(active[c]));
-      renderQueue();
+  function renderDetail(reveal){
+    var el = $("detail");
+    if (state.sel < 0 || !D.queue[state.sel]){
+      el.innerHTML = '<div class="blank"><b>No finding selected</b>' +
+        "Choose a row to see the rule that fired, the record that disagrees, and the exact evidence." +
+        "</div>";
+      el.classList.remove("open");
       return;
     }
-    var row = e.target.closest("tr.row");
-    if (row){
-      var d = document.querySelector('tr.detail[data-d="' + row.getAttribute("data-i") + '"]');
-      if (d){ d.classList.toggle("hidden"); row.classList.toggle("open"); }
+    var r = D.queue[state.sel];
+    var ev = Object.keys(r.evidence).map(function(k){
+      return "<dt>" + esc(k.replace(/_/g," ")) + "</dt><dd class='mono'>" + esc(r.evidence[k]) + "</dd>";
+    }).join("");
+    if (r.missing_witness){
+      ev = "<dt>missing witness</dt><dd class='mono'>" + esc(r.missing_witness) + "</dd>" + ev;
     }
+    var parcels = r.parcel_ids.map(function(id){
+      return D.parcels.filter(function(p){ return p.id === id; })[0];
+    }).filter(Boolean);
+    var ctx = parcels.map(function(p){
+      return '<div class="dsec"><h3>Parcel ' + esc(p.path) + "</h3>" +
+        "<dl class='kv'><dt>area</dt><dd class='mono'>" + esc(p.area||"—") + "</dd>" +
+        "<dt>as written</dt><dd class='mono'>" + esc(p.as_written||"—") + "</dd>" +
+        "<dt>held by</dt><dd class='mono'>" + esc(p.holders.join(", ")||"—") + "</dd>" +
+        "<dt>witnesses</dt><dd>" + p.witness_percent + "%</dd></dl>" +
+        "<div style='margin-top:8px'>" +
+        p.witnesses_present.map(function(w){ return "<span class='wtag'><i></i>" + esc(w.replace(/_/g," ")) + "</span>"; }).join("") +
+        p.witnesses_absent.map(function(w){ return "<span class='wtag off'><i></i>" + esc(w.replace(/_/g," ")) + "</span>"; }).join("") +
+        p.witnesses_na.map(function(w){ return "<span class='wtag na'><i></i>" + esc(w.replace(/_/g," ")) + "</span>"; }).join("") +
+        "</div></div>";
+    }).join("");
+
+    el.innerHTML =
+      '<div class="dhead"><div style="flex:1">' +
+        '<span class="pill k-' + r.finding_class + '"><i></i>' + LABEL[r.finding_class] + "</span>" +
+        "<h2>" + esc(r.message) + "</h2>" +
+        '<p class="drule mono">' + esc(r.rule_id) + " · class " + r.validation_class +
+        " " + esc(r.class_title) + "</p></div>" +
+        '<button class="iconbtn closeDetail" id="closeDetail" aria-label="Close">&times;</button></div>' +
+      (ev ? '<div class="dsec"><h3>Evidence</h3><dl class="kv">' + ev + "</dl></div>" : "") +
+      '<div class="dsec"><h3>Records named</h3><div class="subj">' +
+        r.subjects.map(function(s){
+          return "<a data-goto='" + esc(s.id) + "'><span>" + esc(s.label) +
+            (s.field ? " <span style='color:var(--ink-3)'>· " + esc(s.field) + "</span>" : "") +
+            "</span><span class='t'>" + esc(s.type) + "</span></a>";
+        }).join("") +
+      "</div></div>" +
+      '<div class="dsec"><h3>Consequence</h3><dl class="kv">' +
+        "<dt>land at stake</dt><dd class='mono'>" + esc(r.stake_display) + "</dd></dl>" +
+        "<p class='hint'>Queue order is severity, then land at stake. Never ascending " +
+        "confidence — the uncertainty term needs a calibrated model this phase does not have.</p></div>" +
+      ctx;
+    /* On a wide screen the detail pane is always there and `open` is inert. On a
+       narrow one it is an overlay over the table, so it may only appear when the
+       reviewer actually picked something — never on load. */
+    if (reveal) el.classList.add("open");
+    var cd = $("closeDetail");
+    if (cd) cd.addEventListener("click", function(){ el.classList.remove("open"); });
+  }
+
+  function select(i, scroll, reveal){
+    state.sel = i;
+    renderRows();
+    renderDetail(reveal !== false);
+    if (scroll){
+      var node = $("rows").querySelector('.r[data-i="' + i + '"]');
+      if (node) node.scrollIntoView({block:"nearest"});
+    }
+  }
+
+  /* ---- events ---- */
+  $("rows").addEventListener("click", function(e){
+    var row = e.target.closest(".r");
+    if (row) select(parseInt(row.getAttribute("data-i"), 10), false, true);
   });
-
-  /* ---- parcels ---- */
-  $("parcelBody").innerHTML = D.parcels.map(function(p){
-    return "<tr><td class='mono subj'>" + esc(p.path) + "</td>" +
-      "<td class='mono'>" + esc(p.area || "—") + "</td>" +
-      "<td class='mono' style='color:var(--ink-2)'>" + esc(p.as_written || "—") + "</td>" +
-      "<td>" + esc(p.tenure ? p.tenure.replace(/_/g, " ") : "—") + "</td>" +
-      "<td class='mono' style='font-size:12px'>" + esc(p.holders.join(", ") || "—") + "</td>" +
-      "<td><span class='wbar' style='display:inline-block;width:66px;vertical-align:middle'>" +
-        "<i style='width:" + p.witness_percent + "%'></i></span> " +
-        "<span class='mono' style='font-size:12px'>" + p.witness_percent + "%</span></td>" +
-      "<td>" + (p.error_rows.length
-        ? "<span class='pill p-certain'><i></i>" + p.error_rows.length + "</span>"
-        : p.finding_rows.length
-        ? "<span class='pill p-unverifiable'><i></i>" + p.finding_rows.length + "</span>"
-        : "<span style='color:var(--ink-3)'>—</span>") + "</td></tr>";
-  }).join("");
-
-  /* ---- rules ---- */
-  $("rulesBody").innerHTML = D.rule_classes.map(function(g){
-    return '<div class="tablewrap"><table>' +
-      "<thead><tr><th>Class " + g.validation_class + " — " + esc(g.title) +
-      "</th><th>Scope</th><th>Ran</th><th class='stake'>Findings</th></tr></thead><tbody>" +
-      g.rules.map(function(r){
-        return "<tr><td><span class='mono' style='font-size:12.5px'>" + esc(r.id) + "</span>" +
-          "<div class='msg' style='font-size:12.5px;margin-top:2px'>" + esc(r.description) + "</div></td>" +
-          "<td style='font-size:12px;color:var(--ink-2)'>" + esc(r.scope.replace(/_/g, " ")) + "</td>" +
-          "<td>" + (r.ran ? "yes" : "<span style='color:var(--ink-3)'>abstained</span>") + "</td>" +
-          "<td class='stake mono'>" + r.findings + "</td></tr>";
-      }).join("") + "</tbody></table></div>";
-  }).join("");
-
-  /* ---- tabs ---- */
-  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(t){
-    t.addEventListener("click", function(){
-      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(o){
-        o.setAttribute("aria-selected", String(o === t));
-      });
-      ["queue","parcels","rules"].forEach(function(v){
-        $("view-" + v).classList.toggle("hidden", v !== t.getAttribute("data-view"));
-      });
+  $("classFilter").addEventListener("click", function(e){
+    var b = e.target.closest("button");
+    if (!b) return;
+    var c = b.getAttribute("data-c");
+    state.classes[c] = !state.classes[c];
+    b.setAttribute("aria-pressed", String(state.classes[c]));
+    renderRows();
+  });
+  $("strip").addEventListener("click", function(e){
+    var cell = e.target.closest(".pc");
+    if (!cell) return;
+    var id = cell.getAttribute("data-p");
+    state.parcel = state.parcel === id ? null : id;
+    Array.prototype.forEach.call(document.querySelectorAll(".pc"), function(n){
+      n.classList.toggle("on", n.getAttribute("data-p") === state.parcel);
     });
+    renderRows();
   });
+  $("q").addEventListener("input", function(){
+    state.q = this.value.trim().toLowerCase();
+    renderRows();
+  });
+  $("clearBtn").addEventListener("click", function(){
+    state.q = ""; state.parcel = null; state.sel = -1;
+    $("q").value = "";
+    ORDER.forEach(function(c){ state.classes[c] = true; });
+    Array.prototype.forEach.call(document.querySelectorAll("#classFilter button"), function(b){
+      b.setAttribute("aria-pressed", "true");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".pc"), function(n){ n.classList.remove("on"); });
+    renderRows(); renderDetail(false);
+  });
+  document.addEventListener("click", function(e){
+    var go = e.target.closest("[data-goto]");
+    if (!go) return;
+    var id = go.getAttribute("data-goto");
+    var hit = D.parcels.filter(function(p){ return p.id === id; })[0];
+    if (!hit) return;
+    state.parcel = id;
+    Array.prototype.forEach.call(document.querySelectorAll(".pc"), function(n){
+      n.classList.toggle("on", n.getAttribute("data-p") === id);
+    });
+    renderRows();
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "/" && document.activeElement !== $("q")){
+      e.preventDefault(); $("q").focus(); $("q").select(); return;
+    }
+    if (e.key === "Escape"){ $("clearBtn").click(); $("q").blur(); return; }
+    if (document.activeElement === $("q")) return;
+    var down = e.key === "ArrowDown" || e.key === "j";
+    var up = e.key === "ArrowUp" || e.key === "k";
+    if (!down && !up) return;
+    e.preventDefault();
+    var order = state.view.map(function(o){ return o.i; });
+    if (!order.length) return;
+    var at = order.indexOf(state.sel);
+    var next = down ? (at < 0 ? 0 : Math.min(at+1, order.length-1))
+                    : (at < 0 ? order.length-1 : Math.max(at-1, 0));
+    select(order[next], true, true);
+  });
+
+  renderRows();
+  /* A review queue opens on its first item. An empty detail pane on load is a
+     document waiting to be read, not a tool ready to be worked. */
+  if (state.view.length) select(state.view[0].i, false, false);
+  else renderDetail(false);
 })();
 </script>
 </body>

@@ -120,9 +120,38 @@ def _finding_row(finding: Finding, records, index, registry) -> dict:
         ],
         "primary": finding.primary_subject.display or finding.primary_subject.entity_id,
         "primary_id": finding.primary_subject.entity_id,
+        "primary_type": str(finding.primary_subject.entity_type),
+        "parcel_ids": [
+            s.entity_id for s in finding.subjects
+            if s.entity_type is EntityType.KHESRA
+        ],
         "stake_units": str(stake),
         "stake_display": format_area(Area(ladder_id, stake), registry) if stake else "—",
     }
+
+
+def _grouped(rows: list[dict]) -> list[dict]:
+    """Findings collapsed by rule.
+
+    Sixty-seven flat rows is a list nobody reads. Eleven rules, each with a count and
+    the records under it, is a list somebody works through.
+    """
+    order: list[str] = []
+    buckets: dict[str, dict] = {}
+    for position, row in enumerate(rows):
+        key = row["rule_id"]
+        if key not in buckets:
+            order.append(key)
+            buckets[key] = {
+                "rule_id": key,
+                "validation_class": row["validation_class"],
+                "class_title": row["class_title"],
+                "finding_class": row["finding_class"],
+                "message": row["message"],
+                "rows": [],
+            }
+        buckets[key]["rows"].append(position)
+    return [buckets[k] for k in order]
 
 
 def _witness_rows(census) -> list[dict]:
@@ -222,6 +251,17 @@ def build_payload(
     for khesra in index.leaves():
         entry = census_by_id.get(khesra.id)
         holdings = index.holdings_by_khesra.get(khesra.id, ())
+        # The recorded raiyat, via khata. A jamabandi row carries a name, and a
+        # reviewer navigates by it — showing khata ids alone would be unusable.
+        holders = []
+        for holding in holdings:
+            khata = index.khata_by_id.get(holding.khata_id)
+            if khata is None:
+                continue
+            for member in index.memberships_by_khata.get(khata.id, ()):
+                owner = index.owner_by_id.get(member.owner_id)
+                if owner is not None and owner.name_raw not in holders:
+                    holders.append(owner.name_raw)
         parcels.append(
             {
                 "id": khesra.id,
@@ -240,9 +280,21 @@ def build_payload(
                     khesra.area_stated.as_written if khesra.area_stated else None
                 ),
                 "tenure": khesra.tenure,
-                "holders": sorted({h.khata_id for h in holdings}),
+                "khatas": sorted({h.khata_id for h in holdings}),
+                "khata_numbers": sorted(
+                    {
+                        index.khata_by_id[h.khata_id].number
+                        for h in holdings
+                        if h.khata_id in index.khata_by_id
+                    }
+                ),
+                "holders": holders,
+                "witnesses_missing_labels": (
+                    [n.replace("_", " ") for n in entry.absent] if entry else []
+                ),
                 "witnesses_present": list(entry.present) if entry else [],
                 "witnesses_absent": list(entry.absent) if entry else [],
+                "witnesses_na": list(entry.not_applicable) if entry else [],
                 "witness_percent": (
                     _percent(entry.possible, entry.total) if entry else 0
                 ),
@@ -319,6 +371,7 @@ def build_payload(
             "witnesses": _witness_rows(census),
         },
         "profiles": _profile_comparison(registry, schemes),
+        "groups": _grouped(rows),
         "queue": rows,
         "parcels": parcels,
         "rule_classes": [rules_by_class[k] for k in sorted(rules_by_class)],

@@ -189,4 +189,37 @@ def test_the_fragment_drops_the_document_skeleton_but_keeps_the_page():
     for tag in ("<!doctype", "<html", "<head>", "<body>", "</html>"):
         assert tag not in fragment.lower()
     assert "<title>" in fragment and "<style>" in fragment
-    assert "Verifiability map" in fragment
+    assert "Register" in fragment and "Evidence" in fragment
+
+
+def test_the_page_is_an_application_shell_not_a_scrolling_document():
+    """A review tool fills the viewport and scrolls its panes, rather than being
+    a centred column the reader scrolls past."""
+    from kavach.webui import demo_register, render
+
+    html = render(build_payload(demo_register()))
+    compact = html.replace(" ", "").replace("\n", "")
+    assert "height:100dvh" in compact, "the shell must own the viewport"
+    assert "overflow:hidden" in compact, "the page itself must not scroll"
+    assert "grid-template-rows:46pxminmax(0,1fr)26px" in compact, "topbar/work/statusbar"
+    assert "max-width:1240px" not in compact, "a centred reading column is a document"
+
+
+def test_the_queue_is_operable_by_keyboard():
+    from kavach.webui import demo_register, render
+
+    html = render(build_payload(demo_register()))
+    assert 'e.key === "ArrowDown"' in html and 'e.key === "ArrowUp"' in html
+    assert 'e.key === "/"' in html, "a filter needs a keyboard route"
+    assert 'e.key === "Escape"' in html
+    assert 'role="listbox"' in html and 'role="option"' in html
+
+
+def test_the_detail_overlay_never_opens_over_the_table_on_load():
+    """On a narrow viewport the detail pane covers the queue, so it may only appear
+    once the reviewer has actually picked a finding."""
+    from kavach.webui import demo_register, render
+
+    html = render(build_payload(demo_register()))
+    assert "select(state.view[0].i, false, false)" in html, "load selects but does not reveal"
+    assert "if (reveal) el.classList.add(\"open\")" in html
