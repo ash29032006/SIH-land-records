@@ -21,6 +21,17 @@ Caption any slide using these renders accordingly. On a pitch whose thesis is
 "stop shipping systems that assert things they cannot back up", an uncaptioned
 mockup screenshot is the one avoidable own-goal.
 
+## The crest
+
+Inline SVG in the top bar: a shield whose interior is subdivided by parcel
+boundaries, so the armour is drawn out of a khesra and its sub-divisions. One
+colour, no fills, legible down to about 16px.
+
+It is a placeholder for Ashwin's own mark. Whatever replaces it has to survive
+the same test — single colour at 20px in a top bar. A raster logo with
+gradients, glows or circuitry will read as a smudge there, and reads as
+cybersecurity rather than revenue administration to the people being pitched.
+
 ## Regenerating
 
 ```bash
