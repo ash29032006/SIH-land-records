@@ -1,0 +1,372 @@
+<!doctype html>
+<!--
+  Kavach — reviewer verification screen. STATIC MOCKUP for a presentation slide.
+  The counts (812 / 47 / 19), the mouza name and the witness values are
+  ILLUSTRATIVE. They are not output from the engine and are not a measurement
+  of any real corpus. Caption the slide accordingly.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kavach · Land Record Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Noto+Sans+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#0F2A44; --teal:#10716C; --amber:#C25A16; --red:#AE3324;
+    --green:#1E7A45; --panel:#EFF3F7; --mint:#E8F2EE; --line:#BCCAD6;
+    --page:#FBF0E7; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1440px;height:900px;overflow:hidden;background:var(--page);
+    color:var(--ink);
+    font-family:"Noto Sans","Noto Sans Devanagari",-apple-system,sans-serif;
+    font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased;
+  }
+  .dv{font-family:"Noto Sans Devanagari","Noto Sans",sans-serif}
+  .mono{font-family:"Noto Sans Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .caps{font-size:13px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+
+  .frame{width:1440px;height:900px;display:flex;flex-direction:column}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    height:52px;flex:0 0 52px;background:var(--teal);color:var(--white);
+    display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+  }
+  .topbar .brand{display:flex;align-items:baseline;gap:11px}
+  .topbar .brand b{font-size:19px;font-weight:700;letter-spacing:.10em}
+  .topbar .brand span{font-size:15px;opacity:.92}
+  .topbar .tally{font-size:15px;letter-spacing:.02em}
+  .topbar .tally b{font-weight:600}
+
+  /* ---------- columns ---------- */
+  .cols{flex:1 1 auto;display:flex;min-height:0;border-top:1px solid var(--line)}
+  .col{display:flex;flex-direction:column;min-height:0}
+  .c1{flex:0 0 300px;border-right:1px solid var(--line);background:var(--white)}
+  .c2{flex:1 1 auto;border-right:1px solid var(--line);background:var(--white)}
+  .c3{flex:0 0 380px;background:var(--white)}
+  .colhead{padding:11px 16px 10px;border-bottom:1px solid var(--line);background:var(--white)}
+  .colhead .t{font-size:13px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
+  .colhead .s{font-size:13px;color:var(--ink);opacity:.72;margin-top:3px}
+
+  /* ---------- column 1 : queue ---------- */
+  .qrow{
+    flex:1 1 0;min-height:0;padding:13px 15px 14px;border-bottom:1px solid var(--line);
+    background:var(--panel);border-left:3px solid transparent;
+    display:flex;flex-direction:column;
+  }
+  .qrow.sel{background:var(--white);border-left-color:var(--teal)}
+  .qrow .kh{font-size:16px;font-weight:600;letter-spacing:.02em}
+  .qrow .rs{font-size:13px;margin-top:2px;line-height:1.35}
+  .bars{margin-top:auto;padding-top:10px;display:flex;flex-direction:column;gap:5px}
+  .brow{display:flex;align-items:center;gap:8px}
+  .brow .bl{font-size:11px;font-weight:700;letter-spacing:.1em;width:11px;color:var(--ink)}
+  .track{flex:1;height:7px;background:var(--white);border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .qrow.sel .track{background:var(--panel)}
+  .fill{height:100%;display:block}
+  .fill.c{background:var(--ink)}
+  .fill.u{background:var(--amber)}
+
+  /* ---------- column 2 : the record ---------- */
+  .rechead{padding:12px 18px 11px;border-bottom:1px solid var(--line)}
+  .rechead .h1{font-size:19px;font-weight:700;letter-spacing:.01em}
+  .rechead .h2{font-size:13px;opacity:.75;margin-top:3px}
+  table{width:100%;border-collapse:collapse}
+  thead th{
+    text-align:left;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+    font-weight:700;padding:9px 14px;background:var(--panel);
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:16px 14px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:middle}
+  tbody td.f{width:180px;font-weight:500}
+  tbody td.s{width:190px;font-size:13px;opacity:.8}
+  tbody td.st{width:172px;font-size:13px;font-weight:700;letter-spacing:.06em}
+  .st.ok{color:var(--green)} .st.bad{color:var(--red)} .st.ab{color:var(--amber)}
+  tr.abstain td{background:var(--white)}
+  tr.abstain td.f{border-left:3px solid var(--amber);padding-left:11px}
+  tr.abstain td.v{font-style:italic;color:var(--amber);font-weight:600}
+  tr.abstain td.s{font-style:italic;color:var(--amber);opacity:1}
+  .cropwrap{margin-top:auto;padding:10px 18px 18px}
+  .croplab{font-size:12px;margin-top:7px;opacity:.8}
+  .cropbox{border:1px solid var(--line);background:var(--panel);border-radius:3px;display:block}
+
+  /* ---------- column 3 : cross examination ---------- */
+  .wit{
+    display:flex;align-items:center;gap:10px;padding:11px 13px;min-height:64px;
+    border:1px solid transparent;border-left:4px solid transparent;
+    border-bottom-color:var(--line);
+  }
+  .wit .nm{flex:1;font-size:15px;line-height:1.25}
+  .wit .nm i{display:block;font-style:normal;font-size:13px;opacity:.72;margin-top:2px}
+  .wit .val{width:78px;text-align:right;font-size:15px;font-weight:600}
+  .wit .vd{width:104px;text-align:right;font-size:13px;font-weight:700;letter-spacing:.05em;line-height:1.25}
+  .wit.agree{background:var(--mint);border-left-color:var(--green)}
+  .wit.agree .vd{color:var(--green)}
+  .wit.dissent{background:var(--white);border-color:var(--red);border-left-color:var(--red)}
+  .wit.dissent .vd,.wit.dissent .val{color:var(--red)}
+  .engine{
+    margin:0 auto;width:214px;border:1px solid var(--ink);background:var(--white);
+    text-align:center;padding:9px 0;border-radius:3px;
+  }
+  .engine b{font-size:14px;letter-spacing:.13em;font-weight:700}
+  .engine span{display:block;font-size:13px;opacity:.72;margin-top:2px;letter-spacing:.03em}
+  .verdict{margin:auto 16px 16px;border:1px solid var(--red);border-top:4px solid var(--red);border-radius:3px;padding:13px 15px 14px;background:var(--white)}
+  .verdict h3{font-size:22px;font-weight:700;line-height:1.2;color:var(--red)}
+  .verdict p{font-size:14px;margin-top:8px;line-height:1.45}
+  .verdict .strong{display:block;margin-top:10px;font-size:17px;font-weight:700;letter-spacing:.01em}
+
+  /* ---------- bottom bar ---------- */
+  .bottombar{
+    height:44px;flex:0 0 44px;background:var(--white);border-top:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+  }
+  .bottombar .who{font-size:13px}
+  .acts{display:flex;gap:10px}
+  .acts button{
+    font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--white);
+    border:1px solid var(--ink);border-radius:3px;padding:6px 15px;letter-spacing:.01em;
+  }
+  .bottombar .aud{font-size:12px;opacity:.8}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand"><b>KAVACH</b><span>· Land Record Verification</span></div>
+    <div class="tally">Committed <b>812</b> · Flagged <b>47</b> · Unverifiable <b>19</b></div>
+  </header>
+
+  <div class="cols">
+
+    <!-- ============ COLUMN 1 · REVIEW QUEUE ============ -->
+    <section class="col c1">
+      <div class="colhead">
+        <div class="t">Review queue · Mouza Bahilwara · 24 open</div>
+        <div class="s">Ordered by consequence &times; uncertainty</div>
+      </div>
+
+      <div class="qrow">
+        <div class="kh mono">109</div>
+        <div class="rs">Raiyat name differs across two khatiyans</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:82%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:38%"></i></span></div>
+        </div>
+      </div>
+
+      <div class="qrow">
+        <div class="kh mono">204/3</div>
+        <div class="rs">Mutation dated before the survey</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:46%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:71%"></i></span></div>
+        </div>
+      </div>
+
+      <div class="qrow sel">
+        <div class="kh mono">217/1</div>
+        <div class="rs">Area does not sum to parent</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:94%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:63%"></i></span></div>
+        </div>
+      </div>
+
+      <div class="qrow">
+        <div class="kh mono">217/2</div>
+        <div class="rs">Sub-division sequence skips a number</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:57%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:29%"></i></span></div>
+        </div>
+      </div>
+
+      <div class="qrow">
+        <div class="kh mono">188</div>
+        <div class="rs">Chauhaddi names a khesra outside the mouza</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:35%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:88%"></i></span></div>
+        </div>
+      </div>
+
+      <div class="qrow">
+        <div class="kh mono">92/7</div>
+        <div class="rs">No second record exists for this plot</div>
+        <div class="bars">
+          <div class="brow"><span class="bl">C</span><span class="track"><i class="fill c" style="width:22%"></i></span></div>
+          <div class="brow"><span class="bl">U</span><span class="track"><i class="fill u" style="width:96%"></i></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COLUMN 2 · THE RECORD ============ -->
+    <section class="col c2">
+      <div class="rechead">
+        <div class="h1">KHESRA <span class="mono">217/1</span> · Khata <span class="mono">1906</span></div>
+        <div class="h2">Mouza Bahilwara · RS Khatiyan 1962</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Extracted value</th><th>Source</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="f">Khesra number</td><td class="v mono">217/1</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st ok">COMMITTED</td>
+          </tr>
+          <tr>
+            <td class="f">Khata number</td><td class="v mono">1906</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st ok">COMMITTED</td>
+          </tr>
+          <tr>
+            <td class="f">Rakba (area)</td><td class="v dv">0 बीघा 14 कट्ठा 0 धुर</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st bad">CONFLICT</td>
+          </tr>
+          <tr>
+            <td class="f">Raiyat name</td><td class="v">[REDACTED]</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st ok">COMMITTED</td>
+          </tr>
+          <tr>
+            <td class="f">Classification</td><td class="v dv">रैयती</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st ok">COMMITTED</td>
+          </tr>
+          <tr>
+            <td class="f">Chauhaddi north</td><td class="v dv">खेसरा 216</td>
+            <td class="s">RS Khatiyan p.42</td><td class="st ok">COMMITTED</td>
+          </tr>
+          <tr class="abstain">
+            <td class="f">Mutation reference</td><td class="v">—</td>
+            <td class="s">not in register</td><td class="st ab">UNVERIFIABLE</td>
+          </tr>
+          <tr class="abstain">
+            <td class="f">Father&rsquo;s name</td><td class="v">—</td>
+            <td class="s">illegible, 3 reads</td><td class="st ab">CANNOT DETERMINE</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cropwrap">
+        <svg class="cropbox" width="700" height="150" viewBox="0 0 640 120" preserveAspectRatio="none" role="img"
+             aria-label="Source crop from RS Khatiyan 1962, page 42, row 11">
+          <!-- ruled register lines -->
+          <g stroke="#BCCAD6" stroke-width="1">
+            <line x1="0" y1="24" x2="640" y2="24"/><line x1="0" y1="48" x2="640" y2="48"/>
+            <line x1="0" y1="72" x2="640" y2="72"/><line x1="0" y1="96" x2="640" y2="96"/>
+            <line x1="96" y1="0" x2="96" y2="120"/><line x1="250" y1="0" x2="250" y2="120"/>
+            <line x1="410" y1="0" x2="410" y2="120"/><line x1="520" y1="0" x2="520" y2="120"/>
+          </g>
+          <!-- Devanagari handwriting: shirorekha with descending strokes -->
+          <g stroke="#0F2A44" stroke-width="1.6" fill="none" opacity=".62" stroke-linecap="round">
+            <path d="M14 12 H72"/><path d="M20 12 q2 8 -1 10 M34 12 q4 7 0 11 M50 12 q-3 8 2 10 M64 12 q3 7 -1 9"/>
+            <path d="M112 12 H206"/><path d="M120 12 q3 9 -2 11 M142 12 q5 8 0 11 M166 12 q-4 9 3 10 M192 12 q2 8 -2 10"/>
+            <path d="M266 12 H360"/><path d="M276 12 q3 8 -1 11 M300 12 q4 9 0 10 M330 12 q-3 8 3 11"/>
+            <path d="M426 12 H498"/><path d="M436 12 q3 9 -2 10 M462 12 q4 8 0 11"/>
+
+            <path d="M14 36 H80"/><path d="M22 36 q4 8 -1 11 M44 36 q3 9 1 10 M66 36 q-3 8 2 11"/>
+            <path d="M112 36 H188"/><path d="M124 36 q3 9 -2 10 M150 36 q5 8 0 11"/>
+            <path d="M266 36 H344"/><path d="M278 36 q4 8 -1 11 M308 36 q3 9 1 10"/>
+            <path d="M426 36 H486"/><path d="M438 36 q3 8 -2 11"/>
+
+            <path d="M14 84 H88"/><path d="M24 84 q3 9 -1 10 M48 84 q4 8 0 11 M72 84 q-3 9 3 10"/>
+            <path d="M112 84 H196"/><path d="M126 84 q4 8 -1 11 M156 84 q3 9 1 10"/>
+            <path d="M266 84 H352"/><path d="M280 84 q3 9 -2 10 M312 84 q5 8 0 11"/>
+            <path d="M426 84 H492"/><path d="M440 84 q3 8 -1 11 M468 84 q-3 9 3 10"/>
+            <path d="M536 84 H610"/><path d="M548 84 q4 8 -1 11 M578 84 q3 9 1 10"/>
+          </g>
+          <!-- the row under examination -->
+          <g stroke="#0F2A44" stroke-width="1.8" fill="none" opacity=".9" stroke-linecap="round">
+            <path d="M14 60 H86"/><path d="M24 60 q3 9 -1 11 M46 60 q4 8 0 11 M70 60 q-3 9 3 10"/>
+            <path d="M112 60 H184"/><path d="M124 60 q4 9 -1 10 M152 60 q3 8 1 11"/>
+            <path d="M266 60 H340"/><path d="M278 60 q3 9 -2 11 M310 60 q5 8 0 10"/>
+            <path d="M536 60 H604"/><path d="M548 60 q4 9 -1 10 M576 60 q3 8 1 11"/>
+          </g>
+          <!-- the rakba cell, flagged -->
+          <g stroke="#C25A16" stroke-width="1.7" fill="none" opacity=".92" stroke-linecap="round">
+            <path d="M426 60 H500"/><path d="M438 60 q4 9 -1 10 M462 60 q3 8 1 11 M488 60 q-3 9 3 10"/>
+          </g>
+          <rect x="416" y="50" width="98" height="22" fill="none" stroke="#C25A16" stroke-width="2" rx="2"/>
+        </svg>
+        <div class="croplab">Source crop · RS Khatiyan 1962 · page 42 · row 11</div>
+      </div>
+    </section>
+
+    <!-- ============ COLUMN 3 · CROSS EXAMINATION ============ -->
+    <section class="col c3">
+      <div class="colhead">
+        <div class="t">Cross examination · Rakba</div>
+        <div class="s">Five independent records of the same land</div>
+      </div>
+
+      <div class="wit agree">
+        <span class="nm">RS Khatiyan <i>revisional survey, 1962</i></span>
+        <span class="val dv">14 कट्ठा</span><span class="vd">AGREES</span>
+      </div>
+      <div class="wit agree">
+        <span class="nm">CS Khatiyan <i>cadastral survey, 1926</i></span>
+        <span class="val dv">14 कट्ठा</span><span class="vd">AGREES</span>
+      </div>
+      <div class="wit agree">
+        <span class="nm">Jamabandi <i>register of rights, current</i></span>
+        <span class="val dv">14 कट्ठा</span><span class="vd">AGREES</span>
+      </div>
+      <div class="wit agree">
+        <span class="nm">Bhu Naksha <i>cadastral polygon</i></span>
+        <span class="val dv">14.1 कट्ठा</span><span class="vd">AGREES<br>within tolerance</span>
+      </div>
+      <div class="wit dissent">
+        <span class="nm">Sum of sub plots <i>217/1/1 &ndash; 217/1/4</i></span>
+        <span class="val dv">11 कट्ठा</span><span class="vd">DISSENTS</span>
+      </div>
+
+      <!-- convergence: five witnesses into one engine -->
+      <svg width="380" height="112" viewBox="0 0 380 112" aria-hidden="true" style="display:block;margin-top:6px">
+        <g fill="none" stroke="#0F2A44" stroke-width="1.1" opacity=".5">
+          <path d="M34 8 C34 62 190 54 190 100"/>
+          <path d="M112 8 C112 66 190 58 190 100"/>
+          <path d="M190 8 L190 100"/>
+          <path d="M268 8 C268 66 190 58 190 100"/>
+        </g>
+        <path d="M346 8 C346 60 190 50 190 100" fill="none" stroke="#AE3324" stroke-width="2.4"/>
+        <g fill="#0F2A44" opacity=".5">
+          <circle cx="34" cy="8" r="3"/><circle cx="112" cy="8" r="3"/>
+          <circle cx="190" cy="8" r="3"/><circle cx="268" cy="8" r="3"/>
+        </g>
+        <circle cx="346" cy="8" r="4.2" fill="#AE3324"/>
+        <circle cx="190" cy="100" r="4.5" fill="#0F2A44"/>
+      </svg>
+
+      <div class="engine">
+        <b>KAVACH ENGINE</b>
+        <span>exact integer arithmetic</span>
+      </div>
+
+      <div class="verdict">
+        <h3>CONFLICT · four witnesses<br>agree, one dissents</h3>
+        <p>Sub plot areas sum to <span class="dv">11 कट्ठा</span> against a stated
+           <span class="dv">14</span>. Difference <span class="dv">3 कट्ठा</span>.</p>
+        <span class="strong">No value committed.</span>
+        <p>Routed for human decision.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ BOTTOM BAR ============ -->
+  <footer class="bottombar">
+    <div class="who">Reviewer [REDACTED], Circle Officer · 31 Aug 2026, 11:42</div>
+    <div class="acts">
+      <button type="button">Accept extraction</button>
+      <button type="button">Correct value</button>
+      <button type="button">Cannot determine</button>
+    </div>
+    <div class="aud">Every action written to the audit log</div>
+  </footer>
+</div>
+</body>
+</html>
